@@ -1,0 +1,5 @@
+package lcmtypes;
+
+struct smp_vertex_t {
+       smp_state_t state;
+}

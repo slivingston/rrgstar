@@ -1,0 +1,6 @@
+package lcmtypes;
+
+struct region_2d_t {
+       double center[2];
+       double size[2];
+}

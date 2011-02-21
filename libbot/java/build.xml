@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+
+<project name="example" default="build" basedir=".">
+
+<!-- Build everything -->
+<target name="build" depends="build-java,build-jar"/>
+
+<!-- Clean everything -->
+<target name="clean" depends="clean-java"/>
+
+<!-- Dist Clean everyting -->
+<target name="distclean" depends="clean">
+  <delete dir="build"/>
+  <delete file="example.jar"/>
+  <delete dir="depcache"/>
+</target>
+
+<!-- Build Jar -->
+<target name="build-jar">
+<jar destfile="example.jar">
+
+  <fileset dir="build">
+    <include name="**/*.class" />
+  </fileset>
+
+ </jar>
+ <copy file="example.jar" todir="." />
+</target>
+
+<target name="build-java">
+ <!-- This compiles all the java -->
+ <javac
+  srcdir="src"
+  includes="**/*.java"
+  debug="on"
+  optimize="off"
+  destdir="build"
+  compiler="extJavac"
+  source="1.6"
+  >
+</javac>
+</target>
+
+<target name="clean-java" >
+ <delete>
+  <fileset dir="build" includes="**/*.class"/>
+  <fileset dir="." includes="**/*~" defaultexcludes="no"/>
+  <fileset dir="." includes="example.jar"/>
+ </delete>
+</target>
+
+</project>
+

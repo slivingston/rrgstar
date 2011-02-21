@@ -1,0 +1,9 @@
+package lcmtypes;
+
+struct smp_graph_t {
+       int32_t num_vertices;
+       smp_vertex_t vertices[num_vertices];
+       
+       int32_t num_edges;
+       smp_edge_t edges[num_edges];
+}

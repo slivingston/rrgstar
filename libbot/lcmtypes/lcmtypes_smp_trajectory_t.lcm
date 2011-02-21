@@ -1,0 +1,6 @@
+package lcmtypes;
+
+struct smp_trajectory_t {
+       int32_t num_states;
+       smp_state_t states[num_states];
+}
