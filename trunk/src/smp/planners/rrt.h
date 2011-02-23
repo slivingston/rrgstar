@@ -40,7 +40,22 @@ namespace smp {
         typedef collision_checker_base<typeparams> collision_checker_t;
         typedef model_checker_base<typeparams> model_checker_t;
 
+
+
+    private:
+
+
+        // This function adds the given state to the beginning of the tracjetory and calls the collision checker.
+        int check_extended_trajectory_for_collision (state_t *state, trajectory_t *trajectory) {
+
+            trajectory->list_states.push_front (state);
+            int collision_check = this->collision_checker.check_collision_trajectory (trajectory);
+            trajectory->list_states.pop_front ();
+
+            return collision_check;
+        }
     
+
     public:
     
         rrt ();

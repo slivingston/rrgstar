@@ -62,7 +62,7 @@ int smp::rrt<typeparams>
 			     &exact_connection, trajectory, intermediate_vertices) == 1) { // If the extension is successful
     
     // 4. Check the new trajectory for collision
-    if (this->collision_checker.check_collision_trajectory (trajectory) == 1) { // If collision free
+    if (this->check_extended_trajectory_for_collision (vertex_nearest->state, trajectory) == 1) { // If collision free
       
       // 5. Add the new collision-free trajectory to the tree
       this->insert_trajectory (vertex_nearest, trajectory, intermediate_vertices);
