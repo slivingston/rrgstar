@@ -111,95 +111,7 @@ rModelChecker::UpdateReachability (CT_vertex *vertexFrom, CT_vertex *vertexTo) {
 
   bool addedNewReachingVertex = false;
 
-#if 0  // This enables non-recursive function implementation. Though apperently, it does not 
-       //   work as well as I thought it would. The performance improvement is negligible.
-  
-  int indexCurr = 1;
 
-  stackArray[0].vertex = vertexFrom;
-  stackArray[1].vertex = vertexTo;
-  stackArray[1].iterNext = vertexTo->succVertices.begin();
-  stackArray[1].iterEnd = vertexTo->succVertices.end();
-
-  
-  while (1) {
-    this->num_update_reachabilities++;
-
-    CT_vertex *vertexCurr = stackArray[indexCurr].vertex;
-    CT_vertex *vertexPrev = stackArray[indexCurr-1].vertex;
-
-
-    vertexSet_it iterVertexCurr = vertexCurr->reachingVertices.begin();
-    vertexSet_it iterVertexCurrPrev = iterVertexCurr;
-    vertexSet_it iterVertexCurrEnd = vertexCurr->reachingVertices.end();
-    bool addedNewReachingVertexThis = false; 
-    for (vertexSet_it iterVertexPrev = vertexPrev->reachingVertices.begin(); 
-	 iterVertexPrev != vertexPrev->reachingVertices.end(); iterVertexPrev++) {
-      while ( (*iterVertexCurr < *iterVertexPrev) && (iterVertexCurr != iterVertexCurrEnd) ) {
-	iterVertexCurrPrev = iterVertexCurr;
-	iterVertexCurr++; 
-      }
-      if ( (*iterVertexPrev == *iterVertexCurr) && (iterVertexCurr != iterVertexCurrEnd) )
-	continue;
-      if ( this->pt.compareFormulaSize (vertexCurr->subformula, (*iterVertexPrev)->subformula) )
-	continue;
-      vertexCurr->reachingVertices.insert (iterVertexCurrPrev, *iterVertexPrev);
-      addedNewReachingVertexThis = true;
-      addedNewReachingVertex = true;
-    }
-
-    if ( (addedNewReachingVertexThis) && (vertexTo->subformula->type == PT_VAR) ) {
-      // If vertexTo is a PT_VAR type subformula, then check if vertexTo is a sat node
-      // Check whether this node is reachable from a vertex = (state, BindingFormula(var))
-      PT_node *bindingSubformula = this->pt.getBoundFormula (vertexCurr->subformula);
-      // Search the reaching vertices for vertex = (state, bindingSubformula)
-      bool gfpLoopFound = false;
-      for (vertexSet_it iter = vertexCurr->reachingVertices.begin(); iter != vertexCurr->reachingVertices.end(); iter++) {
-	CT_vertex *vertexThis = *iter;
-	if ( (vertexThis->state == vertexCurr->state) && (vertexThis->subformula == bindingSubformula) )  {
-	  gfpLoopFound = true;
-	  break;
-	}
-      }
-      if (gfpLoopFound) {
-	this->satVertices.insert (vertexTo);
-      }
-    }
-        
-    if ( (addedNewReachingVertexThis) && (stackArray[indexCurr].iterNext != stackArray[indexCurr].iterEnd) ) {
-//     if ( (addedNewReachingVertexThis) && (stackArray[indexCurr].iterNext != stackArray[indexCurr].iterEnd)
-// 	 && (stackArray[indexCurr].vertex->succVertices.size() > 0 )  ){
-      CT_vertex *vertexNew = *(stackArray[indexCurr].iterNext);
-      stackArray[indexCurr].iterNext++;
-      indexCurr++;
-      stackArray[indexCurr].vertex = vertexNew;
-      stackArray[indexCurr].iterNext = vertexNew->succVertices.begin();
-      stackArray[indexCurr].iterEnd = vertexNew->succVertices.end();
-    }
-    else {
-      bool terminateIterations = false;
-      while (1) {
-	indexCurr--;
-	if (indexCurr == 0) {
-	  terminateIterations = true;
-	  break;
-	}
-	if ( (stackArray[indexCurr].iterNext != stackArray[indexCurr].iterEnd) ) {
-	  CT_vertex *vertexNew = *(stackArray[indexCurr].iterNext);
-	  stackArray[indexCurr].iterNext++;
-	  indexCurr++;
-	  stackArray[indexCurr].vertex = vertexNew;
-	  stackArray[indexCurr].iterNext = vertexNew->succVertices.begin();
-	  stackArray[indexCurr].iterEnd = vertexNew->succVertices.end();
-	  break;
-	}
-      }
-      if (terminateIterations) 
-	break;
-    }
-  }
-
-#else 
 
   this->num_update_reachabilities++;
 
@@ -214,8 +126,10 @@ rModelChecker::UpdateReachability (CT_vertex *vertexFrom, CT_vertex *vertexTo) {
       iterToPrev = iterTo;
       iterTo++;
     }
-    if ( (*iterFrom == *iterTo) && (iterTo != iterToEnd) )
-      continue; 
+    if ( (*iterFrom == *iterTo) && (iterTo != iterToEnd) ) {
+    	//cout<< "yes" << endl;
+    	continue;
+    }
     if ( this->pt.compareFormulaSize (vertexTo->subformula, (*iterFrom)->subformula) )
       continue; 
     vertexTo->reachingVertices.insert (iterToPrev, *iterFrom);
@@ -231,8 +145,8 @@ rModelChecker::UpdateReachability (CT_vertex *vertexFrom, CT_vertex *vertexTo) {
     for (vertexSet_it iter = vertexTo->reachingVertices.begin(); iter != vertexTo->reachingVertices.end(); iter++) {
       CT_vertex *vertexCurr = *iter;
       if ( (vertexCurr->state == vertexTo->state) && (vertexCurr->subformula == bindingSubformula) )  {
-	gfpLoopFound = true;
-	break;
+    	  gfpLoopFound = true;
+    	  break;
       }
     }
     if (gfpLoopFound) {
@@ -248,7 +162,7 @@ rModelChecker::UpdateReachability (CT_vertex *vertexFrom, CT_vertex *vertexTo) {
     }
   }
 
-#endif
+
   
   return addedNewReachingVertex;  
 }
@@ -306,8 +220,8 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
     for (vertexSet_it iter = vertex->reachingVertices.begin(); iter != vertex->reachingVertices.end(); iter++) {
       CT_vertex *vertexCurr = *iter;
       if ( (vertexCurr->state == stateThis) && (vertexCurr->subformula == bindingSubformula) )  {
-	gfpLoopFound = true;
-	break;
+    	  gfpLoopFound = true;
+    	  break;
       }
     }
 
@@ -322,7 +236,7 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
     CT_vertex *vertexNew = this->addVertex (vertex, stateThis, bindingSubformula);
     if (vertexNew) {
       if (this->LocalUpdate (vertexNew)) 
-	foundWitness = true;
+    	  foundWitness = true;
     }
   }
 
@@ -349,13 +263,13 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
 
       // Create a new node using subformulaRight
       if ( stateThis->labeledPrp.find( ((PT_prp *)subformulaLeft)->prp ) != stateThis->labeledPrp.end() )  
-	subformulaChild = subformulaRight;
+    	  subformulaChild = subformulaRight;
     }
     else if (subformulaRight->type == PT_PRP) {
 
       // Create a new node using subformulaLeft
       if ( stateThis->labeledPrp.find( ((PT_prp *)subformulaRight)->prp ) != stateThis->labeledPrp.end() )  
-	subformulaChild = subformulaLeft;
+    	  subformulaChild = subformulaLeft;
     }
     else {
       cout << "ERROR: rModelChecker::LocalUpdate: No child of the AND OPERATOR is a literal" << endl;
@@ -366,8 +280,8 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
     if (subformulaChild) {
       CT_vertex *vertexNew = addVertex (vertex, stateThis, subformulaChild);
       if (vertexNew) 
-	if (this->LocalUpdate (vertexNew))
-	  foundWitness = true;
+    	  if (this->LocalUpdate (vertexNew))
+    		  foundWitness = true;
     }
   }
 
@@ -386,10 +300,10 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
       PT_node *subformulaChild = *iter; 
       CT_vertex *vertexNew = this->addVertex (vertex, stateThis,subformulaChild);
       if (vertexNew) 
-	if (this->LocalUpdate (vertexNew)) 
-	  foundWitness = true;
-      if (foundWitness) {
-	break;
+    	  if (this->LocalUpdate (vertexNew))
+    		  foundWitness = true;
+      	  if (foundWitness) {
+      		  break;
       }
     }
   }
@@ -409,7 +323,7 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
     CT_vertex *vertexNew = this->addVertex (vertex,stateThis, subformulaChild);
     if (vertexNew) 
       if (this->LocalUpdate (vertexNew))
-	foundWitness = true;
+    	  foundWitness = true;
   }
 
   // 6. GFP OPEARATOR
@@ -449,7 +363,7 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
 	if (this->LocalUpdate (vertexNew)) 
 	  foundWitness = true;
       if (foundWitness) {
-	break;
+    	  break;
       }
     }
   }
@@ -767,395 +681,4 @@ rModelChecker::addTransitionById (int id_from, int id_to) {
 
   return this->addTransition (state_from, state_to);
   
-}
-
-
-ModelSynthesizer::ModelSynthesizer () {
-  this->initialState = NULL;
-  this->initialVertex = NULL;
-  this->states.clear();
-  this->successors.clear();
-  this->predecessors.clear();
-  return;
-}
-
-
-ModelSynthesizer::~ModelSynthesizer () {
-  return;
-}
-
-
-// int ModelSynthesizer::addNewStateToStructure (MS_state *newState,
-// 					      stateSet succs, stateSet preds) {
-
-// #if !TRUST_ME  
-//   if (this->states.find(newState) != this->states.end())
-//     return -1; // State is already in the Structure
-// #endif
-//   // TODO: Check if succs/preds is a valid list 
-//   //       (whether the states they inlcude exist)
-
-//   this->states.insert (newState);
-//   this->successors.insert (pair<MS_state*, stateSet>(newState, succs));
-//   this->predecessors.insert (pair<MS_state*, stateSet>(newState, preds));
-  
-//   this->sucSubformulae.insert(pair<MS_state*, vertexSet>(newState, vertexSet()));	
-  
-//   return 1;
-// }
-
-
-CT_vertex *ModelSynthesizer::addNode (CT_vertex *parentVertex, MS_state *state, PT_node *subformula) {
-
-  // Creates and adds a new vertex to the tree and returns a pointer to it
-  CT_vertex *newVertex = new CT_vertex;
-  newVertex->parent = parentVertex;
-  newVertex->children.clear ();
-  newVertex->state = state;
-  newVertex->subformula = subformula;
-  parentVertex->children.insert(newVertex);
-
-  return newVertex;
-}
-
-
-bool ModelSynthesizer::localUpdate (CT_vertex *vertex) {
-
-#if !TRUST_ME
-  if (!vertex)
-    exit (1);
-#endif
-  
-  MS_state *state = vertex->state;
-  PT_node *subformula = vertex->subformula;
-
-//   printf ("subformula address: %ld - type : %d - num_children : %d \n", subformula, subformula->type,
-// 	  subformula->getChildren().size() );
-  
-  if (subformula->getChildren().size()  > 2)
-    printf ("ERROR: children size does not match\n");
-  
-  MS_state *state_temp1;
-  PT_node *formula_temp1;
-  PT_node *formula_temp2;
-  subformulaeSet_it iter;
-  CT_vertex *newVertex;
-  bool parentFound;
-
-  //  Populate the succcessor subformula list
-  if (subformula->type == PT_SUC)
-    this->sucSubformulae[state].insert(vertex);
-  
-  vertex->ReturnValue = false;
-
-  if (subformula->getChildren().size()  > 2)
-    printf ("ERROR: children size does not match\n");
-
-  switch (subformula->type) {
-
-  case PT_PRP :
-    if (state->labeledPrp.find( ((PT_prp *)subformula)->prp ) != state->labeledPrp.end() )
-      vertex->ReturnValue = true;
-    break;
-
-  case PT_AND :
-    iter = ((PT_operator *)subformula)->children.begin();
-    if (iter == ((PT_operator *)subformula)->children.end()) {
-      printf ("ERROR: ModelSynthesizer::localUpdate : AND operator fails to have a child\n");
-      exit (1);
-    }
-    formula_temp1 = *iter;
-    iter++;
-    if (iter == ((PT_operator *)subformula)->children.end()) {
-      printf ("ERROR: ModelSynthesizer::localUpdate : AND operator fails to have two children\n");
-      exit (1);
-    }
-    formula_temp2 = *iter;
-    if (formula_temp1->type == PT_PRP) {
-      if (state->labeledPrp.find( ((PT_prp *)formula_temp1)->prp ) != state->labeledPrp.end() ) {
-	newVertex = this->addNode(vertex, state,formula_temp2);
-	vertex->ReturnValue = this->localUpdate(newVertex);
-      }
-    }
-    else if (formula_temp2->type == PT_PRP) {
-      if (state->labeledPrp.find( ((PT_prp *)formula_temp2)->prp ) != state->labeledPrp.end() ) {
-	newVertex = this->addNode(vertex, state,formula_temp1);
-	vertex->ReturnValue = this->localUpdate(newVertex);
-      }
-    }
-    else {
-      printf ("ERROR: ModelSynthesizer::localUpdate : AND operator fails to obey L_1 semantics\n");
-      printf ("child1 type %d, address: %ld -  child2 type %d, address: %ld\n", 
-	      (int)formula_temp1->type, (long int)&formula_temp1, 
-	      (int)formula_temp2->type, (long int)&formula_temp2 );
-      printf ("Size of the subformula : %d\n", (int)subformula->getChildren().size() );
-      exit (1);
-    }
-
-//     printf ("child1 type %d, address: %ld -  child2 type %d, address: %ld\n", 
-// 	    formula_temp1->type, formula_temp1, 
-// 	    formula_temp2->type, formula_temp2 );
-    
-//     printf ("Size of the subformula : %d\n", (int)subformula->getChildren().size() );
-
-    break;
-
-  case PT_OR :
-    iter = ((PT_operator *)subformula)->children.begin();
-    if (iter == ((PT_operator *)subformula)->children.end()) {
-      printf ("ERROR: ModelSynthesizer::localUpdate : OR operator fails to have a child\n");
-      exit (1);
-    }
-    formula_temp1 = *iter;
-    iter++;
-    if (iter == ((PT_operator *)subformula)->children.end()) {
-      printf ("ERROR: ModelSynthesizer::localUpdate : OR operator fails to have two children\n");
-      exit (1);
-    }
-    formula_temp2 = *iter;
-    newVertex = this->addNode(vertex, state,formula_temp1);
-    if (this->localUpdate(newVertex) == true)
-      vertex->ReturnValue = true;
-    newVertex = this->addNode(vertex, state,formula_temp2);
-    if (this->localUpdate(newVertex) == true)
-      vertex->ReturnValue = true;
-    break;
-
-  case PT_SUC :
-//     printf ("successor : num_successors: %d\n", this->successors[state].size());
-    if (!this->successors[state].empty()) {
-      iter = ((PT_operator *)subformula)->children.begin();
-      if (iter == ((PT_operator *)subformula)->children.end()) {
-	printf ("ERROR: ModelSynthesizer::localUpdate : SUC operator fails to have a child\n");
-	exit (1);
-      }
-      formula_temp1 = *iter;
-    }
-    for (stateSet_it iter2 = this->successors[state].begin(); iter2 != this->successors[state].end(); iter++) {
-      state_temp1 = *iter2;
-      newVertex = this->addNode (vertex, state_temp1, formula_temp1);
-      if (this->localUpdate(newVertex) == true)
-	vertex->ReturnValue = true;
-      iter2++;
-    }
-    break;
-
-  case PT_LFP :
-    iter = ((PT_operator *)subformula)->children.begin();
-    if (iter == ((PT_operator *)subformula)->children.end()) {
-      printf ("ERROR: ModelSynthesizer::localUpdate : LFP operator fails to have a child\n");
-      exit (1);
-    }
-    formula_temp1 = *iter;		
-    newVertex = this->addNode(vertex, state, formula_temp1);
-    vertex->ReturnValue = this->localUpdate(newVertex);
-    break;
-
-  case PT_GFP :
-    iter = ((PT_operator *)subformula)->children.begin();
-    if (iter == ((PT_operator *)subformula)->children.end()) {
-      printf ("ERROR: ModelSynthesizer::localUpdate : LFP operator fails to have a child\n");
-      exit (1);
-    }
-    formula_temp1 = *iter;		
-    newVertex = this->addNode(vertex, state,formula_temp1);
-    vertex->ReturnValue = this->localUpdate(newVertex);
-    break;
-
-  case PT_VAR :
-    newVertex = vertex->parent;
-    formula_temp1 = this->pt.getBoundFormula (subformula);
-    if (formula_temp1 == NULL) {
-      printf ("ERROR: ModelSynthesizer::localUpdate : VAR fails to be bound in the formula\n");
-      exit (1);
-    }
-    parentFound = false;
-    while (newVertex != NULL) {
-      if ( (newVertex->state == state) && (newVertex->subformula == formula_temp1) ) {
-	parentFound = true;
-	break;
-      }
-      newVertex = newVertex->parent;
-    }
-    if (parentFound) {
-      if (formula_temp1->type == PT_GFP) {
-	vertex->ReturnValue = true;
-      }
-    }
-    else 
-      {
-	newVertex = this->addNode(vertex, state,formula_temp1);
-	vertex->ReturnValue = this->localUpdate(newVertex);
-      }
-    break;
-
-  default:
-    cout << "ERROR: Default case occured" << endl;
-    break;
-
-  }		
-  return vertex->ReturnValue;
-}
-
-
-bool ModelSynthesizer::addState (MS_state *state) {
-
-#if !TRUST_ME
-  if (this->states.find(state) != this->states.end())
-    return false; // State already exists
-  if (state->identifier != -1)
-    if (this->findStatebyID(state->identifier))
-      return false; // This state ID already exists
-#endif
-  
-  // otherwise add the new state to the structure
-  bool firstState = false;
-  if (this->states.empty()) // Check if this is the first state to be added
-    firstState = true;
-  this->states.insert (state); 
-  
-  if (firstState) {// if this was the first state added to the structure, then check it
-    // Create a node for this state
-    CT_vertex *newVertex = new CT_vertex;
-    newVertex->parent = NULL;
-    newVertex->children.clear();
-    newVertex->state = state;
-    newVertex->subformula = this->pt.getRoot();
-    // Update initial data structures
-    this->initialState = state;
-    this->initialVertex = newVertex;
-    // Create the rest of the branch via localUpdate
-    this->localUpdate(newVertex);
-  }
-  return true;
-}
-
-
-bool ModelSynthesizer::addTransition (MS_state *state_from, MS_state *state_to) {
-
-#if !TRUST_ME
-  if (this->states.find(state_to) == this->states.end())
-    return false; // State does not exist
-  if (this->states.find(state_from) == this->states.end())
-    return false; // State does not exist
-  if ( (this->successors[state_from].find(state_to) != this->successors[state_from].end())
-       || (this->predecessors[state_to].find(state_from) != this->predecessors[state_to].end()) )
-    return false; // Transition already exists
-#endif
-  
-  this->successors[state_from].insert (state_to);
-  this->predecessors[state_to].insert (state_from);
-  
-  // get all PT_SUC vertices of state_from
-  bool isFormulaSatisfied = false;
-  CT_vertex *vertex;
-  vertexSet sucVertices = sucSubformulae[state_from];
-
-  printf ("Num_sucvertices : %d\n", (int)sucVertices.size());
-  
-  for (vertexSet_it iter = sucVertices.begin(); iter != sucVertices.end(); iter++) {
-
-    CT_vertex *sucVertex = *iter;
-    PT_node *sucVertexFormula = sucVertex->subformula;
-    if (sucVertexFormula->getChildren().size() != 1) {
-      printf ("ERROR: Suc-formula has children less or more than 1\n");
-      exit(1);
-    }
-    
-    PT_node *childFormula = *(((PT_operator*)sucVertexFormula)->children.begin());
-    CT_vertex *newVertex = this->addNode (sucVertex, state_to, childFormula);
-    
-    if (this->localUpdate(newVertex) == true) {
-      newVertex->ReturnValue = true;
-      printf("ms.cpp: Formula is satisfied\n"); // deliver the happy news
-      isFormulaSatisfied = true;
-      vertex = *iter;
-      break;
-    }
-
-//     if (this->localUpdate(*iter)) {
-//       printf("ms.cpp: Formula is satisfied\n"); // deliver the happy news
-//       isFormulaSatisfied = true;
-//       vertex = *iter;
-//       break;
-//     }
-
-  }
-  
-  if (isFormulaSatisfied) {
-    while (vertex->parent != NULL) {
-      vertex = vertex->parent;
-      vertex->ReturnValue = true;
-    }
-    return true; // the formula IS satisfied.
-  }
-  else {
-    return false; // the formula was not satisfied, though we have hope still.
-  }
-}
-
-
-MS_state *ModelSynthesizer::findStatebyID(int identifier) {
-  for (stateSet_it iter = this->states.begin(); iter != this->states.end(); iter++)
-    if ((*iter)->identifier == identifier)
-      return *iter;
-  
-  return NULL; // returns null if the ID is not found
-}
-
-
-// int ModelSynthesizer::addTransitionbyID (int identifier_from, int identifier_to) {
-//   MS_state *state_from = this->findStatebyID (identifier_from);
-//   if (!state_from)
-//     return -2; // there is no state with ID identifier_from 
-  
-//   MS_state *state_to = this->findStatebyID (identifier_to);
-//   if (!state_to)
-//     return -1; // there is no state with ID identifier_to
-  
-//   if (this->addTransition(state_from, state_to))
-//     return 1;
-//   else
-//     return 0;
-// }
-
-
-stateList ModelSynthesizer::getTrajecotry () {
-  stateList trajectory;
-  if (!this->initialVertex->ReturnValue)
-    return trajectory;
-  
-  CT_vertex *vertex = initialVertex;
-  stateList_it trajectoryIter;
-  vertexSet_it childrenIter;
-  while (1) {
-    if (!vertex) {
-      printf("ms.cpp: Unexpected ERROR \n");
-      exit(1);
-    }
-    if (!vertex->ReturnValue)
-      break;
-    
-    if (trajectory.empty()) {
-      trajectory.push_back (vertex->state);
-    }
-    else {
-      trajectoryIter = trajectory.end();
-      trajectoryIter--;
-      if (*trajectoryIter != vertex->state) {
-	trajectory.push_back (vertex->state);
-      }
-    }
-    
-    if (vertex->children.empty())
-      return trajectory;
-    for (vertexSet_it childrenIter = vertex->children.begin(); childrenIter != vertex->children.end(); childrenIter++) {
-      if ( (*childrenIter)->ReturnValue == true ) {
-	vertex = *childrenIter;
-	break;
-      }
-    }
-  }
-  
-  return trajectory;
 }

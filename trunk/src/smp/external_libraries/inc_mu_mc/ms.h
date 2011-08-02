@@ -118,7 +118,7 @@ private:   // other hidden functions
     bool UpdateReachability (CT_vertex *vertexFrom, CT_vertex *vertexTo);  // Updates the reachability infomation in CT vertex
 };
 
-
+#if 0
 class ModelSynthesizer {
 public:
 	MS_state *initialState;
@@ -151,5 +151,6 @@ public:
 	
 	stateList getTrajecotry ();
 };
+#endif
 
 #endif 
