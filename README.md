@@ -23,4 +23,4 @@ Compiling the documentation
 Make sure that you have doxygen installed. Go into the /trunk folder and type
 the following:
 
-    doxygen ./doc_config/smp.doxycong
+    doxygen ./doc_config/smp.doxyconf
