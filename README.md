@@ -6,7 +6,7 @@ compilation a priori. To compile the example code, go into the following folder:
 
     /trunk/examples/
 
-where you can find all the examples. Type make in the folder that contains the
+where you can find all the examples. Type `make` in the folder that contains the
 particular example you would like to execute. This should compile the part of
 the library required by that example.
 
