@@ -3,7 +3,7 @@
 *
 * @authors Sertac Karaman and Emilio Frazzoli 
 *	(Laboratory for Information and Decision Systems, 
-*	Massachusetts Institute of Techonology, Cambrdige, MA.)
+*	Massachusetts Institute of Techonology, Cambridge, MA.)
 *
 * @section intro Introduction
 * 
