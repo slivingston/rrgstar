@@ -46,7 +46,7 @@ namespace smp {
          *
          * @param vertex_in A pointer to the new vertex.
          *
-         * @returns Return 1 if success, a non-positive value to indiacate error.
+         * @returns Return 1 if success, a non-positive value to indicate error.
          */
         virtual int sm_update_insert_vertex (vertex_t *vertex_in) = 0;
     
@@ -59,7 +59,7 @@ namespace smp {
          *
          * @param edge_in A pointer to the new edge.
          *
-         * @returns Return 1 for success, a non-positive value to indiacate error.
+         * @returns Return 1 for success, a non-positive value to indicate error.
          */    
         virtual int sm_update_insert_edge (edge_t *edge_in) = 0;    
 
@@ -72,20 +72,20 @@ namespace smp {
          *
          * @param vertex_in A pointer to deleted vertex.
          *
-         * @returns Return 1 if success, a non-positive value to indiacate error.
+         * @returns Return 1 if success, a non-positive value to indicate error.
          */
         virtual int sm_update_delete_vertex (vertex_t *vertex_in) = 0;
     
 
         /**
-         * \brief Update function for edge insertion
+         * \brief Update function for edge deletion
          *
          * This function is called by the planner whenever an edge is delete
          * from the graph. A pointer to the edge is given as an argument.
          *
          * @param edge_in A pointer to deleted edge.
          *
-         * @returns Return 1 for success, a non-positive value to indiacate error.
+         * @returns Return 1 for success, a non-positive value to indicate error.
          */    
         virtual int sm_update_delete_edge (edge_t *edge_in) = 0;    
 

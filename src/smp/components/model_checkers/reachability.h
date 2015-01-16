@@ -6,7 +6,7 @@
   model checker is designed to work with incremental planners that maintain a
   necessarily connected graph such that for any vertex in the graph there exists
   at least one trajectory that starts from the root vertex and reaches this
-  particular vertex. RRT, RRT*, and RRG planners all satsify this criterion. 
+  particular vertex. RRT, RRT*, and RRG planners all satisfy this criterion.
 */
 
 
