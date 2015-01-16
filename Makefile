@@ -11,3 +11,6 @@ clean:
 	-find ./ -name \*.gch -exec rm {} \;
 	-find ./ -name \*~ -exec rm {} \;
 	-find ./ -name \*# -exec rm {} \;
+
+distclean: clean
+	-rm -rf bin doc
