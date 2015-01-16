@@ -4,11 +4,14 @@ Compiling examples
 The library consists of .h and .hpp header files.  It does not require
 compilation a priori. To compile the example code, go into the following folder:
 
-    trunk/examples/
+    examples/
 
 where you can find all the examples. Type `make` in the folder that contains the
 particular example you would like to execute. This should compile the part of
-the library required by that example.
+the library required by that example. Alternatively, to build all of the
+"standalone" examples (i.e., those not depending on libbot),
+
+    make all
 
 
 Compiling libbot extensions
@@ -24,7 +27,6 @@ Dependencies:
 Compiling the documentation
 ---------------------------
 
-Make sure that you have [Doxygen](http://www.doxygen.org/) installed. Go into
-the trunk directory and type the following:
+    make doc
 
-    doxygen doc_config/smp.doxyconf
+requires [Doxygen](http://www.doxygen.org/) to be installed.
