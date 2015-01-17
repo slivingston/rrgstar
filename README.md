@@ -1,3 +1,24 @@
+References
+----------
+
+We provide here implementations of RRG [1] and the optimal extension [2]. The
+latter makes use of important results from [3].
+
+1. S. Karaman and E. Frazzoli (2009). Sampling-based Motion Planning with
+  Deterministic $mu$-Calculus Specifications. in Proceedings of the 48th IEEE
+  Conference on Decision and Control (CDC), pp. 2222-2229.
+  DOI: 10.1109/CDC.2009.5400278
+
+2. S. Karaman and E. Frazzoli (2012). Sampling-based Algorithms for Optimal
+  Motion Planning with Deterministic $mu$-Calculus Specifications. in
+  Proceedings of the American Control Conference (ACC), pp. 735-74.
+  DOI: 10.1109/ACC.2012.6315419
+
+3. S. Karaman and E. Frazzoli (2011). Sampling-based Algorithms for Optimal
+  Motion Planning. International Journal of Robotics Research 30(7): 846-894.
+  DOI: 10.1177/0278364911406761
+
+
 Compiling examples
 ------------------
 
