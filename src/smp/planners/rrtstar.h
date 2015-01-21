@@ -87,7 +87,7 @@ namespace smp {
     private:
 
 
-        // This function adds the given state to the beginning of the tracjetory and calls the collision checker.
+        // This function adds the given state to the beginning of the trajectory and calls the collision checker.
         int check_extended_trajectory_for_collision (state_t *state, trajectory_t *trajectory) {
 
             trajectory->list_states.push_front (state);
@@ -176,11 +176,11 @@ namespace smp {
         /**
          * \brief A function call to initialize the incremental sampling-based planner.
          *
-         * First it calls the planner_incremental::itinialize function, which deletes 
+         * First it calls the planner_incremental::initialize function, which deletes
          * the current graph stored by the planner, and If the initial_state_in argument
          * is non-NULL, creates a new vertex that with the state stored in the initial_state_in
          * argument. 
-x         *
+         *
          * @param initial_state_in The state that the root_vertex will include. If this argument
          * is NULL, then no root vertex is created (But, the graph stored in the planner is 
          * deleted.
