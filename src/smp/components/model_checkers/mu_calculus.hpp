@@ -51,12 +51,10 @@ int smp::model_checker_mu_calculus<typeparams>
     ms_state_new->addprop (2);
   }
   
-  if ( ((*state_curr)[0] > 0.1) && ((*state_curr)[0] < 4.0) &&
-       ((*state_curr)[1] > 0.1) && ((*state_curr)[1] < 4.0) ) {
+  if (!(((*state_curr)[0] > 0.1) && ((*state_curr)[0] < 4.0)
+		&& ((*state_curr)[1] > 0.1) && ((*state_curr)[1] < 4.0))) {
+	  ms_state_new->addprop (3);
     // cout << "region 3" << endl; 
-  }
-  else {
-    ms_state_new->addprop (3);
   }
 
   ms_state_new->data = (void *) vertex_in;
