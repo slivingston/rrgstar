@@ -77,10 +77,8 @@ int smp::model_checker_mu_calculus<typeparams>
   
   vertex_t *vertex_dst = edge_in->vertex_dst;
 
-  if (ms.addTransition (vertex_src->data.state, vertex_dst->data.state)) {
+  if (ms.addTransition (vertex_src->data.state, vertex_dst->data.state))
     found_solution = true;
-    cout << "Found a solution" << endl;
-  }
   
   return 1;
 };
