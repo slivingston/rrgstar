@@ -1,7 +1,7 @@
 /*! \file components/extenders/single_integrator.h
   \brief The single integrator system components. State, input, and extender definitions.
-  
-  This file implements the state, input, and extender classes for a 
+
+  This file implements the state, input, and extender classes for a
   d-dimensional single integrator system, where d is a template parameter
   when appropriate.
 */
@@ -16,14 +16,14 @@
 
 namespace smp {
 
-    
+
     //! State data structure for the single integrator dynamics
     /*!
-      This class implements the state data structure for the single integrator dynamics. 
+      This class implements the state data structure for the single integrator dynamics.
       The number of state variables is twice number of dimensions, since for each dimension
       both position and velocity has to be stored. The positions are stored in the usual order
       first, and then the all velocities are stored in their usual order, in the array.
-      
+
       \ingroup states
     */
     template <int NUM_DIMENSIONS>
@@ -35,15 +35,15 @@ namespace smp {
 
     //! Input data structure for the single integrator dynamics
     /*!
-      This class implements the input data structure for the single integrator dynamics. 
+      This class implements the input data structure for the single integrator dynamics.
       The number of input variables is one plus the dimensions. The extra input variable,
-      placed in the beginning of the array, is used to store the time it takes to 
-      execute the trajectory segment. 
-      
+      placed in the beginning of the array, is used to store the time it takes to
+      execute the trajectory segment.
+
       \ingroup inputs
     */
     class input_single_integrator : public input_array_double<1> {
-    
+
     };
 
 
@@ -51,10 +51,10 @@ namespace smp {
     //! Extender function with single integrator dynamics.
     /*!
       This class implements an extender with single integrator dynamics, which can
-      be used for planning in configuration spaces. Note that the set_max_length 
+      be used for planning in configuration spaces. Note that the set_max_length
       method of the class of must be called, before any other method can be called.
       The number of dimensions of the state space is a template argument for the class.
-  
+
       \ingroup extenders
     */
     template< class typeparams, int NUM_DIMENSIONS >
@@ -75,21 +75,21 @@ namespace smp {
         double max_length;
 
 
-    public: 
+    public:
 
         extender_single_integrator ();
         ~extender_single_integrator ();
-   
+
 
         int ex_update_insert_vertex (vertex_t *vertex_in);
-    
 
-        int ex_update_insert_edge (edge_t *edge_in);  
+
+        int ex_update_insert_edge (edge_t *edge_in);
 
 
         int ex_update_delete_vertex (vertex_t *vertex_in);
-    
-    
+
+
         int ex_update_delete_edge (edge_t *edge_in);
 
 
@@ -100,9 +100,9 @@ namespace smp {
         /**
          * \brief Sets the maximum length of the trajectory returned by the algorithm.
          *
-         * This method sets the length of the longest trajectory returned by the algorithm. 
+         * This method sets the length of the longest trajectory returned by the algorithm.
          * If the trajectory connecting two given states is longer than the value specified
-         * by the argument of this function then the only the maximum-length prefix of 
+         * by the argument of this function then the only the maximum-length prefix of
          * this trajectory is returned. By default, the max_length paramter is set to 1.0.
          *
          * @param max_length_in Maximum length of a trajectory.
@@ -111,7 +111,7 @@ namespace smp {
          */
         int set_max_length (double max_length_in);
 
- 
+
     };
 
 
