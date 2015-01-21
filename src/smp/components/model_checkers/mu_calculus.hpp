@@ -103,6 +103,12 @@ int smp::model_checker_mu_calculus<typeparams>
   return 1;
 }
 
+template< class typeparams >
+bool smp::model_checker_mu_calculus<typeparams>
+::has_feasible() const
+{
+	return found_solution;
+}
 
 template< class typeparams >
 int smp::model_checker_mu_calculus<typeparams>

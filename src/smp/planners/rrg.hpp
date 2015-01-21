@@ -25,12 +25,13 @@ smp::rrg<typeparams>
 
 template< class typeparams >
 smp::rrg<typeparams>
-::rrg (sampler_t &sampler_in, distance_evaluator_t &distance_evaluator_in, extender_t &extender_in, 
-       collision_checker_t &collision_checker_in, model_checker_t &model_checker_in) :
-  planner_incremental<typeparams>(sampler_in, distance_evaluator_in, extender_in, collision_checker_in, model_checker_in) {
-  
-  
-}
+::rrg (sampler_t &sampler_in, distance_evaluator_t &distance_evaluator_in,
+	   extender_t &extender_in, collision_checker_t &collision_checker_in,
+	   model_checker_t &model_checker_in) :
+	planner_incremental<typeparams>(sampler_in, distance_evaluator_in,
+									extender_in, collision_checker_in,
+									model_checker_in),
+	model_checker(model_checker_in) { }
 
 
 template< class typeparams > 
@@ -186,6 +187,14 @@ int smp::rrg<typeparams>
   delete intermediate_vertices;
 
   return 0;
+}
+
+
+template< class typeparams >
+bool smp::rrg<typeparams>
+::has_feasible() const
+{
+	return model_checker.has_feasible();
 }
 
 

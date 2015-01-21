@@ -93,6 +93,8 @@ namespace smp {
 
         int mc_update_delete_edge (edge_t *edge_new);
 
+		bool has_feasible() const;
+
         int get_solution (trajectory_t &trajectory_out);
     
     };

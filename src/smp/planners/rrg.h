@@ -8,6 +8,7 @@
 #ifndef _SMP_PLANNER_RRG_H_
 #define _SMP_PLANNER_RRG_H_
 
+#include <smp/components/model_checkers/mu_calculus.h>
 #include <smp/planners/base_incremental.h>
 #include <smp/planners/planner_parameters.h>
 
@@ -41,9 +42,11 @@ namespace smp {
         typedef distance_evaluator_base<typeparams> distance_evaluator_t;
         typedef extender_base<typeparams> extender_t;
         typedef collision_checker_base<typeparams> collision_checker_t;
-        typedef model_checker_base<typeparams> model_checker_t;
+		typedef model_checker_mu_calculus<typeparams> model_checker_t;
 
     private:
+
+		model_checker_t &model_checker;
 
 
         // This function adds the given state to the beginning of the tracjetory and calls the collision checker.
@@ -130,6 +133,8 @@ namespace smp {
          * @returns Returns 1 for success, and a non-positive number for failure.
          */    
         int iteration (); 
+
+		bool has_feasible() const;
 
     };
 
