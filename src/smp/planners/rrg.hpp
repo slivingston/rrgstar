@@ -43,10 +43,8 @@ int smp::rrg<typeparams>
   // 1. Sample a new state from the obstacle-free space
   state_t *state_sample;
   this->sampler.sample (&state_sample);
-
   if (this->collision_checker.check_collision_state (state_sample) == 0) {
     delete state_sample;
-    // cout << "State in collision" << endl;
     return 0;
   }
 
@@ -60,7 +58,8 @@ int smp::rrg<typeparams>
   double radius;
   if (parameters.get_fixed_radius() < 0.0) {
     double num_vertices = (double)(this->get_num_vertices());
-    radius = parameters.get_gamma() * pow (log(num_vertices)/num_vertices,  1.0 /( (double)(parameters.get_dimension()) )  );
+    radius = parameters.get_gamma() * pow( log(num_vertices)/num_vertices,
+										   1.0 /((double)(parameters.get_dimension())) );
     if (radius > parameters.get_max_radius())
       radius = parameters.get_max_radius();
   }
