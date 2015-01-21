@@ -62,9 +62,9 @@ int smp::rrg<typeparams>
 										   1.0 /((double)(parameters.get_dimension())) );
     if (radius > parameters.get_max_radius())
       radius = parameters.get_max_radius();
-  }
-  else
+  } else {
     radius = parameters.get_fixed_radius();
+  }
 
   int exact_connection = -1;
   trajectory_t *trajectory = new trajectory_t;
