@@ -10,13 +10,13 @@
 
 template< class typeparams >
 smp::rrg<typeparams>
-::rrg ()
+::rrg()
 { }
 
 
 template< class typeparams >
 smp::rrg<typeparams>
-::~rrg ()
+::~rrg()
 { }
 
 
@@ -33,7 +33,7 @@ smp::rrg<typeparams>
 
 template< class typeparams >
 int smp::rrg<typeparams>
-::iteration ()
+::iteration()
 {
 	// TODO: Check whether the rrg is initialized properly (including its base classes)
 
