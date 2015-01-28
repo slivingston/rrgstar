@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <ctime>
 
 #include <smp/components/samplers/uniform.h>
 
@@ -44,7 +45,12 @@ int smp::sampler_uniform<typeparams,NUM_DIMENSIONS>
 
 template< class typeparams, int NUM_DIMENSIONS >
 smp::sampler_uniform<typeparams,NUM_DIMENSIONS>
-::sampler_uniform () {
+::sampler_uniform (unsigned int seed) {
+	if (seed == 0) {
+		srand(time(0));
+	} else {
+		srand(seed);
+	}
   
   // Initialize the sampling distribution support.
   for (int i = 0; i < NUM_DIMENSIONS; i++) {

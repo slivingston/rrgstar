@@ -70,7 +70,7 @@ int smp::rrg<typeparams>
 							   &exact_connection, trajectory, intermediate_vertices) == 1) { // If the extension is successful
 
 		// 4. Check the new trajectory for collision
-		if (check_extended_trajectory_for_collision( vertex_nearest->state, trajectory ) == 1) { // If the trajectory is collision free
+		if (check_extended_trajectory_for_collision( vertex_nearest->state, trajectory ) == 1) {// If the trajectory is collision free
 
 
 			// 5. Add the collision-free trajectory to the graph and create the new vertex
@@ -86,14 +86,19 @@ int smp::rrg<typeparams>
 			// 6.a. Find all vertices that lie within a ball of certain radius
 			if (parameters.get_phase() >= 1) {
 
-				vertex_extended = (vertex_t *) (this->list_vertices.back()); // Get the end of the extension, which
-				//   is the last vertex added to the tree.
+				// Get the end of the extension, which is the last vertex added
+				// to the tree.
+				vertex_extended = (vertex_t *) (this->list_vertices.back());
+
 				this->distance_evaluator.find_near_vertices_r( vertex_extended->state,
 															   radius,
 															   &list_vertices_in_ball );
 
-				// 6.b Extend from all nodes inside the ball to the extended vertex, and keep edges if exact connection can be made
-				for (typename list<void*>::iterator iter = list_vertices_in_ball.begin(); iter != list_vertices_in_ball.end(); iter++) {
+				// 6.b Extend from all nodes inside the ball to the extended
+				// vertex, and keep edges if exact connection can be made
+				for (typename list<void*>::iterator iter
+						 = list_vertices_in_ball.begin();
+					 iter != list_vertices_in_ball.end(); iter++) {
 					vertex_t *vertex_curr = (vertex_t*)(*iter);
 
 					// Skip if current vertex is the same as the extended vertex
@@ -108,14 +113,20 @@ int smp::rrg<typeparams>
 					list<state_t*> *intermediate_vertices_tmp = new list<state_t*>;
 					bool free_tmp_memory = true;
 					exact_connection = -1;
-					if (this->extender.extend (vertex_curr->state, vertex_extended->state,
-											   &exact_connection, trajectory_tmp, intermediate_vertices_tmp) == 1) {
+					if (this->extender.extend( vertex_curr->state, vertex_extended->state,
+											   &exact_connection, trajectory_tmp,
+											   intermediate_vertices_tmp) == 1) {
 
-						// Check whether the connection is both exact and collision free
-						if ( (exact_connection == 1) && (check_extended_trajectory_for_collision (vertex_curr->state, trajectory_tmp) == 1) ) {
+						// Check whether the connection is both exact and
+						// collision free
+						if ((exact_connection == 1)
+							&& (check_extended_trajectory_for_collision( vertex_curr->state, trajectory_tmp ) == 1)) {
 
 							// Add the new collision-free trajectory to the graph
-							this->insert_trajectory (vertex_curr, trajectory_tmp, intermediate_vertices_tmp, vertex_extended);
+							this->insert_trajectory( vertex_curr,
+													 trajectory_tmp,
+													 intermediate_vertices_tmp,
+													 vertex_extended );
 							free_tmp_memory = false;
 
 						} //-- if ( (exact_connection == 1) && (this->collision_checker->check_collision_trajectory (trajectory_tmp) == 1) )
@@ -131,10 +142,13 @@ int smp::rrg<typeparams>
 			}
 
 
-			// 6.c Extend from the extended vertex to all nodes inside the ball, and keep edges if exact connections can be made
+			// 6.c Extend from the extended vertex to all nodes inside the ball,
+			// and keep edges if exact connections can be made
 			if (parameters.get_phase() >= 2) {
 
-				for (typename list<void*>::iterator iter = list_vertices_in_ball.begin(); iter != list_vertices_in_ball.end(); iter++) {
+				for (typename list<void*>::iterator iter
+						 = list_vertices_in_ball.begin();
+					 iter != list_vertices_in_ball.end(); iter++) {
 					vertex_t *vertex_curr = (vertex_t*)(*iter);
 
 					// Skip if the current vertex is the same as the extended vertex
@@ -146,15 +160,19 @@ int smp::rrg<typeparams>
 					list<state_t*> *intermediate_vertices_tmp = new list<state_t*>;
 					bool free_tmp_memory = true;
 					exact_connection = -1;
-					if (this->extender.extend (vertex_extended->state, vertex_curr->state,
-											   &exact_connection, trajectory_tmp, intermediate_vertices_tmp) == 1) {
+					if (this->extender.extend( vertex_extended->state, vertex_curr->state,
+											   &exact_connection, trajectory_tmp,
+											   intermediate_vertices_tmp) == 1) {
 
 						// Check whether the connection is both exact and collision free
-						if ( (exact_connection == 1)
-							 && (check_extended_trajectory_for_collision (vertex_extended->state, trajectory_tmp) == 1) ) {
+						if ((exact_connection == 1)
+							&& (check_extended_trajectory_for_collision( vertex_extended->state, trajectory_tmp ) == 1)) {
 
 							// Add the new collision-free trajectory to the graph
-							this->insert_trajectory (vertex_extended, trajectory_tmp, intermediate_vertices_tmp, vertex_curr);
+							this->insert_trajectory( vertex_extended,
+													 trajectory_tmp,
+													 intermediate_vertices_tmp,
+													 vertex_curr);
 							free_tmp_memory = false;
 						} //-- if ( (exact_connection == 1) && (this->collision_checker->check_collision_trajectory (trajectory_tmp) == 1) )
 					}

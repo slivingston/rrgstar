@@ -291,7 +291,7 @@ parseFormulaLoop1 () {
   node_operator->boundVar = 3;  // z = 3
   node_child1->parent = node_operator;
 
-  cout << "Parsed formulaLoop " << endl;
+//  cout << "Parsed formulaLoop " << endl;
   
   return node_operator;
 }
@@ -467,7 +467,7 @@ parseFormulaLoop2 () {
   node_operator->boundVar = 3;  // z = 3
   node_child1->parent = node_operator;
 
-  cout << "Parsed formulaLoop " << endl;
+//  cout << "Parsed formulaLoop " << endl;
   
   return node_operator;
 }
@@ -677,7 +677,7 @@ parseFormulaLoop3 () {
   node_operator->boundVar = 4;    // w = 4
   node_child1->parent = node_operator;
 
-  cout << "Parsed formulaLoop " << endl;
+//  cout << "Parsed formulaLoop " << endl;
   
   return node_operator;
 }
@@ -937,7 +937,7 @@ parseFormulaLoop4 () {
   node_operator->boundVar = 4;    // w = 4
   node_child1->parent = node_operator;
 
-  cout << "Parsed formulaLoop4 " << endl;
+//  cout << "Parsed formulaLoop4 " << endl;
   
   return node_operator;
 }

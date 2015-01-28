@@ -49,7 +49,7 @@ namespace smp {
 		model_checker_t &model_checker;
 
 
-        // This function adds the given state to the beginning of the tracjetory and calls the collision checker.
+        // This function adds the given state to the beginning of the trajectory and calls the collision checker.
         int check_extended_trajectory_for_collision (state_t *state, trajectory_t *trajectory) {
 
             trajectory->list_states.push_front (state);
@@ -120,7 +120,7 @@ namespace smp {
          *       the extended vertex.
          *     - incrementally check whether the graph includes a trajectory that 
          *       satisfies the termination requirement (using the model checker component).
-         *   - for all vertecies in the near set
+         *   - for all vertices in the near set
          *     - generate a new trajectory from the extended vertex to the near vertex
          *       (using the extension function component).
          *     - if the new trajectory is collision free (check using the collision checker 

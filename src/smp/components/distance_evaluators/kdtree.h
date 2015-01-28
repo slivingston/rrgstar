@@ -14,7 +14,7 @@
 
 namespace smp {
 
-    //! Distance evalutor that employs a kd-tree structure.
+    //! Distance evaluator that employs a kd-tree structure.
     /*!
       This class implements a distance evaluator by storing the states in the
       Euclidean space in a kd-tree structure. It implements nearest neighbor
@@ -78,11 +78,11 @@ namespace smp {
         int find_near_vertices_k (state_t *state_in, int k_in,
                                   list<void *> *list_data_out);
 
-        /**
+         /**
          * \brief Sets the list of vertices used to rebuild the kdtree
          *
          * If the user desires to rebuild the kdtree from a list vertices.
-         * The appropriate list of vertices can be initiliazsed using this
+         * The appropriate list of vertices can be initialized using this
          * function and the reconstruct_kdtree_from_vertex_list method of this
          * class can be called to rebuild the tree. The distance_kdtree class
          * also reconstructs the tree whenever a vertex is deleted. For the 

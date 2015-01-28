@@ -31,7 +31,7 @@ rModelChecker::rModelChecker () {
   this->num_local_updates = 0;
   this->num_update_reachabilities = 0;
 
-  this->stackArray = (stackArrayElement_t *) malloc (1000000 * sizeof (stackArrayElement_t) );
+  this->stackArray = (stackArrayElement_t *) malloc (100 * sizeof (stackArrayElement_t) );
   if (! (this->stackArray)) {
     cout << "ERROR : Can not allocate memory for the Reachability Update Stack" << endl;
     exit(1);
@@ -537,7 +537,7 @@ getStateTrajectoryBetweenVertices (CT_vertex *vertexInitial, CT_vertex *vertexFi
   
   // revert back the stateList
   
-  cout << "Solution vertex list size :" << solutionVertexList->size() << endl;
+//  cout << "Solution vertex list size :" << solutionVertexList->size() << endl;
   
   stateList trajectory; 
   trajectory.clear();
@@ -574,7 +574,7 @@ rModelChecker::getTrajectory () {
 
     trajectory = getStateTrajectoryBetweenVertices (this->initialVertex, vertexFinal);
 
-    cout << "Trajectory num states     :" << trajectory.size() << endl;
+//    cout << "Trajectory num states     :" << trajectory.size() << endl;
 
   }
   else if (subformulaFinal->type == PT_VAR) {
@@ -601,8 +601,8 @@ rModelChecker::getTrajectory () {
 
     for (stateList_it iter = trajectoryPath.begin(); iter != trajectoryPath.end(); iter++)  {
       for (stateList_it iter2 = trajectoryPath.begin(); iter2 != iter; iter2++) {
-	if (*iter2 == *iter)
-	  cout << "Path contains a minor loop" << endl;
+//	if (*iter2 == *iter)
+//	  cout << "Path contains a minor loop" << endl;
       }
     }
 
@@ -610,13 +610,13 @@ rModelChecker::getTrajectory () {
     for (stateList_it iter = trajectoryLoop.begin(); iter != trajectoryLoop.end(); iter++)  {
       int k2 = 0;
       for (stateList_it iter2 = trajectoryLoop.begin(); iter2 != iter; iter2++) {
-	if ( (*iter2 == *iter) && (iter2 != trajectoryLoop.begin()) )
-	  cout << "Loop contains a minor loop : " << k1 << " - " << k2 << endl;
+//	if ( (*iter2 == *iter) && (iter2 != trajectoryLoop.begin()) )
+//	  cout << "Loop contains a minor loop : " << k1 << " - " << k2 << endl;
 	k2++;
       }
       k1++;
     }
-    cout << "k1 : " << trajectoryLoop.size() << endl;
+//    cout << "k1 : " << trajectoryLoop.size() << endl;
 
     // Concatanate trajectoryPath and trajectoryLoop to form trajectory 
 //     int k =0;

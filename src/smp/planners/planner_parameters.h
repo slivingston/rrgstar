@@ -54,7 +54,7 @@ namespace smp {
          * The RRT* phase parameter tells the algorithm exactly which phases it should execute.
          * Possible values are 0, 1, and 2. If the phase parameter is set to 0, then the RRT*
          * will behave exactly like an RRT. If the phase parameter is set to 1, then the RRT* 
-         * will find the minimum-cost parent for the newly added vertex in additition to the 
+         * will find the minimum-cost parent for the newly added vertex in addition to the 
          * steps performed in phase 1. If the phase parameter is set to 2, then the RRT* will
          * perform the rewiring operation as well in addition to the operations performed in
          * phase 1. By default, the phase parameter is set to 2.

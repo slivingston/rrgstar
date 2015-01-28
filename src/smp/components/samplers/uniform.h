@@ -35,7 +35,9 @@ namespace smp {
         region_t support;
     
     public:
-        sampler_uniform ();
+		/* Seed the random number generator with a positive integer;
+		   using 0 (default) causes the current time to be used. */
+        sampler_uniform(unsigned int seed = 0);
         ~sampler_uniform ();
 
 

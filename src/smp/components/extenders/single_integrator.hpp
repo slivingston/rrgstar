@@ -76,9 +76,10 @@ int smp::extender_single_integrator< typeparams, NUM_DIMENSIONS >
 
 template< class typeparams, int NUM_DIMENSIONS >
 int smp::extender_single_integrator< typeparams, NUM_DIMENSIONS >
-::extend (state_t *state_from_in, state_t *state_towards_in,
-	  int *exact_connection_out, trajectory_t *trajectory_out,
-	  list<state_t*> *intermediate_vertices_out) {
+::extend( state_t *state_from_in, state_t *state_towards_in,
+		  int *exact_connection_out, trajectory_t *trajectory_out,
+		  list<state_t*> *intermediate_vertices_out )
+{
 
   if (max_length <= 0.0)
     return 0;
@@ -117,8 +118,8 @@ int smp::extender_single_integrator< typeparams, NUM_DIMENSIONS >
     *exact_connection_out = 0;
   }
 
-  trajectory_out->list_states.push_back (state_new);
-  trajectory_out->list_inputs.push_back (input_new);
+  trajectory_out->list_states.push_back(state_new);
+  trajectory_out->list_inputs.push_back(input_new);
 
   return 1;
 }

@@ -259,7 +259,7 @@ namespace smp {
          * \brief Inserts a trajectory into the graph
          *
          * Inserts a new trajectory into the graph. The new trajectory is added to the graph either as
-         * and edge between two vertices stored in the variables vertex_src_in and vertex_dst_in, or
+         * an edge between two vertices stored in the variables vertex_src_in and vertex_dst_in, or
          * as an edge between vertex_src_in and a new vertex created by this function. The latter case
          * will be invoked if vertex_dst_in argument is set to NULL by the caller. The caller can also
          * specify a designated set of states that will become an individual vertex in the graph. This 
