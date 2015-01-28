@@ -275,9 +275,13 @@ int smp::extender_double_integrator<typeparams,NUM_DIMENSIONS>
   double x_intersect_beg_a1;
   double x_intersect_end_a1;
   double v_intersect_a1;
-  double time_a1 = extend_with_time_optimal_control_one_axis (s_ini_a1, s_fin_a1, INPUT_CONSTRAINT_MAX,
-							      &direction_a1, &traj_saturated_a1,
-							      &x_intersect_beg_a1, &x_intersect_end_a1, &v_intersect_a1);
+	double time_a1;
+	time_a1 = extend_with_time_optimal_control_one_axis( s_ini_a1, s_fin_a1,
+														 INPUT_CONSTRAINT_MAX,
+														 &direction_a1, &traj_saturated_a1,
+														 &x_intersect_beg_a1,
+														 &x_intersect_end_a1,
+														 &v_intersect_a1 );
 
   double s_ini_a2[2] = {
     (*state_ini)[1],
@@ -292,9 +296,13 @@ int smp::extender_double_integrator<typeparams,NUM_DIMENSIONS>
   double x_intersect_beg_a2;
   double x_intersect_end_a2;
   double v_intersect_a2;
-  double time_a2 = extend_with_time_optimal_control_one_axis (s_ini_a2, s_fin_a2, INPUT_CONSTRAINT_MAX,
-							      &direction_a2, &traj_saturated_a2,
-							      &x_intersect_beg_a2, &x_intersect_end_a2, &v_intersect_a2);
+	double time_a2;
+	time_a2 = extend_with_time_optimal_control_one_axis( s_ini_a2, s_fin_a2,
+														 INPUT_CONSTRAINT_MAX,
+														 &direction_a2, &traj_saturated_a2,
+														 &x_intersect_beg_a2,
+														 &x_intersect_end_a2,
+														 &v_intersect_a2 );
 
   double max_control_a1 = INPUT_CONSTRAINT_MAX;
   double max_control_a2 = INPUT_CONSTRAINT_MAX;
