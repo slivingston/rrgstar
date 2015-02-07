@@ -29,6 +29,7 @@ template< class typeparams >
 smp::vertex< typeparams >
 ::vertex () {
 
+  state = NULL;
   incoming_edges.clear();
   outgoing_edges.clear();
 }
