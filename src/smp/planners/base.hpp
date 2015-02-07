@@ -244,11 +244,17 @@ int smp::planner<typeparams>
 	if (vertex_dst == NULL) {
 		state_t *final_state = trajectory_in->list_states.back();
 		trajectory_in->list_states.pop_back();
+		// TODO: Should also pop off the inputs to arrive at this state.
 
 		vertex_dst = new vertex_t;
 		vertex_dst->state = final_state;
 
 		this->insert_vertex (vertex_dst);  // Insert the new vertex into the graph
+	} else if (trajectory_in->list_states.size() > 0
+			   && *(vertex_dst->state) == *(trajectory_in->list_states.back())) {
+		// delete trajectory_in->list_states.back(); TODO
+		trajectory_in->list_states.pop_back();
+		// TODO: Should also pop off the inputs to arrive at this state.
 	}
 
 	// Create the new edge
