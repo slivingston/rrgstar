@@ -20,14 +20,14 @@ bool MS_state::addprop (int newprop) {
 
 
 rModelChecker::rModelChecker () {
-  
+
   this->initialState = NULL;
   this->initialVertex = NULL;
 
   this->states.clear();
-  
+
   this->satVertices.clear();
-  
+
   this->num_local_updates = 0;
   this->num_update_reachabilities = 0;
 
@@ -36,7 +36,7 @@ rModelChecker::rModelChecker () {
     cout << "ERROR : Can not allocate memory for the Reachability Update Stack" << endl;
     exit(1);
   }
-  
+
   return;
 }
 
@@ -60,28 +60,28 @@ rModelChecker::addVertex (CT_vertex *parentVertex, MS_state *state, PT_node *sub
   CT_vertex *vertexNew;
 
   // Check whether the vertex already exists
-  bool vertexFound = false; 
+  bool vertexFound = false;
   for (vertexSet_it iter = state->vertices.begin(); iter != state->vertices.end(); iter++) {
-    CT_vertex *vertexCurr = *iter; 
-    if (vertexCurr->subformula == subformula){ 
+    CT_vertex *vertexCurr = *iter;
+    if (vertexCurr->subformula == subformula){
       vertexNew = vertexCurr;
       vertexFound = true;
       break;
     }
   }
-  
+
   // Create a new vertex if one does not exist
   if (!vertexFound) {
-    vertexNew = new CT_vertex; 
+    vertexNew = new CT_vertex;
     vertexNew->state = state;
     vertexNew->subformula = subformula;
     vertexNew->succVertices.clear();
     vertexNew->predVertices.clear();
     vertexNew->reachingVertices.clear();
-    PT_node *parentSubformula = parentVertex->subformula; 
-    
-    if ( (parentSubformula->type == PT_GFP) && !(this->pt.compareFormulaSize(subformula, parentSubformula)) ) {                  
-      vertexNew->reachingVertices.insert (parentVertex); //   then place it to its own reachingVertices 
+    PT_node *parentSubformula = parentVertex->subformula;
+
+    if ( (parentSubformula->type == PT_GFP) && !(this->pt.compareFormulaSize(subformula, parentSubformula)) ) {
+      vertexNew->reachingVertices.insert (parentVertex); //   then place it to its own reachingVertices
 #if VERBOSE_DBG
       cout << "Insert GFP to reachability" << endl;
 #endif
@@ -91,14 +91,14 @@ rModelChecker::addVertex (CT_vertex *parentVertex, MS_state *state, PT_node *sub
 
   // Update the predVertices and succVertices of both of the vertices
   if (vertexNew->predVertices.find (parentVertex) == vertexNew->predVertices.end() )
-    vertexNew->predVertices.insert (parentVertex);    
+    vertexNew->predVertices.insert (parentVertex);
 
   if (parentVertex->succVertices.find (vertexNew) == parentVertex->succVertices.end() )
     parentVertex->succVertices.insert (vertexNew);
 
   bool reachabilityUpdateOccurred = this->UpdateReachability (parentVertex, vertexNew);
 
-  if ( (!vertexFound) || (reachabilityUpdateOccurred) ) 
+  if ( (!vertexFound) || (reachabilityUpdateOccurred) )
     return vertexNew;
 
   return NULL;
@@ -115,7 +115,7 @@ rModelChecker::UpdateReachability (CT_vertex *vertexFrom, CT_vertex *vertexTo) {
 
   this->num_update_reachabilities++;
 
-  // Compute  vertexTo->reachingVertices = 
+  // Compute  vertexTo->reachingVertices =
   //          {vertex \in vertexFrom->reachingVertices : vertex->subformula >= vertexTo->subformula} \cup vertexTo->reachingVertices
   //  - The coputation is done in linear time
   vertexSet_it iterTo = vertexTo->reachingVertices.begin();
@@ -131,7 +131,7 @@ rModelChecker::UpdateReachability (CT_vertex *vertexFrom, CT_vertex *vertexTo) {
     	continue;
     }
     if ( this->pt.compareFormulaSize (vertexTo->subformula, (*iterFrom)->subformula) )
-      continue; 
+      continue;
     vertexTo->reachingVertices.insert (iterToPrev, *iterFrom);
     addedNewReachingVertex = true;
   }
@@ -153,8 +153,8 @@ rModelChecker::UpdateReachability (CT_vertex *vertexFrom, CT_vertex *vertexTo) {
       this->satVertices.insert (vertexTo);
     }
   }
-  
-  // If added a new reaching vertex into reachingVertices in vertexTo, 
+
+  // If added a new reaching vertex into reachingVertices in vertexTo,
   //   then run UpdateReachability for each successor vertex of vertexTo
   if (addedNewReachingVertex) {
     for (vertexSet_it iter = vertexTo->succVertices.begin(); iter != vertexTo->succVertices.end(); iter++) {
@@ -163,12 +163,12 @@ rModelChecker::UpdateReachability (CT_vertex *vertexFrom, CT_vertex *vertexTo) {
   }
 
 
-  
-  return addedNewReachingVertex;  
+
+  return addedNewReachingVertex;
 }
 
 
-bool // Returns true if a witness is found, otherwise it returns false 
+bool // Returns true if a witness is found, otherwise it returns false
 rModelChecker::LocalUpdate (CT_vertex *vertex) {
 
   this->num_local_updates++;
@@ -180,7 +180,7 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
   cout << "state : " << stateThis->identifier << " - subformula : " << subformulaThis->type << endl;
   cout << "  reachable states-subformula:" << endl;
   for (vertexSet_it iter = vertex->reachingVertices.begin(); iter != vertex->reachingVertices.end(); iter++){
-    CT_vertex *reachingVertex = *iter; 
+    CT_vertex *reachingVertex = *iter;
     cout << "     - reaching state: "  << reachingVertex->state->identifier << endl;
   }
 #endif
@@ -214,7 +214,7 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
     // Check whether this node is reachable from a vertex = (state, BindingFormula(var))
 
     PT_node *bindingSubformula = this->pt.getBoundFormula (subformulaThis);
-    
+
     // Search the reaching vertices for vertex = (state, bindingSubformula)
     bool gfpLoopFound = false;
     for (vertexSet_it iter = vertex->reachingVertices.begin(); iter != vertex->reachingVertices.end(); iter++) {
@@ -235,7 +235,7 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
     // Create the new node with the bindingSubformula
     CT_vertex *vertexNew = this->addVertex (vertex, stateThis, bindingSubformula);
     if (vertexNew) {
-      if (this->LocalUpdate (vertexNew)) 
+      if (this->LocalUpdate (vertexNew))
     	  foundWitness = true;
     }
   }
@@ -247,28 +247,28 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
       cout << "ERROR: rModelChecker::LocalUpdate: AND OPERATOR does not have 2 children" << endl;
       exit (1);
     }
-#endif 
-    
+#endif
+
     subformulaeSet_it iter = ((PT_operator *)subformulaThis)->children.begin();
 
-    // Get left subformula 
+    // Get left subformula
     PT_node *subformulaLeft = *iter;
     // Get right subformula
     iter++;
     PT_node *subformulaRight = *iter;
 
     PT_node *subformulaChild = NULL;
-    
-    if (subformulaLeft->type == PT_PRP) { 
+
+    if (subformulaLeft->type == PT_PRP) {
 
       // Create a new node using subformulaRight
-      if ( stateThis->labeledPrp.find( ((PT_prp *)subformulaLeft)->prp ) != stateThis->labeledPrp.end() )  
+      if ( stateThis->labeledPrp.find( ((PT_prp *)subformulaLeft)->prp ) != stateThis->labeledPrp.end() )
     	  subformulaChild = subformulaRight;
     }
     else if (subformulaRight->type == PT_PRP) {
 
       // Create a new node using subformulaLeft
-      if ( stateThis->labeledPrp.find( ((PT_prp *)subformulaRight)->prp ) != stateThis->labeledPrp.end() )  
+      if ( stateThis->labeledPrp.find( ((PT_prp *)subformulaRight)->prp ) != stateThis->labeledPrp.end() )
     	  subformulaChild = subformulaLeft;
     }
     else {
@@ -279,7 +279,7 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
     // If stateThis satisfies the proposition, then add the vertex and update the reachability graph
     if (subformulaChild) {
       CT_vertex *vertexNew = addVertex (vertex, stateThis, subformulaChild);
-      if (vertexNew) 
+      if (vertexNew)
     	  if (this->LocalUpdate (vertexNew))
     		  foundWitness = true;
     }
@@ -292,14 +292,14 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
       cout << "ERROR: rModelChecker::LocalUpdate: OR OPERATOR does not have 2 children" << endl;
       exit (1);
     }
-#endif 
+#endif
 
     // Add both of the child subformula to the model checker and update the reachabilities
-    for (subformulaeSet_it iter = ((PT_operator *)subformulaThis)->children.begin(); 
+    for (subformulaeSet_it iter = ((PT_operator *)subformulaThis)->children.begin();
 	 iter != ((PT_operator *)subformulaThis)->children.end(); iter++) {
-      PT_node *subformulaChild = *iter; 
+      PT_node *subformulaChild = *iter;
       CT_vertex *vertexNew = this->addVertex (vertex, stateThis,subformulaChild);
-      if (vertexNew) 
+      if (vertexNew)
     	  if (this->LocalUpdate (vertexNew))
     		  foundWitness = true;
       	  if (foundWitness) {
@@ -315,13 +315,13 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
       cout << "ERROR: rModelChecker::LocalUpdate: LFP OPERATOR does not have 1 children" << endl;
       exit (1);
     }
-#endif 
-    
+#endif
+
     subformulaeSet_it iter = ((PT_operator *)subformulaThis)->children.begin ();
     PT_node *subformulaChild = *iter;
 
     CT_vertex *vertexNew = this->addVertex (vertex,stateThis, subformulaChild);
-    if (vertexNew) 
+    if (vertexNew)
       if (this->LocalUpdate (vertexNew))
     	  foundWitness = true;
   }
@@ -333,14 +333,14 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
       cout << "ERROR: rModelChecker::LocalUpdate: GFP OPERATOR does not have 1 children" << endl;
       exit (1);
     }
-#endif 
-    
+#endif
+
     subformulaeSet_it iter = ((PT_operator *)subformulaThis)->children.begin ();
     PT_node *subformulaChild = *iter;
 
     CT_vertex *vertexNew = this->addVertex (vertex,stateThis, subformulaChild);
-    if (vertexNew) 
-      if (this->LocalUpdate (vertexNew)) 
+    if (vertexNew)
+      if (this->LocalUpdate (vertexNew))
 	foundWitness = true;
   }
 
@@ -351,7 +351,7 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
       cout << "ERROR: rModelChecker::LocalUpdate: LFP OPERATOR does not have 1 children" << endl;
       exit (1);
     }
-#endif 
+#endif
 
     subformulaeSet_it iter = ((PT_operator *)subformulaThis)->children.begin ();
     PT_node *subformulaChild = *iter;
@@ -359,8 +359,8 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
     for (stateSet_it ssiter = stateThis->successors.begin(); ssiter != stateThis->successors.end(); ssiter++) {
       MS_state *stateSucc = *ssiter;
       CT_vertex *vertexNew = this->addVertex (vertex,stateSucc, subformulaChild);
-      if (vertexNew) 
-	if (this->LocalUpdate (vertexNew)) 
+      if (vertexNew)
+	if (this->LocalUpdate (vertexNew))
 	  foundWitness = true;
       if (foundWitness) {
     	  break;
@@ -372,7 +372,7 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
 }
 
 
-bool 
+bool
 rModelChecker::addState (MS_state *state) {
 
 #if !TRUST_ME
@@ -381,8 +381,8 @@ rModelChecker::addState (MS_state *state) {
     if (*iter == state) {
       cout << "ERROR: rModelChecker::addState: state already exists" << endl;
       exit(1);
-    } 
-#endif 
+    }
+#endif
 
   if (this->initialState == NULL) {
 
@@ -402,13 +402,13 @@ rModelChecker::addState (MS_state *state) {
     state->successors.clear();
     state->predecessors.clear();
     state->sucSubformulaeVertices.clear();
-    
+
     state->vertices.insert (vertexNew);
 
 #if !TRUSTME
     this->states.insert (state);
-#endif 
-   
+#endif
+
     this->LocalUpdate (vertexNew);
   }
   else {
@@ -441,18 +441,18 @@ rModelChecker::addTransition (MS_state *state_from, MS_state *state_to) {
 //     cout << "ERROR: rModelChecker::addTransition: transition already exists" << endl;
     return false;
 //     exit (1);
-  } 
+  }
 #endif
 
   state_from->successors.insert(state_to);
   state_to->predecessors.insert(state_from);
-  
-  for (vertexSet_it iter = state_from->sucSubformulaeVertices.begin(); 
+
+  for (vertexSet_it iter = state_from->sucSubformulaeVertices.begin();
        iter != state_from->sucSubformulaeVertices.end(); iter++) {
-    
+
     CT_vertex *vertexCurr = *iter;
     PT_node *subformulaCurr = vertexCurr->subformula;
-    
+
 #if !TRUST_ME
     if (subformulaCurr->type != PT_SUC) {
       cout << "ERROR: rModelChecker::addTransition: Successor vertex does not encode a succcesor type " << endl;
@@ -461,103 +461,111 @@ rModelChecker::addTransition (MS_state *state_from, MS_state *state_to) {
     if ( ((PT_operator *)subformulaCurr)->children.size() != 1 ) {
       cout << "ERROR: rModelChecker::addTransition: Successor operator does not have 1 child " << endl;
       exit (1);
-    }    
+    }
 #endif
 
     subformulaeSet_it sfiter = ((PT_operator *)subformulaCurr)->children.begin();
     PT_node *subformulaChild = *sfiter;
 
     CT_vertex *vertexNew = this->addVertex (vertexCurr, state_to, subformulaChild);
-    if (vertexNew) 
-      if (this->LocalUpdate (vertexNew)) 
+    if (vertexNew)
+      if (this->LocalUpdate (vertexNew))
 	foundWitness = true;
 
-    if (foundWitness) 
+    if (foundWitness)
       break;
-    
+
   }
   return foundWitness;
 }
 
 stateList
-getStateTrajectoryBetweenVertices (CT_vertex *vertexInitial, CT_vertex *vertexFinal ) {
+getStateTrajectoryBetweenVertices (CT_vertex *vertexInitial, CT_vertex *vertexFinal )
+{
 
-  vertexList *solutionVertexList = NULL;
-  vertexListSet vertexListsCurr;
-  
-  vertexList *vertexListFinal = new vertexList;
-  vertexListFinal->push_back (vertexFinal);
-  
-  vertexListsCurr.insert (vertexListFinal);
-  
-  // If the final formula is a PT_PRP type, then just trace back to the vertexInitial.
-  vertexSet verticesProcessed;
-  verticesProcessed.clear ();
-  
-  verticesProcessed.insert (vertexFinal);
+	vertexList *solutionVertexList = NULL;
+	vertexListSet vertexListsCurr;
 
-  bool vertex_exists = true;
-  while (vertex_exists) {
-    
-    vertex_exists = false;
-    bool solutionFound = false;
-    vertexListSet vertexListsNext;
-    for (vertexListSet_it iter = vertexListsCurr.begin(); iter != vertexListsCurr.end(); iter++) {
-      vertexList *vertexListThis = *iter;
-      CT_vertex *vertexLastInList = *(vertexListThis->rbegin());
-      if ( vertexLastInList == vertexInitial) {
+	vertexList *vertexListFinal = new vertexList;
+	vertexListFinal->push_back (vertexFinal);
+
+	vertexListsCurr.insert (vertexListFinal);
+
+	// If the final formula is a PT_PRP type, then just trace back to the vertexInitial.
+	vertexSet verticesProcessed;
+	verticesProcessed.clear ();
+
+	verticesProcessed.insert (vertexFinal);
+
+	bool vertex_exists = true;
+	while (vertex_exists) {
+
+		vertex_exists = false;
+		bool solutionFound = false;
+		vertexListSet vertexListsNext;
+		for (vertexListSet_it iter = vertexListsCurr.begin(); iter != vertexListsCurr.end(); iter++) {
+			vertexList *vertexListThis = *iter;
+			CT_vertex *vertexLastInList = *(vertexListThis->rbegin());
+			if ( vertexLastInList == vertexInitial) {
 // 	cout << "found initial vertex" << endl;
-	solutionVertexList = vertexListThis;
-	solutionFound = true;
-	break;
-      }
-      for (vertexSet_it iter2 = vertexLastInList->predVertices.begin(); iter2 != vertexLastInList->predVertices.end(); iter2++) {
-	CT_vertex *vertexPred = *iter2;
-	if (verticesProcessed.find (vertexPred) == verticesProcessed.end() ) {
-	  vertexList *vertexListNew = new vertexList;
-	  for (vertexList_it iter3 = vertexListThis->begin(); iter3 != vertexListThis->end(); iter3++) 
-	    vertexListNew->push_back (*iter3);
-	  vertexListNew->push_back (vertexPred);
-	  vertexListsNext.insert (vertexListNew);
-	  verticesProcessed.insert (vertexPred);
-	  vertex_exists = true;
+				solutionVertexList = vertexListThis;
+				solutionFound = true;
+				break;
+			}
+			for (vertexSet_it iter2 = vertexLastInList->predVertices.begin();
+				 iter2 != vertexLastInList->predVertices.end(); iter2++) {
+				CT_vertex *vertexPred = *iter2;
+				if (verticesProcessed.find (vertexPred) == verticesProcessed.end() ) {
+					vertexList *vertexListNew = new vertexList;
+					for (vertexList_it iter3 = vertexListThis->begin();
+						 iter3 != vertexListThis->end(); iter3++) {
+						vertexListNew->push_back (*iter3);
+					}
+					vertexListNew->push_back (vertexPred);
+					vertexListsNext.insert (vertexListNew);
+					verticesProcessed.insert (vertexPred);
+					vertex_exists = true;
+				}
+			}
+		}
+		if (!solutionFound) {
+			for (vertexListSet_it iter = vertexListsCurr.begin();
+				 iter != vertexListsCurr.end(); iter++) {
+				vertexList *vertexListThis = *iter;
+				delete vertexListThis;
+			}
+			vertexListsCurr.clear();
+			for (vertexListSet_it iter = vertexListsNext.begin();
+				 iter != vertexListsNext.end(); iter++) {
+				vertexListsCurr.insert(*iter);
+			}
+		}
 	}
-      }
-    }
-    if (!solutionFound) {
-      for (vertexListSet_it iter = vertexListsCurr.begin(); iter != vertexListsCurr.end(); iter++) {
-	vertexList *vertexListThis = *iter;
-	delete vertexListThis;
-      }
-      vertexListsCurr.clear();
-      for (vertexListSet_it iter = vertexListsNext.begin(); iter != vertexListsNext.end(); iter++)
-	vertexListsCurr.insert(*iter);
-    }
-  }
-  
+
   // revert back the stateList
-  
+
 //  cout << "Solution vertex list size :" << solutionVertexList->size() << endl;
-  
-  stateList trajectory; 
-  trajectory.clear();
-  MS_state *stateLastInTrajectory = NULL;
-  for (vertexList_rit iter = solutionVertexList->rbegin(); iter != solutionVertexList->rend(); iter++) {
-    CT_vertex *vertexThis = *iter;
-    MS_state *stateThis = vertexThis->state;
-    if (stateThis != stateLastInTrajectory) {
-      trajectory.push_back (stateThis);
-      stateLastInTrajectory = stateThis;
-    }
-  }
-  
-  return trajectory;
+
+	stateList trajectory;
+	trajectory.clear();
+	MS_state *stateLastInTrajectory = NULL;
+	for (vertexList_rit iter = solutionVertexList->rbegin();
+		 iter != solutionVertexList->rend(); iter++) {
+		CT_vertex *vertexThis = *iter;
+		MS_state *stateThis = vertexThis->state;
+		if (stateThis != stateLastInTrajectory) {
+			trajectory.push_back (stateThis);
+			stateLastInTrajectory = stateThis;
+		}
+	}
+
+	return trajectory;
 
 }
 
-stateList 
+stateList
 rModelChecker::getTrajectory () {
-  
+
   stateList trajectory;
 
   if (this->satVertices.empty())
@@ -579,8 +587,8 @@ rModelChecker::getTrajectory () {
   }
   else if (subformulaFinal->type == PT_VAR) {
 
-    // Get the loop 
-    stateList trajectoryLoop; 
+    // Get the loop
+    stateList trajectoryLoop;
     CT_vertex *vertexInitial = NULL;
     PT_node *subformulaInitial = this->pt.getBoundFormula ( subformulaFinal );
     for ( vertexSet_it iter = stateFinal->vertices.begin(); iter != stateFinal->vertices.end(); iter++ ) {
@@ -594,8 +602,8 @@ rModelChecker::getTrajectory () {
       exit (1);
     }
     trajectoryLoop = getStateTrajectoryBetweenVertices (vertexInitial, vertexFinal);
-    
-    // Get the path that connects initalVertex to the loop 
+
+    // Get the path that connects initialVertex to the loop
     stateList trajectoryPath;
     trajectoryPath = getStateTrajectoryBetweenVertices (this->initialVertex, vertexInitial);
 
@@ -618,7 +626,7 @@ rModelChecker::getTrajectory () {
     }
 //    cout << "k1 : " << trajectoryLoop.size() << endl;
 
-    // Concatanate trajectoryPath and trajectoryLoop to form trajectory 
+    // Concatanate trajectoryPath and trajectoryLoop to form trajectory
 //     int k =0;
 //     for (stateList_it iter = trajectoryPath.begin(); iter != trajectoryPath.end(); iter++) {
 //       k++;
@@ -631,7 +639,7 @@ rModelChecker::getTrajectory () {
 //       k++;
 //       if ( (k > 124) )
 // 	continue;
-      
+
 //       trajectory.push_back (*iter);
 //     }
 //     cout << "k :" << k << endl;
@@ -642,7 +650,7 @@ rModelChecker::getTrajectory () {
     for (stateList_it iter = trajectoryLoop.begin(); iter != trajectoryLoop.end(); iter++)
       trajectory.push_back (*iter);
 
-    
+
   }
   else {
     cout << "ERROR: rModelChecker::getTrajectory: final subformula type is neither PT_PRP nor PT_VAR" << endl;
@@ -655,9 +663,9 @@ rModelChecker::getTrajectory () {
 
 MS_state *
 rModelChecker::findStateById (int id) {
-  
+
   MS_state *state = NULL;
-  
+
   for (stateSet_it iter = this->states.begin(); iter != this->states.end(); iter++ )
     if ( (*iter)->identifier == id)
       state = *iter;
@@ -668,17 +676,17 @@ rModelChecker::findStateById (int id) {
 
 bool
 rModelChecker::addTransitionById (int id_from, int id_to) {
-  
+
   MS_state *state_from = this->findStateById (id_from);
   MS_state *state_to = this->findStateById (id_to);
 
 #if !TRUST_ME
-  if ( (state_from == NULL) || (state_to == NULL) ) { 
+  if ( (state_from == NULL) || (state_to == NULL) ) {
     cout << "ERROR: rModelChecker::addTransitionbyID: state not found " << endl;
     exit(1);
   }
 #endif
 
   return this->addTransition (state_from, state_to);
-  
+
 }

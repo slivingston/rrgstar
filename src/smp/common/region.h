@@ -1,7 +1,7 @@
 /*! \file region.h
   \brief The standard brute-force collision checker
   
-  This file implements the a region class, which defines a rectangular region
+  This file implements the region class, which defines a rectangular region
   in the Euclidean space, the dimension of which is a template argument.
 */
 
@@ -36,12 +36,7 @@ namespace smp {
         region (const region<NUM_DIMENSIONS> &region_in);
 
 
-        /** 
-         * \brief Equality operator
-         *
-         * Two states are equal if and only if all their components are equal. This function
-         * checks whether this criterion is satisfied. 
-         */
+        /** element-wise copy */
         const region<NUM_DIMENSIONS> &operator=(const region<NUM_DIMENSIONS> &region_in);
 
     };

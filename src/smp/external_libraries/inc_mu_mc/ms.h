@@ -32,7 +32,7 @@ typedef map<MS_state*, stateSet> stateMap;
 typedef map<MS_state*, vertexSet> stateVertexSetMap;
 typedef list<MS_state*> stateList;
 typedef list<MS_state*>::iterator stateList_it;
-typedef set<vertexList*> vertexListSet; 
+typedef set<vertexList*> vertexListSet;
 typedef set<vertexList*>::iterator vertexListSet_it;
 
 
@@ -54,9 +54,9 @@ public:
 
     stateSet successors;            // A set of successor states
     stateSet predecessors;          // A set of predecessor states
- 
+
     vertexSet vertices;                 // A set of vertices that involve this state
-    vertexSet sucSubformulaeVertices;   // A set of vertices that involve this state and a successor subformula 
+    vertexSet sucSubformulaeVertices;   // A set of vertices that involve this state and a successor subformula
 
 	MS_state ();
 	~MS_state ();
@@ -69,9 +69,9 @@ class CT_vertex {
 public:
 
 	CT_vertex *parent;
-	vertexSet children;    
+	vertexSet children;
 	bool ReturnValue;
-	
+
 	MS_state *state;         // A pointer to the state that this vertex encodes
 	PT_node  *subformula;    // A pointer to the subformula that this vertex encodes
 
@@ -108,7 +108,7 @@ public:
 
     bool addTransitionById (int id_from, int id_to);
     MS_state* findStateById (int id);
-    
+
     stateList getTrajectory ();
 
 private:   // other hidden functions
@@ -134,23 +134,23 @@ public:
 
 	ModelSynthesizer ();
 	~ModelSynthesizer ();
-	
+
 // 	int addNewStateToStructure (MS_state *newState, stateSet succs, stateSet preds);
-	
+
 	CT_vertex *addNode (CT_vertex *vertex, MS_state *state, PT_node *subformula);
-	
+
 	bool localUpdate (CT_vertex *vertex);
-	
+
 	bool addState (MS_state *state);
-	
+
 	bool addTransition (MS_state *state_from, MS_state *state_to);
-	
+
 	MS_state *findStatebyID(int identifier);
-	
+
 // 	int addTransitionbyID (int identifier_from, int indentifier_to);
-	
-	stateList getTrajecotry ();
+
+	stateList getTrajectory ();
 };
 #endif
 
-#endif 
+#endif

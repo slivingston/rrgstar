@@ -944,7 +944,7 @@ parseFormulaLoop4 () {
 
 
 int ParseTree::parseFormula (string s) {
-//   this->root = parseFormulaReachability();
+//  this->root = parseFormulaReachability();
   this->root = parseFormulaLoop4();
 
   this->root->parent = NULL;

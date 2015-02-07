@@ -19,7 +19,7 @@ namespace smp {
     //! mu-calculus collision checker
     /*!
       This class implements a standard collision checker for the mu-calculus
-      model checker. The mu-calculus model checer requires each
+      model checker. The mu-calculus model checker requires each
       trajectory to traverse from one region to another at most twice. This 
       collision checker ensures that this property holds as an invariant.
       
