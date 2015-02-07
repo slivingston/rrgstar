@@ -10,6 +10,25 @@ smp::trajectory< typeparams >
 }
 
 
+template< class typeparams >
+void smp::trajectory< typeparams >
+::dump_states_json() const
+{
+	int i;
+	int j = 0;
+	std::cout << "[";
+	for (typename list<state_t *>::const_iterator it = list_states.begin();
+		 it != list_states.end(); it++) {
+		std::cout << "[";
+		for (i = 0; i < (*it)->size() - 1; i++)
+			std::cout << (**it)[i] << ",";
+		std::cout << (**it)[i] << "]" << std::endl;
+		if (j < list_states.size() - 1)
+			std::cout << ",";
+		j++;
+	}
+	std::cout << "]" << std::endl;
+}
 
 template< class typeparams >
 smp::trajectory< typeparams >

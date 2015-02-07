@@ -38,6 +38,12 @@ namespace smp {
         trajectory ();
         ~trajectory ();
 
+		/* Dump states visited by the trajectory as K x N JSON array, i.e., an
+		   array of length K with each element being an array of length N, where
+		   N is the dimension of the state space, and K is the number of
+		   states. E.g., invoked by rrg::dump_json() */
+        void dump_states_json() const;
+
         //! Clears the trajectory.
         /*!
           This function clears both the state list and the input list in the trajectory.

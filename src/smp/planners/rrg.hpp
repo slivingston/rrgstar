@@ -214,4 +214,48 @@ bool smp::rrg<typeparams>
 }
 
 
+template<class typeparams>
+void smp::rrg<typeparams>
+::dump_json() const
+{
+	int k;
+	int num_edges;
+	std::cout << "{" << std::endl;
+
+	std::cout << "\"has_feasible\": ";
+	if (this->has_feasible()) {
+		std::cout << "true" << std::endl;
+		trajectory_t *traj = new trajectory_t;
+		model_checker.get_solution( *traj );
+		std::cout << ",\"solution\": ";
+		traj->dump_states_json();
+	} else {
+		std::cout << "false" << std::endl;
+	}
+	for (typename list<vertex_t*>::const_iterator it = this->list_vertices.begin();
+		 it != this->list_vertices.end();
+		 it++) {
+		std::cout << ",\"" << *it << "\": {\n    \"state\": [";
+		for (k = 0; k < (*it)->state->size() - 1; k++)
+			std::cout << (*((*it)->state))[k] << ", ";
+		std::cout << (*((*it)->state))[k] << "]," << std::endl;
+		std::cout << "    \"successors\": {";
+		num_edges = (*it)->outgoing_edges.size();
+		k = 0;
+		for (typename list<edge_t *>::const_iterator itedge = (*it)->outgoing_edges.begin();
+			 itedge != (*it)->outgoing_edges.end();
+			 itedge++) {
+			std::cout << "\"" << (*itedge)->vertex_dst << "\": ";
+			(*itedge)->trajectory_edge->dump_states_json();
+
+			if (k < num_edges-1)
+				std::cout << ",";
+			k++;
+		}
+		std::cout << "}}" << std::endl;
+	}
+
+	std::cout << "}" << std::endl;
+}
+
 #endif
