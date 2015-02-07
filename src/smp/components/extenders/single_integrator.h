@@ -40,7 +40,8 @@ namespace smp {
 
       \ingroup inputs
     */
-    class input_single_integrator : public input_array_double<1> {
+	template <int NUM_DIMENSIONS>
+    class input_single_integrator : public input_array_double<NUM_DIMENSIONS+1> {
 
     };
 
