@@ -22,7 +22,7 @@ smp::state_array_double<NUM_STATES>
 ::state_array_double (const smp::state_array_double<NUM_STATES> &state_in) {
 
   for (int i = 0; i < NUM_STATES; i++) 
-    state_vars[i] = state_in.state_vars[i];
+	  state_vars[i] = state_in.state_vars[i];
   
 }
 
@@ -31,6 +31,33 @@ template <int NUM_STATES>
 smp::state_array_double<NUM_STATES>
 ::~state_array_double () {
 
+}
+
+
+template <int NUM_STATES>
+bool
+smp::state_array_double<NUM_STATES>
+::operator==( const state_array_double<NUM_STATES> &state_in ) const
+{
+	for (int i = 0; i < NUM_STATES; i++) {
+		if (this->state_vars[i] != state_in.state_vars[i])
+			return false;
+	}
+	return true;
+}
+
+
+template<int NUM_STATES>
+bool
+smp::state_array_double<NUM_STATES>
+::eqtol( const state_array_double<NUM_STATES> &state_in, double tol ) const
+{
+	for (int i = 0; i < NUM_STATES; i++) {
+		if ((this->state_vars[i] - state_in.state_vars[i]) > tol
+			|| (state_in.state_vars[i] - this->state_vars[i]) > tol)
+			return false;
+	}
+	return true;
 }
 
 

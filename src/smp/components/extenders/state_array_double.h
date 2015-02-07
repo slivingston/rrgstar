@@ -46,6 +46,12 @@ namespace smp {
          * Two states are equal if and only if all their components are equal. This function
          * checks whether this criterion is satisfied. 
          */
+		bool operator==( const state_array_double<NUM_STATES> &state_in ) const;
+
+		/** Check equality up to a error tol */
+		bool eqtol( const state_array_double<NUM_STATES> &state_in, double tol = 1e-7 ) const;
+
+		/** Copy from one state to another, element-wise */
         const state_array_double<NUM_STATES> &operator=(const state_array_double<NUM_STATES> &state_in);
 
 
@@ -60,6 +66,8 @@ namespace smp {
          */    
         inline double& operator[] (int index_in);
 
+		inline int size()
+		{ return NUM_STATES; }
                 
     };
 
