@@ -20,9 +20,6 @@ namespace smp {
     //! State data structure for the single integrator dynamics
     /*!
       This class implements the state data structure for the single integrator dynamics.
-      The number of state variables is twice number of dimensions, since for each dimension
-      both position and velocity has to be stored. The positions are stored in the usual order
-      first, and then the all velocities are stored in their usual order, in the array.
 
       \ingroup states
     */
@@ -35,10 +32,11 @@ namespace smp {
 
     //! Input data structure for the single integrator dynamics
     /*!
-      This class implements the input data structure for the single integrator dynamics.
-      The number of input variables is one plus the dimensions. The extra input variable,
-      placed in the beginning of the array, is used to store the time it takes to
-      execute the trajectory segment.
+      This class implements the input data structure for the single integrator
+      dynamics.  The number of input variables is one plus number of the
+      dimensions. The extra input variable, placed in the beginning of the
+      array, is used to store the time it takes to execute the trajectory
+      segment.
 
       \ingroup inputs
     */
