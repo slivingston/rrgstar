@@ -135,8 +135,11 @@ int smp::model_checker_mu_calculus<typeparams>
 	}
 
 
-	if (list_vertices.size() == 0)
+	if (list_vertices.size() == 0) {
+		// TODO: Should this be an error? Why would found_solution be true at
+		// this point yet ms.getTrajectory() returns an empty list of states?
 		return 0;
+	}
 
 
 	vertex_t *vertex_prev = list_vertices.front ();
@@ -188,6 +191,8 @@ int smp::model_checker_mu_calculus<typeparams>
 			// printf ("-- Checking : [%d]=[%d] and [%d]=[%d]\n", edge_curr->vertex_src, vertex_prev, edge_curr->vertex_dst, vertex_curr);
 
 
+			// TODO: Is it not redundant to check this, given that here we are
+			// enumerating the list of incoming edges for vertex_curr ?
 			if ((edge_curr->vertex_src == vertex_prev)
 				&& (edge_curr->vertex_dst == vertex_curr)) {
 				edge_found = edge_curr;
