@@ -1,0 +1,4 @@
+The contrib/ directory is for items that may be useful as an extension or
+companion to the main contributions of rrgstar, i.e., everything not under this
+contrib/ directory. However, contents herein are not actively maintained and may
+be broken without warning.
