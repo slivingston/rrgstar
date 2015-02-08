@@ -1,5 +1,4 @@
-SUBDIRS:= rrt/single_integrator rrt/double_integrator rrt/dubins_car rrt/dubins_double_integrator_airplane \
-	rrg/single_integrator rrg/single_integrator_mu_calculus rrg/dubins_car rrg/double_integrator rrg/dubins_double_integrator_airplane \
+SUBDIRS:= rrg/single_integrator_mu_calculus rrg/dubins_car rrg/double_integrator rrg/dubins_double_integrator_airplane \
 	rrtstar/single_integrator rrtstar/single_integrator_halton rrtstar/single_integrator_trajectory_biasing rrtstar/single_integrator_trajectory_biasing_and_bnb \
 	rrtstar/dubins_car rrtstar/double_integrator rrtstar/dubins_double_integrator_airplane 
 
