@@ -1,6 +1,6 @@
 all:
 	@mkdir -p bin
-	$(MAKE) -C examples/standalone
+	$(MAKE) -C examples
 
 .PHONY: doc
 doc:
