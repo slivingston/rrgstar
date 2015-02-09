@@ -15,15 +15,20 @@ using namespace std;
 #include <smp/planner_utils/trajectory.hpp>  
 
 
-// PARAMETERS TO THE PROBLEM *****************************************************************************************************
+// PARAMETERS TO THE PROBLEM *******************************************
 // *
-#define NUM_DIMENSIONS 3     // Change the number of dimensions from here
-                             // Scale it up to 6 - 10 dimensions to see the convergence of RRT* towards an optimal solution
-                             //   in very high dimensional configuration spaces without employing any heuristics. 
-#define EXTENSION_LENGTH  10.0   // Maximum length of an extension. This should scale up with sqrt(d) and with L, where d is the
-                                 //   dimensionality of space and L is the side length of a box containing the obstacle free space.
+
+/* Change the number of dimensions from here.  Scale it up to 6 - 10 dimensions
+   to see the convergence of RRT* towards an optimal solution in very high
+   dimensional configuration spaces without employing any heuristics. */
+#define NUM_DIMENSIONS 2
+
+/* Maximum length of an extension. This should scale up with sqrt(d) and with L,
+   where d is the dimensionality of space and L is the side length of a box
+   containing the obstacle free space. */
+#define EXTENSION_LENGTH  1.0
 // *
-// *******************************************************************************************************************************
+// *********************************************************************
 
 
 // SMP TYPE DEFINITIONS -------
@@ -31,7 +36,7 @@ using namespace smp;
 
 // State, input, vertex_data, and edge_data definitions
 typedef state_single_integrator<NUM_DIMENSIONS> state_t;
-typedef input_single_integrator input_t;
+typedef input_single_integrator<NUM_DIMENSIONS> input_t;
 typedef model_checker_mu_calculus_vertex_data vertex_data_t;
 typedef model_checker_mu_calculus_edge_data edge_data_t;
 
@@ -60,16 +65,9 @@ typedef rrg<typeparams>  rrg_t;
 
 
 
-
-
-
 int
-main () {
-
-
-
-
-
+main ()
+{
   // 1. CREATE PLANNING OBJECTS
   
   // 1.a Create the components
@@ -80,18 +78,21 @@ main () {
   model_checker_t model_checker;
 
   // 1.b Create the planner algorithm
-  rrg_t planner (sampler, distance_evaluator, extender, collision_checker, model_checker);
+  rrg_t planner(sampler, distance_evaluator, extender,
+				collision_checker, model_checker);
 
-  planner.parameters.set_phase (2);   // The phase parameter can be used to run the algorithm as an RRT, 
-                                      // See the documentation of the RRG algorithm for more information.
+  /* The phase parameter can be used to run the algorithm as an RRT,
+     See the documentation of the RRG algorithm for more
+     information. */
+  planner.parameters.set_phase (2);
 
-  planner.parameters.set_gamma (35.0);    // Set this parameter should be set at least to the side length of
-                                          //   the (bounded) state space. E.g., if the state space is a box
-                                          //   with side length L, then this parameter should be set to at 
-                                          //   least L for rapid and efficient convergence in trajectory space.
+  /* Set this parameter should be set at least to the side length of
+     the (bounded) state space. E.g., if the state space is a box with
+     side length L, then this parameter should be set to at least L
+     for rapid and efficient convergence in trajectory space. */
+  planner.parameters.set_gamma (35.0);
   planner.parameters.set_dimension (NUM_DIMENSIONS);
-  planner.parameters.set_max_radius (EXTENSION_LENGTH); 
-
+  planner.parameters.set_max_radius (EXTENSION_LENGTH);
 
 
 
@@ -112,57 +113,33 @@ main () {
 
 
   // 2.c Initialize the extender
-  extender.set_max_length (EXTENSION_LENGTH);
+  extender.set_max_length(EXTENSION_LENGTH);
 
  
   // 2.d Initialize the collision checker
-  region<NUM_DIMENSIONS> obstacle_new;
-  for (int i = 0; i < 2; i++) {
-    obstacle_new.center[i] = 5.0;
-    obstacle_new.size[i] = 5.0;
-  }
-  obstacle_new.center[1] = 4.0;
-  for (int i = 2; i < NUM_DIMENSIONS; i++) {
-    obstacle_new.center[i] = 0.0;
-    obstacle_new.size[i] = 20.0;
-  }
-  collision_checker.add_region (obstacle_new);
+  /* NOTE that these are chosen to match the regions that are hard-coded in
+     model_checker_mu_calculus::mc_update_insert_vertex(), as defined in
+     model_checkers/mu_calculus.hpp */
+  region<NUM_DIMENSIONS> R;
+  R.center[0] = R.center[1] = -3.5;
+  R.size[0] = R.size[1] = 1.0;
+  collision_checker.add_region( R );
 
-  for (int i = 0; i < 2; i++) {
-    obstacle_new.center[i] = -5.0;
-    obstacle_new.size[i] = 5.0;
-  }
-  collision_checker.add_region (obstacle_new);
+  R.center[0] = 5.5;
+  R.center[1] = 1.5;
+  R.size[0] = R.size[1] = 1.0;
+  collision_checker.add_region( R );
 
-  obstacle_new.center[0] = 5.0;
-  obstacle_new.center[1] = -5.0; 
-  for (int i = 0; i < 2; i++) {
-    obstacle_new.size[i] = 5.0;
-  }
-  if (NUM_DIMENSIONS >=3 ) {
-    obstacle_new.center[2] = 7.0;
-    obstacle_new.size[2] = 5.0;
-  }
-  collision_checker.add_region (obstacle_new);
-  if (NUM_DIMENSIONS >=3 ) {
-    obstacle_new.center[2] = -7.0;
-    obstacle_new.size[2] = 5.0;
-  }
-  collision_checker.add_region (obstacle_new);
-
-  obstacle_new.center[0] = -5.0;
-  obstacle_new.center[1] = 5.0; 
-  obstacle_new.size[0] = 10.0;
-  obstacle_new.size[1] = 5.0;
-  if (NUM_DIMENSIONS >=3 ) {
-    obstacle_new.center[2] = 0.0;
-    obstacle_new.size[2] = 10.0;
-  }
-  collision_checker.add_region (obstacle_new);
+  R.center[0] = R.center[1] = 2.05;
+  R.size[0] = R.size[1] = 3.9;
+  collision_checker.add_region( R );
 
   
   // 2.e Initialize the model checker
   //     TODO: Add in the regions and the formula.
+  /* NOTE that the formula is currently hard-coded in ParseTree::parseFormula()
+     as the parse tree provided in parseFormulaLoop4(), both defined in the file
+     inc_mu_mc/pt.cpp */
 
 
   // 2.f Initialize the planner
@@ -175,27 +152,14 @@ main () {
   
 
 
-
-
   // 3. RUN THE PLANNER 
-  for (int i = 0; i < 1000; i++){
+  for (int i = 0; i < 3000 && !planner.has_feasible(); i++)
     planner.iteration ();
-    
-    if (i%100 == 0){
-      cout << "Iteration : " << i << endl;
-    }
-  }
   
-  
-  
-
 
 
   // 4. GET THE RESULTS
-
-
-
+  planner.dump_json();
   
-  return 1;
-  
+  return 0;
 }

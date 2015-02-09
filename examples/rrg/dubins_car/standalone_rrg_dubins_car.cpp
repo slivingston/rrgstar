@@ -7,8 +7,8 @@ using namespace std;
 #include <smp/components/samplers/uniform.hpp>
 #include <smp/components/distance_evaluators/kdtree.hpp>
 #include <smp/components/extenders/dubins.hpp>
-#include <smp/components/collision_checkers/standard.hpp>
-#include <smp/components/model_checkers/reachability.hpp>
+#include <smp/components/collision_checkers/mu_calculus.hpp>
+#include <smp/components/model_checkers/mu_calculus.hpp>
 
 #include <smp/planners/rrg.hpp>
 
@@ -21,8 +21,8 @@ using namespace smp;
 // State, input, vertex_data, and edge_data definitions
 typedef state_dubins state_t;
 typedef input_dubins input_t;
-typedef model_checker_reachability_vertex_data vertex_data_t;
-typedef model_checker_reachability_edge_data edge_data_t;
+typedef model_checker_mu_calculus_vertex_data vertex_data_t;
+typedef model_checker_mu_calculus_edge_data edge_data_t;
 
 // Create the typeparams structure
 typedef struct _typeparams {
@@ -39,8 +39,8 @@ typedef trajectory<typeparams> trajectory_t;
 typedef sampler_uniform<typeparams,3> sampler_t;
 typedef distance_evaluator_kdtree<typeparams,3> distance_evaluator_t;
 typedef extender_dubins<typeparams> extender_t;
-typedef collision_checker_standard<typeparams,2> collision_checker_t;
-typedef model_checker_reachability<typeparams,2> model_checker_t;
+typedef collision_checker_mu_calculus<typeparams,2> collision_checker_t;
+typedef model_checker_mu_calculus<typeparams> model_checker_t;
 
 // Define all algorithm types
 typedef rrg<typeparams>  rrg_t;
@@ -51,12 +51,8 @@ typedef rrg<typeparams>  rrg_t;
 
 
 int
-main () {
-  
-  
-
-
-
+main ()
+{
   // 1. CREATE PLANNING OBJECTS
 
   // 1.a Create the components
@@ -69,13 +65,20 @@ main () {
   // 1.b Create the planner algorithm
   rrg_t planner (sampler, distance_evaluator, extender, collision_checker, model_checker);
 
-  planner.parameters.set_phase (2);   // The phase parameter can be used to run the algorithm as an RRT, 
-                                      // See the documentation of the RRG algorithm for more information.
+  /* The phase parameter can be used to run the algorithm as an RRT,
+     See the documentation of the RRG algorithm for more
+     information. */
+  planner.parameters.set_phase (2);
 
-  planner.parameters.set_gamma (35.0);    // Set this parameter should be set at least to the side length of
-                                          //   the (bounded) state space. E.g., if the state space is a box
-                                          //   with side length L, then this parameter should be set to at 
-                                          //   least L for rapid and efficient convergence in trajectory space.
+  /* Set this parameter should be set at least to the side length of
+     the (bounded) state space. E.g., if the state space is a box with
+     side length L, then this parameter should be set to at least L
+     for rapid and efficient convergence in trajectory space. */
+  planner.parameters.set_gamma (35.0);
+  planner.parameters.set_dimension (3);
+  planner.parameters.set_max_radius (5.0);
+
+
   planner.parameters.set_dimension (3);
   planner.parameters.set_max_radius (5.0);  // This parameter is expecially capped to a certain to limit
                                             //   the amount of data that is published through the libbot interface.
@@ -104,23 +107,28 @@ main () {
 
  
   // 2.d Initialize the collision checker
-  region<2> obstacle_new;
-  for (int i = 0; i < 2; i++) {
-    obstacle_new.center[i] = 5.0;
-    obstacle_new.size[i] = 5.0;
-  }
-  collision_checker.add_obstacle (obstacle_new);
+  /* NOTE that these are chosen to match the regions that are hard-coded in
+     model_checker_mu_calculus::mc_update_insert_vertex(), as defined in
+     model_checkers/mu_calculus.hpp */
+  region<2> R;
+  R.center[0] = R.center[1] = -3.5;
+  R.size[0] = R.size[1] = 1.0;
+  collision_checker.add_region( R );
 
+  R.center[0] = 5.5;
+  R.center[1] = 1.5;
+  R.size[0] = R.size[1] = 1.0;
+  collision_checker.add_region( R );
+
+  R.center[0] = R.center[1] = 2.05;
+  R.size[0] = R.size[1] = 3.9;
+  collision_checker.add_region( R );
   
   
   // 2.e Initialize the model checker
-  region<2> region_goal;
-  region_goal.center[0] = 8.0;
-  region_goal.center[1] = 8.0;  
-  region_goal.size[0] = 2.0;
-  region_goal.size[1] = 2.0;
-  model_checker.set_goal_region (region_goal);
-  planner.init_model_checker (model_checker);
+  /* NOTE that the formula is currently hard-coded in ParseTree::parseFormula()
+     as the parse tree provided in parseFormulaLoop4(), both defined in the file
+     inc_mu_mc/pt.cpp */
     
   
   // 2.f Initialize the planner
@@ -130,33 +138,20 @@ main () {
   }
   planner.initialize (state_initial);
 
-  
-
 
 
 
 
   // 3. RUN THE PLANNER 
-  for (int i = 0; i < 2000; i++){
-
+  for (int i = 0; i < 10000 && !planner.has_feasible(); i++)
     planner.iteration ();
-    
-    if (i%100 == 0) {
-      cout << "Iteration: " << i << endl;
-    }
-
-  }
-
 
   
-  
-  
 
-  // 4. PUBLISH THE RESULTS THROUGH THE LIBBOT INTERFACE
+  // 4. GET THE RESULTS
+  planner.dump_json();
 
   
-  
-  
-  return 1;
+  return 0;
   
 }
