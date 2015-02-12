@@ -145,14 +145,14 @@ namespace smp {
 
 		   2. "solution" (K x N array) states in order, defined only if has_feasible,
 
-		   3. all other keys are addresses (type string) of vertices in the RRG;
-		      the value for each is another object (a.k.a., key-value or
-		      dictionary) with the following keys. "state" is an array that is
-		      the state at that vertex. "successors" is another object with keys
-		      of addresses of vertices that are adjacent via an outgoing edge;
-		      each has as value an array of the states in the trajectory that
-		      realizes the edge. */
-		void dump_json() const;
+		   3. "V", an object in which all keys are addresses (type string) of
+		      vertices in the RRG; the value for each is another object (a.k.a.,
+		      key-value or dictionary) with the following keys. "state" is an
+		      array that is the state at that vertex. "successors" is another
+		      object with keys of addresses of vertices that are adjacent via an
+		      outgoing edge; each has as value an array of the states in the
+		      trajectory that realizes the edge. */
+		void dump_json( bool include_graph = true ) const;
     };
 
 

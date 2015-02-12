@@ -216,7 +216,7 @@ bool smp::rrg<typeparams>
 
 template<class typeparams>
 void smp::rrg<typeparams>
-::dump_json() const
+::dump_json( bool include_graph ) const
 {
 	int k;
 	int num_edges;
@@ -232,27 +232,33 @@ void smp::rrg<typeparams>
 	} else {
 		std::cout << "false" << std::endl;
 	}
-	for (typename list<vertex_t*>::const_iterator it = this->list_vertices.begin();
-		 it != this->list_vertices.end();
-		 it++) {
-		std::cout << ",\"" << *it << "\": {\n    \"state\": [";
-		for (k = 0; k < (*it)->state->size() - 1; k++)
-			std::cout << (*((*it)->state))[k] << ", ";
-		std::cout << (*((*it)->state))[k] << "]," << std::endl;
-		std::cout << "    \"successors\": {";
-		num_edges = (*it)->outgoing_edges.size();
-		k = 0;
-		for (typename list<edge_t *>::const_iterator itedge = (*it)->outgoing_edges.begin();
-			 itedge != (*it)->outgoing_edges.end();
-			 itedge++) {
-			std::cout << "\"" << (*itedge)->vertex_dst << "\": ";
-			(*itedge)->trajectory_edge->dump_states_json();
-
-			if (k < num_edges-1)
+	if (include_graph) {
+		std::cout << ",\"V\": {" << std::endl;
+		for (typename list<vertex_t*>::const_iterator it = this->list_vertices.begin();
+			 it != this->list_vertices.end();
+			 it++) {
+			if (it != this->list_vertices.begin())
 				std::cout << ",";
-			k++;
+			std::cout << "\"" << *it << "\": {\n    \"state\": [";
+			for (k = 0; k < (*it)->state->size() - 1; k++)
+				std::cout << (*((*it)->state))[k] << ", ";
+			std::cout << (*((*it)->state))[k] << "]," << std::endl;
+			std::cout << "    \"successors\": {";
+			num_edges = (*it)->outgoing_edges.size();
+			k = 0;
+			for (typename list<edge_t *>::const_iterator itedge = (*it)->outgoing_edges.begin();
+				 itedge != (*it)->outgoing_edges.end();
+				 itedge++) {
+				std::cout << "\"" << (*itedge)->vertex_dst << "\": ";
+				(*itedge)->trajectory_edge->dump_states_json();
+
+				if (k < num_edges-1)
+					std::cout << ",";
+				k++;
+			}
+			std::cout << "}}" << std::endl;
 		}
-		std::cout << "}}" << std::endl;
+		std::cout << "}";
 	}
 
 	std::cout << "}" << std::endl;

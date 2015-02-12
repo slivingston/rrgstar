@@ -123,15 +123,27 @@ main ()
   region<NUM_DIMENSIONS> R;
   R.center[0] = R.center[1] = -3.5;
   R.size[0] = R.size[1] = 1.0;
+  if (NUM_DIMENSIONS >= 3) {
+	  R.center[2] = 5.0;
+	  R.size[2] = 2.0;
+  }
   collision_checker.add_region( R );
 
   R.center[0] = 5.5;
   R.center[1] = 1.5;
   R.size[0] = R.size[1] = 1.0;
+  if (NUM_DIMENSIONS >= 3) {
+	  R.center[2] = 5.0;
+	  R.size[2] = 2.0;
+  }
   collision_checker.add_region( R );
 
   R.center[0] = R.center[1] = 2.05;
   R.size[0] = R.size[1] = 3.9;
+  if (NUM_DIMENSIONS >= 3) {
+	  R.center[2] = 5.0;
+	  R.size[2] = 2.0;
+  }
   collision_checker.add_region( R );
 
   
@@ -153,7 +165,7 @@ main ()
 
 
   // 3. RUN THE PLANNER 
-  for (int i = 0; i < 3000 && !planner.has_feasible(); i++)
+  for (int i = 0; i < 10000 && !planner.has_feasible(); i++)
     planner.iteration ();
   
 

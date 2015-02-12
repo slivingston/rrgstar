@@ -40,19 +40,25 @@ int smp::model_checker_mu_calculus<typeparams>
   // Add propositions to ms_state
 
   if ( ((*state_curr)[0] > -4.0) && ((*state_curr)[0] < -3.0) &&
-       ((*state_curr)[1] > -4.0) && ((*state_curr)[1] < -3.0) ){
+       ((*state_curr)[1] > -4.0) && ((*state_curr)[1] < -3.0) &&
+	   (state_curr->size() < 3
+		|| (((*state_curr)[2] > 4.0) && ((*state_curr)[2] < 6.0))) ) {
     // cout << "region 1" << endl;
     ms_state_new->addprop (1);
   }
 
   if ( ((*state_curr)[0] > 5.0) && ((*state_curr)[0] < 6.0) &&
-       ((*state_curr)[1] > 1) && ((*state_curr)[1] < 2) ) {
+       ((*state_curr)[1] > 1) && ((*state_curr)[1] < 2) &&
+	   (state_curr->size() < 3
+		|| (((*state_curr)[2] > 4.0) && ((*state_curr)[2] < 6.0)))) {
     // cout << "region 2" << endl;
     ms_state_new->addprop (2);
   }
 
   if (!(((*state_curr)[0] > 0.1) && ((*state_curr)[0] < 4.0)
-		&& ((*state_curr)[1] > 0.1) && ((*state_curr)[1] < 4.0))) {
+		&& ((*state_curr)[1] > 0.1) && ((*state_curr)[1] < 4.0) &&
+		(state_curr->size() < 3
+		 || (((*state_curr)[2] > 4.0) && ((*state_curr)[2] < 6.0))))) {
 	  ms_state_new->addprop (3);
     // cout << "region 3" << endl;
   }
