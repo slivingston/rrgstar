@@ -25,7 +25,7 @@ namespace smp {
       
       \ingroup collision_checkers
     */
-    template< class typeparams, int NUM_DIMENSIONS >
+    template< class typeparams >
     class collision_checker_mu_calculus : public collision_checker_base<typeparams> {
         
         
@@ -33,12 +33,11 @@ namespace smp {
         typedef typename typeparams::input input_t;
         typedef typename typeparams::vertex_data vertex_data_t;
         typedef typename typeparams::edge_data edge_data_t;
+		typedef typename typeparams::region region_t;
 
         typedef vertex<typeparams> vertex_t;
         typedef edge<typeparams> edge_t;    
         typedef trajectory<typeparams> trajectory_t;
-
-        typedef region<NUM_DIMENSIONS> region_t;
 
         int num_discretization_steps;
         double discretization_length;
@@ -50,13 +49,21 @@ namespace smp {
 
         list< region_t* > list_regions;
         
-        // returns the index for the region that the given state lies in
-        inline int get_region_index (double state_vars[NUM_DIMENSIONS]);
-
 
     public:
         collision_checker_mu_calculus ();
         ~collision_checker_mu_calculus ();
+
+
+		/* Get the 1-based index for the region that the given state lies in;
+           0 if none of the regions match.
+
+		   Note that counting of regions begins at 1, so the first object in
+           list_regions corresponds to get_region_index() returning 1, etc.
+
+		   The first match is returned, so that one of two overlapping regions
+		   will occlude the other, depending on their order in list_regions. */
+        int get_region_index( state_t *x );
 
 
         int cc_update_insert_vertex (vertex_t *vertex_in);

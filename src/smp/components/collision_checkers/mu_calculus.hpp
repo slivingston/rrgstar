@@ -8,8 +8,8 @@
 #include <smp/common/region.hpp>
 
 
-template< class typeparams, int NUM_DIMENSIONS > 
-smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS> 
+template< class typeparams >
+smp::collision_checker_mu_calculus<typeparams>
 ::collision_checker_mu_calculus () {
   
   num_discretization_steps = 20;
@@ -18,8 +18,8 @@ smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
 }
 
 
-template< class typeparams, int NUM_DIMENSIONS > 
-smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS> 
+template< class typeparams >
+smp::collision_checker_mu_calculus<typeparams>
 ::~collision_checker_mu_calculus () {
 
   for (typename list<region_t*>::iterator iter = list_regions.begin();
@@ -32,32 +32,32 @@ smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
 }
 
 
-template< class typeparams, int NUM_DIMENSIONS >
-int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
+template< class typeparams >
+int smp::collision_checker_mu_calculus<typeparams>
 ::cc_update_insert_vertex (vertex_t *vertex_in) {
   
   return 1;
 }
 
 
-template< class typeparams, int NUM_DIMENSIONS >
-int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
+template< class typeparams >
+int smp::collision_checker_mu_calculus<typeparams>
 ::cc_update_insert_edge (edge_t *edge_in) {
   
   return 1;
 }
 
 
-template< class typeparams, int NUM_DIMENSIONS >
-int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
+template< class typeparams >
+int smp::collision_checker_mu_calculus<typeparams>
 ::cc_update_delete_vertex (vertex_t *vertex_in) {
   
   return 1;
 }
 
 
-template< class typeparams, int NUM_DIMENSIONS >
-int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
+template< class typeparams >
+int smp::collision_checker_mu_calculus<typeparams>
 ::cc_update_delete_edge (edge_t *edge_in) {
   
   return 1;
@@ -67,8 +67,8 @@ int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
 // returns a negative number to indicate error
 // returns 0 if there is a collision
 // returns 1 if no collision
-template< class typeparams, int NUM_DIMENSIONS > 
-int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS> 
+template< class typeparams >
+int smp::collision_checker_mu_calculus<typeparams>
 ::check_collision_state (state_t *state_in) {
 
   return 1; // Accept all states
@@ -81,7 +81,7 @@ int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
     
     bool collision = true; 
 
-    for (int i = 0; i < NUM_DIMENSIONS; i++) {
+    for (int i = 0; i < state_in->size(); i++) {
       
       if ( fabs((*state_in)[i] - region_curr->center[i]) >= region_curr->size[i]/2.0) 
 	collision = false;
@@ -97,9 +97,9 @@ int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
 
 
 
-template< class typeparams, int NUM_DIMENSIONS >
-int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
-::get_region_index (double state_vars[NUM_DIMENSIONS]) {
+template< class typeparams >
+int smp::collision_checker_mu_calculus<typeparams>
+::get_region_index( state_t *x ) {
 
   int idx_curr = 0;
   
@@ -112,9 +112,9 @@ int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
     bool state_in_this_region = true;
     
     // Check whether the state is in this region
-    for (int i = 0; i < NUM_DIMENSIONS; i++) {
+    for (int i = 0; i < region_curr->numDim(); i++) {
       
-      if ( fabs (state_vars[i] - region_curr->center[i]) >= region_curr->size[i]/2.0 ) {
+      if ( fabs ((*x)[i] - region_curr->center[i]) >= region_curr->size[i]/2.0 ) {
 	state_in_this_region = false;
 	break;
       }
@@ -130,9 +130,6 @@ int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
   // If the execution got here, then state_in is not in any particular region,
   //    in which case this function returns zero.
   return 0;
-
-
-  return 1;
 }
 
 
@@ -140,8 +137,8 @@ int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
 // returns a negative number to indicate error
 // returns 0 if there is a collision
 // returns 1 if no collision
-template< class typeparams, int NUM_DIMENSIONS > 
-int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS> 
+template< class typeparams >
+int smp::collision_checker_mu_calculus<typeparams>
 ::check_collision_trajectory (trajectory_t *trajectory_in) {
 
   
@@ -157,14 +154,10 @@ int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
   // Start the collision checking procedure with the first state in the trajectory
   typename list<state_t*>::iterator iter = trajectory_in->list_states.begin();
   state_t *state_prev = *iter;
+  state_t x_inc;
 
   // Determine the region that the first state in the trajectory lies in.
-  double state_vars[NUM_DIMENSIONS];
-  for (int i = 0; i < NUM_DIMENSIONS; i++) {
-    state_vars[i] = (*state_prev)[i];
-  }
-  
-  int idx_region_prev = get_region_index (state_vars);
+  int idx_region_prev = get_region_index (state_prev);
   int idx_region_curr = -1;
 
   // Continue with the remaining states.
@@ -178,8 +171,8 @@ int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
 
       // Compute the increments 
       double dist_total = 0.0;
-      double increments[NUM_DIMENSIONS];
-      for (int i = 0; i < NUM_DIMENSIONS; i++) {
+	  state_t increments;
+      for (int i = 0; i < state_curr->size(); i++) {
 	double increment_curr = (*state_curr)[i] - (*state_prev)[i];
 	dist_total += increment_curr * increment_curr;
 	increments[i] = increment_curr;
@@ -199,16 +192,16 @@ int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
 
       if (num_increments > 0) { // Execute the remaining only if the discretization is required.
 
-	for (int i = 0; i < NUM_DIMENSIONS; i++)  // Normalize the increments.
+        for (int i = 0; i < state_curr->size(); i++)  // Normalize the increments.
 	  increments[i] = increments[i]/((double)(num_increments+1));
 	
 	for (int idx_state = 1; idx_state <= num_increments; idx_state++){
 	  
-	  for (int i = 0; i < NUM_DIMENSIONS; i++) 
-	    state_vars[i] = (*state_prev)[i] + increments[i]*idx_state;
+	  for (int i = 0; i < state_curr->size(); i++)
+	    x_inc[i] = (*state_prev)[i] + increments[i]*idx_state;
 	    
 	  // Check the region of the current interpolated state
-	  idx_region_curr = get_region_index (state_vars);
+	  idx_region_curr = get_region_index (&x_inc);
 	  
 	  if (idx_region_curr != idx_region_prev) {
 	    num_traversals++;
@@ -221,9 +214,7 @@ int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
       }
     }
     
-    for (int i = 0; i < NUM_DIMENSIONS; i++) 
-      state_vars[i] = (*state_curr)[i];
-    idx_region_curr = get_region_index (state_vars);
+    idx_region_curr = get_region_index (state_curr);
     if (idx_region_curr != idx_region_prev){
       num_traversals++;
       if (num_traversals >= 2)  // If the number of traversals exceeds one then 
@@ -242,8 +233,8 @@ int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
 }
 
 
-template< class typeparams, int NUM_DIMENSIONS > 
-int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS> 
+template< class typeparams >
+int smp::collision_checker_mu_calculus<typeparams>
 ::set_discretization_steps (int num_discretization_steps_in) {
   
   if (num_discretization_steps <= 0) {
@@ -260,8 +251,8 @@ int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
 }
 
 
-template< class typeparams, int NUM_DIMENSIONS > 
-int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS> 
+template< class typeparams >
+int smp::collision_checker_mu_calculus<typeparams>
 ::set_discretization_length (double discretization_length_in) {
   
   if (discretization_length <= 0.0) {
@@ -278,8 +269,8 @@ int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS>
 }
 
 
-template< class typeparams, int NUM_DIMENSIONS > 
-int smp::collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS> 
+template< class typeparams >
+int smp::collision_checker_mu_calculus<typeparams>
 ::add_region (region_t &obstacle_in) {
   
   list_regions.push_back (new region_t(obstacle_in));

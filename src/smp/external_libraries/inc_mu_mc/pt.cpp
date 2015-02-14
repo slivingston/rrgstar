@@ -739,7 +739,7 @@ parseFormulaLoop4 () {
 
   // Create (p3)
   node_prp = new PT_prp ();
-  node_prp->type = PT_PRP;
+  node_prp->type = PT_NPRP;
   node_prp->prp = 3; // p3 = 3
   
   // Create (p3 and (p1 and x) or suc x)
@@ -828,7 +828,7 @@ parseFormulaLoop4 () {
 
   // Create (p3)
   node_prp = new PT_prp ();
-  node_prp->type = PT_PRP;
+  node_prp->type = PT_NPRP;
   node_prp->prp = 3; // p3 = 3
   
   // Create (p3 and (p2 and z) or suc y)
@@ -914,7 +914,7 @@ parseFormulaLoop4 () {
 
   // Create (p3)
   node_prp = new PT_prp ();
-  node_prp->type = PT_PRP;
+  node_prp->type = PT_NPRP;
   node_prp->prp = 3;  // p3 = 3
   
   // Create (p3 and ( (suc w) or ( nu z. ( (p2 and mu x . ( (p1 and z) or suc x) ) or (p1 and mu y . ( (p2 and z) or suc y) ) ) ) ) )

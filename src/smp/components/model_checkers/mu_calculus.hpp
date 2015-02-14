@@ -8,7 +8,9 @@
 
 template< class typeparams >
 smp::model_checker_mu_calculus<typeparams>
-::model_checker_mu_calculus () {
+::model_checker_mu_calculus ()
+	: collision_checker(NULL)
+{
 
   uid_counter = 0;
   found_solution = false;
@@ -24,6 +26,13 @@ smp::model_checker_mu_calculus<typeparams>
 
 };
 
+template< class typeparams>
+void smp::model_checker_mu_calculus<typeparams>
+::add_labeler( collision_checker_mu_calculus<typeparams> *collision_checker_in )
+{
+	collision_checker = collision_checker_in;
+}
+
 
 template< class typeparams >
 int smp::model_checker_mu_calculus<typeparams>
@@ -37,31 +46,18 @@ int smp::model_checker_mu_calculus<typeparams>
 
   state_t *state_curr = vertex_in->state;
 
+  if (!collision_checker) {
+	  std::cerr << "WARNING: No labelers have been added to the model checker." << std::endl;
+	  return 0;
+  }
+
   // Add propositions to ms_state
 
-  if ( ((*state_curr)[0] > -4.0) && ((*state_curr)[0] < -3.0) &&
-       ((*state_curr)[1] > -4.0) && ((*state_curr)[1] < -3.0) &&
-	   (state_curr->size() < 3
-		|| (((*state_curr)[2] > 4.0) && ((*state_curr)[2] < 6.0))) ) {
-    // cout << "region 1" << endl;
-    ms_state_new->addprop (1);
-  }
-
-  if ( ((*state_curr)[0] > 5.0) && ((*state_curr)[0] < 6.0) &&
-       ((*state_curr)[1] > 1) && ((*state_curr)[1] < 2) &&
-	   (state_curr->size() < 3
-		|| (((*state_curr)[2] > 4.0) && ((*state_curr)[2] < 6.0)))) {
-    // cout << "region 2" << endl;
-    ms_state_new->addprop (2);
-  }
-
-  if (!(((*state_curr)[0] > 0.1) && ((*state_curr)[0] < 4.0)
-		&& ((*state_curr)[1] > 0.1) && ((*state_curr)[1] < 4.0) &&
-		(state_curr->size() < 3
-		 || (((*state_curr)[2] > 4.0) && ((*state_curr)[2] < 6.0))))) {
-	  ms_state_new->addprop (3);
-    // cout << "region 3" << endl;
-  }
+  // TODO: The current implementation assumes disjoint regions, so that at most
+  // one prop need be added to the state labeling. Relax this assumption.
+  int slabel = collision_checker->get_region_index( state_curr );
+  if (slabel)
+	  ms_state_new->addprop( slabel );
 
   ms_state_new->data = (void *) vertex_in;
 

@@ -198,15 +198,21 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
   }
 
   // 1. ATOMIC PROPOSITIONS
-  if (subformulaThis->type == PT_PRP) {
+  if (subformulaThis->type == PT_PRP || subformulaThis->type == PT_NPRP) {
     // Check whether this literal is satisfied in this state
     //   if so, then we found a witness since this node is reachable from root
     int prpCurr = ((PT_prp *)subformulaThis)->prp;
     if (stateThis->labeledPrp.find ( prpCurr ) != stateThis->labeledPrp.end() ) {
-      cout << "FOUND A WITNESS: PRP" << endl;
+		if (subformulaThis->type == PT_PRP) {
+			cout << "FOUND A WITNESS: PRP" << endl;
+			this->satVertices.insert (vertex);
+			foundWitness = true;
+		}
+    } else if (subformulaThis->type == PT_NPRP) {
+      cout << "FOUND A WITNESS: NPRP" << endl;
       this->satVertices.insert (vertex);
       foundWitness = true;
-    }
+	}
   }
 
   // 2. VARIABLES
@@ -269,6 +275,18 @@ rModelChecker::LocalUpdate (CT_vertex *vertex) {
 
       // Create a new node using subformulaLeft
       if ( stateThis->labeledPrp.find( ((PT_prp *)subformulaRight)->prp ) != stateThis->labeledPrp.end() )
+    	  subformulaChild = subformulaLeft;
+    }
+    else if (subformulaLeft->type == PT_NPRP) {
+
+      // Create a new node using subformulaRight
+      if ( stateThis->labeledPrp.find( ((PT_prp *)subformulaLeft)->prp ) == stateThis->labeledPrp.end() )
+    	  subformulaChild = subformulaRight;
+    }
+    else if (subformulaRight->type == PT_NPRP) {
+
+      // Create a new node using subformulaLeft
+      if ( stateThis->labeledPrp.find( ((PT_prp *)subformulaRight)->prp ) == stateThis->labeledPrp.end() )
     	  subformulaChild = subformulaLeft;
     }
     else {

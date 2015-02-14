@@ -14,7 +14,10 @@
 using namespace std;
 
 enum PT_type {
-	PT_PRP = 1,
+	PT_PRP = 1, // atomic proposition
+	PT_NPRP, /* not proposition. Note that we are assuming negation only
+			    operates directly on atomic propositions, which is consistent
+			    with deterministic mu calculus. */
 	PT_VAR,
 	PT_LFP,
 	PT_GFP,
@@ -42,6 +45,7 @@ public:
 	void printType ();
 };
 
+// For PT_PRP and PT_NPRP
 class PT_prp:public PT_node {
 public:
 	int prp;

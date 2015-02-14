@@ -9,6 +9,7 @@
 #define _SMP_MODEL_CHECKER_MU_CALCULUS_H_
 
 #include <smp/components/model_checkers/base.h>
+#include <smp/components/collision_checkers/mu_calculus.h>
 
 #include <smp/external_libraries/inc_mu_mc/ms.h>
 #include <smp/external_libraries/inc_mu_mc/pt.h>
@@ -69,7 +70,9 @@ namespace smp {
         int uid_counter;
 
         bool found_solution;
-    
+
+        collision_checker_mu_calculus<typeparams> *collision_checker;
+
     public:    
     
         //! An instance of the mu-calculus model checker external library.
@@ -78,6 +81,8 @@ namespace smp {
           carries out the mu-calculus model checking operation. 
         */
         rModelChecker ms;
+
+		void add_labeler( collision_checker_mu_calculus<typeparams> *collision_checker_in );
 
 
         model_checker_mu_calculus ();

@@ -37,6 +37,7 @@ using namespace smp;
 // State, input, vertex_data, and edge_data definitions
 typedef state_single_integrator<NUM_DIMENSIONS> state_t;
 typedef input_single_integrator<NUM_DIMENSIONS> input_t;
+typedef region<NUM_DIMENSIONS> region_t;
 typedef model_checker_mu_calculus_vertex_data vertex_data_t;
 typedef model_checker_mu_calculus_edge_data edge_data_t;
 
@@ -46,6 +47,7 @@ typedef struct _typeparams {
   typedef input_t input;
   typedef vertex_data_t vertex_data;
   typedef edge_data_t edge_data;
+  typedef region_t region;
 } typeparams; 
 
 // Define the trajectory type
@@ -55,7 +57,7 @@ typedef trajectory<typeparams> trajectory_t;
 typedef sampler_uniform<typeparams,NUM_DIMENSIONS> sampler_t;
 typedef distance_evaluator_kdtree<typeparams,NUM_DIMENSIONS> distance_evaluator_t;
 typedef extender_single_integrator<typeparams,NUM_DIMENSIONS> extender_t;
-typedef collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS> collision_checker_t;
+typedef collision_checker_mu_calculus<typeparams> collision_checker_t;
 typedef model_checker_mu_calculus<typeparams> model_checker_t;
 
 // Define all algorithm types
@@ -76,6 +78,7 @@ main ()
   extender_t extender;
   collision_checker_t collision_checker;
   model_checker_t model_checker;
+  model_checker.add_labeler( &collision_checker );
 
   // 1.b Create the planner algorithm
   rrg_t planner(sampler, distance_evaluator, extender,
@@ -100,7 +103,7 @@ main ()
   // 2. INITALIZE PLANNING OBJECTS
 
   // 2.a Initialize the sampler
-  region<NUM_DIMENSIONS> sampler_support;
+  region_t sampler_support;
   for (int i = 0; i < NUM_DIMENSIONS; i++) {
     sampler_support.center[i] = 0.0;
     sampler_support.size[i] = 20.0;
@@ -117,10 +120,7 @@ main ()
 
  
   // 2.d Initialize the collision checker
-  /* NOTE that these are chosen to match the regions that are hard-coded in
-     model_checker_mu_calculus::mc_update_insert_vertex(), as defined in
-     model_checkers/mu_calculus.hpp */
-  region<NUM_DIMENSIONS> R;
+  region_t R;
   R.center[0] = R.center[1] = -3.5;
   R.size[0] = R.size[1] = 1.0;
   if (NUM_DIMENSIONS >= 3) {

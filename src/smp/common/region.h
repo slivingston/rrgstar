@@ -39,6 +39,8 @@ namespace smp {
         /** element-wise copy */
         const region<NUM_DIMENSIONS> &operator=(const region<NUM_DIMENSIONS> &region_in);
 
+		inline int numDim() const { return NUM_DIMENSIONS; }
+
     };
 
 
