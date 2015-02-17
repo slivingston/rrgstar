@@ -47,20 +47,27 @@ class MS_state {
 
 public:
 
-    void *data;     // A data element
+    void *data;  // A data element
 
-	int identifier;                 // A unique identifier for the state
-	propositionSet labeledPrp;      // All the labeled propositions that the state satisfies
+	int identifier;  // A unique identifier for the state
 
-    stateSet successors;            // A set of successor states
-    stateSet predecessors;          // A set of predecessor states
+	// All the labeled propositions that the state satisfies
+	propositionSet labeledPrp;
 
-    vertexSet vertices;                 // A set of vertices that involve this state
-    vertexSet sucSubformulaeVertices;   // A set of vertices that involve this state and a successor subformula
+    stateSet successors;    // A set of successor states
+    stateSet predecessors;  // A set of predecessor states
+
+    vertexSet vertices;  // A set of vertices that involve this state
+
+	// A set of vertices that involve this state and a successor subformula
+    vertexSet sucSubformulaeVertices;
 
 	MS_state ();
 	~MS_state ();
-	bool addprop (int newprop);     // Adds an atomic proposition to the list of atomic propositions satisfied in this state
+
+	/* Add an atomic proposition to the list of atomic propositions satisfied in
+	   this state. */
+	bool addprop( int newprop );
 };
 
 
@@ -72,26 +79,31 @@ public:
 	vertexSet children;
 	bool ReturnValue;
 
-	MS_state *state;         // A pointer to the state that this vertex encodes
-	PT_node  *subformula;    // A pointer to the subformula that this vertex encodes
+	MS_state *state;       // pointer to the state that this vertex encodes
+	PT_node  *subformula;  // pointer to the subformula that this vertex encodes
 
-    vertexSet succVertices;   // All the successor vertices of this vertex
-    vertexSet predVertices;   // All the predecessor vertices of this vertex
+    vertexSet succVertices;  // All the successor vertices of this vertex
+    vertexSet predVertices;  // All the predecessor vertices of this vertex
 
-    vertexSet reachingVertices;   // The nu-vertices from which this node is reachable
+	// The nu-vertices from which this node is reachable
+    vertexSet reachingVertices;
 };
 
 
 class rModelChecker {
 public:
-    ParseTree pt;          // Parse tree
+    ParseTree pt;  // Parse tree
 
-    MS_state *initialState;     // Root state
-    CT_vertex *initialVertex;   // Root vertex
+    MS_state *initialState;    // Root state
+    CT_vertex *initialVertex;  // Root vertex
 
-    stateSet states;         // The set of all ms_state* that are currently expanded (reachable to the initial vertex)
+	/* The set of all ms_state* that are currently expanded (reachable to the
+	   initial vertex). */
+    stateSet states;
 
-    vertexSet satVertices;   // These are either satisfied literal nodes or nodes with variables that manage find a nu-loop
+	/* These are either satisfied literal nodes or nodes with variables that
+	   manage find a nu-loop. */
+    vertexSet satVertices;
 
     int num_local_updates;
     int num_update_reachabilities;
@@ -99,23 +111,32 @@ public:
 //     vertexSetIterPair_t *vertexSetIterPairArray;
     stackArrayElement_t *stackArray;
 
-    rModelChecker ();
-    ~rModelChecker ();
+    rModelChecker();
+    ~rModelChecker();
 
-	bool addState (MS_state *state);     // Adds an ms_state* to the model
-	bool addTransition (MS_state *state_from, MS_state *state_to);   // Adds a transition from an ms_state* to another ms_state*
-                                                                     //   NOTE: both ms_state* have to be added earlier.
+	// Add a ms_state* to the model
+	bool addState( MS_state *state );
 
-    bool addTransitionById (int id_from, int id_to);
-    MS_state* findStateById (int id);
+	/* Add a transition from an ms_state* to another ms_state*
+	   NOTE: both ms_state* have to be added earlier. */
+	bool addTransition( MS_state *state_from, MS_state *state_to );
 
-    stateList getTrajectory ();
+    bool addTransitionById( int id_from, int id_to );
+    MS_state* findStateById( int id );
+
+    stateList getTrajectory();
 
 private:   // other hidden functions
-    CT_vertex *addVertex (CT_vertex *parentVertex, MS_state *state, PT_node *subformula);   // Creates new vertex and returns address
-                                                                                         // If the vertex exists, returns address only
-    bool LocalUpdate (CT_vertex *vertex);  // Expands the node
-    bool UpdateReachability (CT_vertex *vertexFrom, CT_vertex *vertexTo);  // Updates the reachability infomation in CT vertex
+	/* Create new vertex and return address.
+	   If the vertex exists, return address only. */
+    CT_vertex *addVertex( CT_vertex *parentVertex, MS_state *state,
+						  PT_node *subformula );
+
+	// Expand the node
+    bool LocalUpdate (CT_vertex *vertex);
+
+	// Update the reachability information in CT vertex
+    bool UpdateReachability (CT_vertex *vertexFrom, CT_vertex *vertexTo);
 };
 
 #if 0
