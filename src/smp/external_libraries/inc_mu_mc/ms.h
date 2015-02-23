@@ -36,13 +36,6 @@ typedef set<vertexList*> vertexListSet;
 typedef set<vertexList*>::iterator vertexListSet_it;
 
 
-typedef struct _saElement_t {
-    CT_vertex *vertex;
-    vertexSet_it iterNext;
-    vertexSet_it iterEnd;
-} stackArrayElement_t;
-
-
 class MS_state {
 
 public:
@@ -109,7 +102,6 @@ public:
     int num_update_reachabilities;
 
 //     vertexSetIterPair_t *vertexSetIterPairArray;
-    stackArrayElement_t *stackArray;
 
     rModelChecker();
     ~rModelChecker();

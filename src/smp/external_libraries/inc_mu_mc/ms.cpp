@@ -31,12 +31,6 @@ rModelChecker::rModelChecker()
 
 	this->num_local_updates = 0;
 	this->num_update_reachabilities = 0;
-
-	this->stackArray = (stackArrayElement_t *) malloc( 100 * sizeof(stackArrayElement_t) );
-	if (!(this->stackArray)) {
-		cout << "ERROR : Can not allocate memory for the Reachability Update Stack" << endl;
-		exit(1);
-	}
 }
 
 
