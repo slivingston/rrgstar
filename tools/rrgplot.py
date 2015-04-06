@@ -81,7 +81,7 @@ if __name__ == '__main__':
 
     ############################################################
     # Parameters
-    draw_rrgraph = True  # if True, also draw the RRG from which it came.
+    draw_rrgraph = False  # if True, also draw the RRG from which it came.
     edgeskip = 100  # 0 to draw all edges
     show_between_states = True  # if True, then draw discretized state trajectory between adjacent vertices
 
