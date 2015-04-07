@@ -5,14 +5,14 @@ include ../../common.mk
 # Program
 #-----------------------------------------------------------------------------
 
-SMP = $(SMP_BIN_PATH)/example_standalone_rrg_double_integrator
+SMP = $(SMP_BIN_PATH)/example_rrg_double_integrator
 
-SMP_OBJ_COMPILE = standalone_rrg_double_integrator.o \
+SMP_OBJ_COMPILE = rrg_double_integrator.o \
 	$(SMP_SRC_PATH)/smp/external_libraries/kdtree/kdtree.o \
 	$(SMP_SRC_PATH)/smp/external_libraries/inc_mu_mc/ms.o \
 	$(SMP_SRC_PATH)/smp/external_libraries/inc_mu_mc/pt.o
 
-SMP_OBJ = standalone_rrg_double_integrator.o \
+SMP_OBJ = rrg_double_integrator.o \
 	$(SMP_SRC_PATH)/smp/external_libraries/kdtree/kdtree.o \
 	$(SMP_SRC_PATH)/smp/external_libraries/inc_mu_mc/ms.o \
 	$(SMP_SRC_PATH)/smp/external_libraries/inc_mu_mc/pt.o
