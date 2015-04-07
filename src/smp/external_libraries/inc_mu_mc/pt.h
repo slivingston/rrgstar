@@ -5,6 +5,7 @@
 // Parse Tree
 
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <set>
 
@@ -41,29 +42,29 @@ class PT_node {
 public: 
 	PT_type type;
 	PT_node *parent;
-	virtual subformulaeSet getChildren();
+	subformulaeSet children;
 	void printType ();
+	int AD;  // Alternation depth
 };
 
 // For PT_PRP and PT_NPRP
 class PT_prp:public PT_node {
 public:
 	int prp;
-	virtual subformulaeSet getChildren();
 };
 
 class PT_var:public PT_node {
 public:
 	int var;
-	virtual subformulaeSet getChildren();
 };
 
 class PT_operator:public PT_node {
 public:
-	subformulaeSet children;
-    int boundVar;
-	virtual subformulaeSet getChildren();
+    int boundVar;  // -1 for operators other than LFP and GFP
 };
+
+
+void printFormula( PT_node *ptnode, std::ofstream &out );
 
 class ParseTree {
 public: 
@@ -89,6 +90,20 @@ public:
 //                        subformulaeSet &satisfiedSFNext, propositionSet &satisfiedPrp);
 // 	bool fixedpointCheck (PT_node *root, subformulaeSet &satisfiedSFThis, 
 //                           subformulaeSet &satisfiedSFNext, propositionSet &satisfiedPrp, int var, bool lfp);
+
+	// Not reentrant (i.e., not thread-safe)
+	void sucCache( subformulaeSet &sucFormulae, PT_node *node );
+
+	/* Return literal that is in given conjunct. Note that in the deterministic
+	   mu-calculus, at least one of the precisely two children of an AND formula
+	   is a literal, i.e., of type PT_PRP or PT_NPRP.
+
+	   If andNode is not of type PT_AND or if some other error occurs, then NULL
+	   is returned. */
+	// TODO: This does not need to be a member function. Move it outside ParseTree
+	PT_prp *getConjunctPrp( PT_operator *andNode );
+
+	subformulaeSet sucFormulae;
 
 private:
 	PT_node *root;

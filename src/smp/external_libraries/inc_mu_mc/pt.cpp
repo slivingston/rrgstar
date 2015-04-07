@@ -1,7 +1,85 @@
 #include "pt.h"
 
-subformulaeSet PT_node::getChildren() {
-  return subformulaeSet();
+
+/* Assume that each node has at most two children, i.e., operators take at most
+   two operands. */
+void printFormula( PT_node *ptnode, std::ofstream &out )
+{
+	if (ptnode == NULL)
+		return;
+
+	subformulaeSet_it it_child;
+
+	switch (ptnode->type) {
+
+	case PT_PRP:
+		out << "p" << ((PT_prp *)ptnode)->prp;
+		break;
+
+	case PT_NPRP:
+		out << "!p" << ((PT_prp *)ptnode)->prp;
+		break;
+
+	case PT_VAR:
+		out << "v" << ((PT_var *)ptnode)->var;
+		break;
+
+	case PT_OR:
+	case PT_AND:
+
+		out << "(";
+
+		it_child = ptnode->children.begin();
+		printFormula( *it_child, out );
+
+		if (ptnode->type == PT_AND) {
+			out << "&";
+		} else {  // PT_OR
+			out << "|";
+		}
+
+		it_child++;
+		printFormula( *it_child, out );
+		out << ")";
+
+		break;
+
+	case PT_SUC:
+		out << "suc ";
+
+		it_child = ptnode->children.begin();
+		printFormula( *it_child, out );
+
+		break;
+
+	case PT_GFP:
+	case PT_LFP:
+		if (ptnode->type == PT_GFP) {
+			out << "nu";
+		} else {  // PT_LFP
+			out << "mu";
+		}
+
+		out << "(v" << ((PT_operator *)ptnode)->boundVar << "){";
+
+		it_child = ptnode->children.begin();
+		printFormula( *it_child, out );
+
+		out << "}";
+		break;
+
+	}
+}
+
+
+void ParseTree::sucCache( subformulaeSet &sucFormulae, PT_node *node )
+{
+	if (node->type == PT_SUC)
+		this->sucFormulae.insert( node );
+
+	for (subformulaeSet_it it = node->children.begin(); it != node->children.end(); it++) {
+		this->sucCache( sucFormulae, *it );
+	}
 }
 
 void PT_node::printType () {
@@ -34,7 +112,8 @@ void PT_node::printType () {
 }
 
 // ParseTree Functions
-ParseTree::ParseTree () {
+ParseTree::ParseTree () :
+	sucFormulae() {
   this->root = NULL;
 }
 
@@ -683,6 +762,20 @@ parseFormulaLoop3 () {
 }
 
 
+PT_prp *ParseTree::getConjunctPrp( PT_operator *andNode )
+{
+	if (andNode->type != PT_AND)
+		return NULL;
+
+	for (subformulaeSet_it sf = andNode->children.begin();
+		 sf != andNode->children.end(); sf++) {
+		if ((*sf)->type == PT_PRP || (*sf)->type == PT_NPRP)
+			return (PT_prp *)(*sf);
+	}
+	return NULL;  // Subformula is invalid or not in L_1
+}
+
+
 PT_node *
 parseFormulaLoop4 () {
 
@@ -695,11 +788,13 @@ parseFormulaLoop4 () {
   node_var = new PT_var ();
   node_var->type = PT_VAR;
   node_var->var = 3;  // z = 3
+  node_var->AD = 0;
 
   // Create (p1)
   node_prp = new PT_prp ();
   node_prp->type = PT_PRP;
   node_prp->prp = 1; // p1 = 1
+  node_prp->AD = 0;
   
   // Create (p1 and z) 
   node_child1 = node_prp;
@@ -709,6 +804,7 @@ parseFormulaLoop4 () {
   node_operator->children.insert (node_child1);
   node_operator->children.insert (node_child2);
   node_operator->boundVar = -1;
+  node_operator->AD = 0;
   node_child1->parent = node_operator;
   node_child2->parent = node_operator;
   node_tmp1 = node_operator; // Save this until ( (p1 and suc z) or suc x)
@@ -717,6 +813,7 @@ parseFormulaLoop4 () {
   node_var = new PT_var ();
   node_var->type = PT_VAR;
   node_var->var = 1; // x = 1
+  node_var->AD = 0;
 
   // Create (suc x)
   node_child1 = node_var;
@@ -724,6 +821,7 @@ parseFormulaLoop4 () {
   node_operator->type = PT_SUC;
   node_operator->children.insert (node_child1);
   node_operator->boundVar = -1;
+  node_operator->AD = 0;
   node_child1->parent = node_operator;
 
   // Create ( (p1 and z) or suc x)
@@ -734,15 +832,17 @@ parseFormulaLoop4 () {
   node_operator->children.insert (node_child1);
   node_operator->children.insert (node_child2);
   node_operator->boundVar = -1;
+  node_operator->AD = 0;
   node_child1->parent = node_operator;
   node_child2->parent = node_operator;
 
-  // Create (p3)
+  // Create (!p3)
   node_prp = new PT_prp ();
   node_prp->type = PT_NPRP;
   node_prp->prp = 3; // p3 = 3
+  node_prp->AD = 0;
   
-  // Create (p3 and (p1 and x) or suc x)
+  // Create (!p3 and (p1 and x) or suc x)
   node_child1 = node_prp;
   node_child2 = node_operator;
   node_operator = new PT_operator ();
@@ -750,23 +850,26 @@ parseFormulaLoop4 () {
   node_operator->children.insert (node_child1);
   node_operator->children.insert (node_child2);
   node_operator->boundVar = -1;
+  node_operator->AD = 0;
   node_child1->parent = node_operator;
   node_child2->parent = node_operator;
   
-  // Create mu x .( p3 and (p1 and z) or suc x)
+  // Create mu x .( !p3 and (p1 and z) or suc x)
   node_child1 = node_operator;
   node_operator = new PT_operator ();
   node_operator->type = PT_LFP;
   node_operator->children.insert (node_child1);
   node_operator->boundVar = 1; // x = 1
+  node_operator->AD = 1;
   node_child1->parent = node_operator;
 
   // Create (p2)
   node_prp = new PT_prp ();
   node_prp->type = PT_PRP;
   node_prp->prp = 2; // p1 = 2
+  node_prp->AD = 0;
 
-  // Create ( p2 and (mu x .( p3 and (p1 and z) or suc x) ) )
+  // Create ( p2 and (mu x .( !p3 and (p1 and z) or suc x) ) )
   node_child1 = node_prp;
   node_child2 = node_operator;
   node_operator = new PT_operator ();
@@ -774,9 +877,10 @@ parseFormulaLoop4 () {
   node_operator->children.insert (node_child1);
   node_operator->children.insert (node_child2);
   node_operator->boundVar = -1;
+  node_operator->AD = 1;
   node_child1->parent = node_operator;
   node_child2->parent = node_operator;
-  node_tmp2 = node_operator; // Save this until    ( ( p2 and (mu x .(p3 and ( (p1 and suc z) or suc x) ) ) ) or
+  node_tmp2 = node_operator; // Save this until    ( ( p2 and (mu x .(!p3 and ( (p1 and suc z) or suc x) ) ) ) or
                              //                            ( p1 and (mu y .( (p2 and suc z) or suc y) ) ) )
   
   
@@ -784,11 +888,13 @@ parseFormulaLoop4 () {
   node_var = new PT_var ();
   node_var->type = PT_VAR;
   node_var->var = 3; // z = 3
+  node_var->AD = 0;
 
   // Create (p2)
   node_prp = new PT_prp ();
   node_prp->type = PT_PRP;
   node_prp->prp = 2; // p2 = 2
+  node_prp->AD = 0;
   
   // Create (p2 and z)
   node_child1 = node_prp;
@@ -798,6 +904,7 @@ parseFormulaLoop4 () {
   node_operator->children.insert (node_child1);
   node_operator->children.insert (node_child2);
   node_operator->boundVar = -1;
+  node_operator->AD = 0;
   node_child1->parent = node_operator;
   node_child2->parent = node_operator;
   node_tmp1 = node_operator; // Save this until       ( (pr and suc z) or suc y)
@@ -806,6 +913,7 @@ parseFormulaLoop4 () {
   node_var = new PT_var ();
   node_var->type = PT_VAR;
   node_var->var = 2; // y = 2
+  node_var->AD = 0;
   
   // Create (suc y)
   node_child1 = node_var;
@@ -813,6 +921,7 @@ parseFormulaLoop4 () {
   node_operator->type = PT_SUC;
   node_operator->children.insert (node_child1);
   node_operator->boundVar = -1; 
+  node_operator->AD = 0;
   node_child1->parent = node_operator;
 
   // Create ( (p2 and z) or suc y)
@@ -823,15 +932,17 @@ parseFormulaLoop4 () {
   node_operator->children.insert (node_child1);
   node_operator->children.insert (node_child2);
   node_operator->boundVar = -1;
+  node_operator->AD = 0;
   node_child1->parent = node_operator;
   node_child2->parent = node_operator;
 
-  // Create (p3)
+  // Create (!p3)
   node_prp = new PT_prp ();
   node_prp->type = PT_NPRP;
   node_prp->prp = 3; // p3 = 3
+  node_prp->AD = 0;
   
-  // Create (p3 and (p2 and z) or suc y)
+  // Create (!p3 and (p2 and z) or suc y)
   node_child1 = node_prp;
   node_child2 = node_operator;
   node_operator = new PT_operator ();
@@ -839,23 +950,26 @@ parseFormulaLoop4 () {
   node_operator->children.insert (node_child1);
   node_operator->children.insert (node_child2);
   node_operator->boundVar = -1;
+  node_operator->AD = 0;
   node_child1->parent = node_operator;
   node_child2->parent = node_operator;
 
-  // Create (mu y .( p3 and (p2 and z) or suc y )
+  // Create (mu y .( !p3 and (p2 and z) or suc y )
   node_child1 = node_operator;
   node_operator = new PT_operator ();
   node_operator->type = PT_LFP;
   node_operator->children.insert (node_child1);
   node_operator->boundVar = 2; // y = 2
+  node_operator->AD = 1;
   node_child1->parent = node_operator;
 
   // Create (p1)
   node_prp = new PT_prp ();
   node_prp->type = PT_PRP;
   node_prp->prp = 1; // p1 = 1
+  node_prp->AD = 0;
   
-  // Create (p1 and mu y . ( p3 and (p2 and z) or suc y) )
+  // Create (p1 and mu y . ( !p3 and (p2 and z) or suc y) )
   node_child1 = node_prp;
   node_child2 = node_operator;
   node_operator = new PT_operator ();
@@ -863,6 +977,7 @@ parseFormulaLoop4 () {
   node_operator->children.insert (node_child1);
   node_operator->children.insert (node_child2);
   node_operator->boundVar = -1;
+  node_operator->AD = 1;
   node_child1->parent = node_operator;
   node_child2->parent = node_operator;
 
@@ -874,6 +989,7 @@ parseFormulaLoop4 () {
   node_operator->children.insert (node_child1);
   node_operator->children.insert (node_child2);
   node_operator->boundVar = -1;
+  node_operator->AD = 1;
   node_child1->parent = node_operator;
   node_child2->parent = node_operator;
 
@@ -883,6 +999,7 @@ parseFormulaLoop4 () {
   node_operator->type = PT_GFP;
   node_operator->children.insert (node_child1);
   node_operator->boundVar = 3;  // z = 3
+  node_operator->AD = 2;
   node_child1->parent = node_operator;
   node_tmp1 = node_operator;  // save this node until     ( (suc w) or 
                               //   ( nu z. ( (p2 and mu x . ( (p1 and z) or suc x) ) or (p1 and mu y . ( (p2 and z) or suc y) ) ) ) )
@@ -891,6 +1008,7 @@ parseFormulaLoop4 () {
   node_var = new PT_var ();
   node_var->type = PT_VAR;
   node_var->var = 4; // w = 4
+  node_var->AD = 0;
   
   // Create (suc w)
   node_child1 = node_var;
@@ -898,6 +1016,7 @@ parseFormulaLoop4 () {
   node_operator->type = PT_SUC;
   node_operator->children.insert (node_child1);
   node_operator->boundVar = -1;
+  node_operator->AD = 0;
   node_child1->parent = node_operator;
 
   // Create ( (suc w) or ( nu z. ( (p2 and mu x . ( (p1 and z) or suc x) ) or (p1 and mu y . ( (p2 and z) or suc y) ) ) ) )
@@ -908,16 +1027,18 @@ parseFormulaLoop4 () {
   node_operator->children.insert (node_child1);
   node_operator->children.insert (node_child2);
   node_operator->boundVar = -1;
+  node_operator->AD = 2;
   node_child1->parent = node_operator;
   node_child2->parent = node_operator;
 
 
-  // Create (p3)
+  // Create (!p3)
   node_prp = new PT_prp ();
   node_prp->type = PT_NPRP;
   node_prp->prp = 3;  // p3 = 3
+  node_prp->AD = 0;
   
-  // Create (p3 and ( (suc w) or ( nu z. ( (p2 and mu x . ( (p1 and z) or suc x) ) or (p1 and mu y . ( (p2 and z) or suc y) ) ) ) ) )
+  // Create (!p3 and ( (suc w) or ( nu z. ( (p2 and mu x . ( (p1 and z) or suc x) ) or (p1 and mu y . ( (p2 and z) or suc y) ) ) ) ) )
   node_child1 = node_prp;
   node_child2 = node_operator;
   node_operator = new PT_operator ();
@@ -925,16 +1046,18 @@ parseFormulaLoop4 () {
   node_operator->children.insert (node_child1);
   node_operator->children.insert (node_child2);
   node_operator->boundVar = -1;
+  node_operator->AD = 2;
   node_child1->parent = node_operator;
   node_child2->parent = node_operator;
 
-  // Create ( mu w. ( p3 and ( (suc w) or
+  // Create ( mu w. ( !p3 and ( (suc w) or
   //               ( nu z. ( (p2 and mu x . ( (p1 and z) or suc x) ) or (p1 and mu y . ( (p2 and z) or suc y) ) ) ) ) ) )
   node_child1 = node_operator;
   node_operator = new PT_operator ();
   node_operator->type = PT_LFP;
   node_operator->children.insert (node_child1);
   node_operator->boundVar = 4;    // w = 4
+  node_operator->AD = 3;
   node_child1->parent = node_operator;
 
 //  cout << "Parsed formulaLoop4 " << endl;
@@ -948,6 +1071,13 @@ int ParseTree::parseFormula (string s) {
   this->root = parseFormulaLoop4();
 
   this->root->parent = NULL;
+
+  // Cache the set of nodes that are suc-operators.
+  /* It is frequently needed in the implementation of the optimal RRG u-calc
+     planner, yet this tree is static, so better to compute it ahead of time. */
+  this->sucFormulae.clear();
+  sucCache( this->sucFormulae, this->root );
+  //this->root->AD = this->computeAD( this->root ); TODO: Currently hard-coded into parseFormulaLoop4
   
   return 1;
 }
@@ -1012,27 +1142,12 @@ void ParseTree::printParseTree (PT_node *ptnode) {
   if (ptnode->type == PT_PRP)
     printf ("PRP : %d\n",((PT_prp *)ptnode)->prp);
   
-  subformulaeSet subformulae_tmp = ptnode->getChildren();
-  for (subformulaeSet_it iter = subformulae_tmp.begin(); iter != subformulae_tmp.end(); iter++) {
+  for (subformulaeSet_it iter = ptnode->children.begin(); iter != ptnode->children.end(); iter++) {
     this->printParseTree (*iter);
   }
   
 }
 
-
-subformulaeSet PT_prp::getChildren() {
-  return subformulaeSet();
-}
-
-
-subformulaeSet PT_var::getChildren() {
-  return subformulaeSet();
-}
-
-
-subformulaeSet PT_operator::getChildren() {
-  return this->children;
-}
 
 
 // subformulaeSet& ParseTree::getSubformulaeSuc (){

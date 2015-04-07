@@ -19,7 +19,7 @@
 
 namespace smp {
 
-    //! Implements the vertex data for mu-calculus model checking
+    //! Implements the vertex data for mu-calculus model checking if using rrg
     /*!
       The data stored in each vertex of the graph required for the mu-calculus model
       checking operation. 
@@ -64,6 +64,8 @@ namespace smp {
 
         typedef vertex<typeparams> vertex_t;
         typedef edge<typeparams> edge_t;
+        typedef typename typeparams::vertex_data vertex_data_t;
+        typedef typename typeparams::edge_data edge_data_t;
 
         typedef trajectory<typeparams> trajectory_t;
     
@@ -75,15 +77,14 @@ namespace smp {
 
     public:    
     
-        //! An instance of the mu-calculus model checker external library.
+        //! An instance from the mu-calculus model checker external library.
         /*!
-          This variable instantiates the main class of the external library that
-          carries out the mu-calculus model checking operation. 
+          This variable instantiates one of the main classes of the external
+          library that carries out the mu-calculus model checking operation.
         */
         rModelChecker ms;
 
 		void add_labeler( collision_checker_mu_calculus<typeparams> *collision_checker_in );
-
 
         model_checker_mu_calculus ();
 
