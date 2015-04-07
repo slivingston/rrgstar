@@ -219,6 +219,9 @@ public:
 	/* Print game arena to given file stream in DOT format. */
 	void dumpDOT( std::ofstream &outf );
 
+	double getCurrentMinCost() const
+	{ return last_min_cost; }
+
 private:
 
 	double last_min_cost;

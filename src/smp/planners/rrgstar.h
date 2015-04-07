@@ -88,6 +88,7 @@ namespace smp {
 		int iteration ();
 
 		bool has_feasible() const;
+		double current_min_cost() const;  // Only defined if has_feasible()
 
 		void dump_json( bool include_graph = true ) const;
 

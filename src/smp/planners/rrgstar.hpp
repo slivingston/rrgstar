@@ -225,6 +225,14 @@ bool smp::rrgstar<typeparams>
 	return model_checker.has_feasible();
 }
 
+template< class typeparams >
+double smp::rrgstar<typeparams>
+::current_min_cost() const
+{
+	return model_checker.mcpg.getCurrentMinCost();
+}
+
+
 template<class typeparams>
 void smp::rrgstar<typeparams>
 ::dump_json( bool include_graph ) const
