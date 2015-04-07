@@ -2,6 +2,10 @@
 #include<iostream>
 using namespace std;
 
+#include <errno.h>
+#include <cstdio>  // To get perror()
+#include <cstdlib>  // To get strtod()
+
 
 // SMP HEADER FILES ------
 #include <smp/components/samplers/uniform.hpp>
@@ -144,17 +148,30 @@ int main( int argc, char **argv )
 
 
 	// 3. RUN THE PLANNER
-	int num_it = 1000;
+	int num_it = 20000;
+	double cost_threshold = 0.0;
 	if (argc >= 2) {
-		num_it = strtol( argv[1], NULL, 10 );
-		if (num_it < 0) {
-			std::cerr << "Number of iterations must be nonnegative." << std::endl;
+		errno = 0;
+		cost_threshold = strtod( argv[1], NULL );
+		if (errno != 0) {
+			perror( "example_rrgstar_dubins_double_integrator_airplane" );
 			return -1;
+		} else if (cost_threshold < 0) {
+			std::cerr << "Error: Requested cost threshold " << cost_threshold
+					  << " is negative." << std::endl;
+			return -1;
+		} else if (cost_threshold == 0.0) {
+			std::cerr << "Warning: Requested cost threshold of 0." << std::endl;
 		}
 	}
 	int i;
-	for (i = 0; i < num_it; i++)
+	for (i = 0; i < num_it; i++) {
 		planner.iteration();
+		if (planner.has_feasible()) {
+			if (planner.current_min_cost() < cost_threshold)
+				break;
+		}
+	}
 
 	std::cerr << "number of iterations is " << i << std::endl;
 
