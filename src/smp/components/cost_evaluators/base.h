@@ -14,7 +14,7 @@
 
 namespace smp {
 
-    //! The abstract class that specifies the structure of the cost evalutor component.
+    //! The abstract class that specifies the structure of the cost evaluator component.
     /*!
       This class implements the abstract cost evaluator class, which provides one main
       method that returns the cost of a trajectory starting from a given initial state
@@ -41,7 +41,7 @@ namespace smp {
         /**
          * \brief Update function for vertex cost modification
          *
-         * This function is called by the planner whenever a the cost associated
+         * This function is called by the planner whenever the cost associated
          * with a vertex is changed by the optimizing (incremental) planning algorithm.
          *
          * @param vertex_in A pointer to the vertex with modified cost.
