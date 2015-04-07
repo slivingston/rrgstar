@@ -38,6 +38,7 @@ using namespace smp;
 // State, input, vertex_data, and edge_data definitions
 typedef state_double_integrator<NUM_DIMENSIONS> state_t;
 typedef input_double_integrator<NUM_DIMENSIONS> input_t;
+typedef region<NUM_DIMENSIONS> region_t;
 typedef model_checker_mu_calculus_vertex_data vertex_data_t;
 typedef model_checker_mu_calculus_edge_data edge_data_t;
 
@@ -47,6 +48,7 @@ typedef struct _typeparams {
   typedef input_t input;
   typedef vertex_data_t vertex_data;
   typedef edge_data_t edge_data;
+  typedef region_t region;
 } typeparams; 
 
 // Define the trajectory type
@@ -56,7 +58,7 @@ typedef trajectory<typeparams> trajectory_t;
 typedef sampler_uniform<typeparams,NUM_DIMENSIONS*2> sampler_t;
 typedef distance_evaluator_kdtree<typeparams,NUM_DIMENSIONS*2> distance_evaluator_t;
 typedef extender_double_integrator<typeparams,NUM_DIMENSIONS> extender_t;
-typedef collision_checker_mu_calculus<typeparams,NUM_DIMENSIONS> collision_checker_t;
+typedef collision_checker_mu_calculus<typeparams> collision_checker_t;
 typedef model_checker_mu_calculus<typeparams> model_checker_t;
 
 // Define all algorithm types
@@ -76,6 +78,7 @@ main ()
   extender_t extender;
   collision_checker_t collision_checker;
   model_checker_t model_checker;
+  model_checker.add_labeler( &collision_checker );
 
   // 1.b Create the planner algorithm
   rrg_t planner (sampler, distance_evaluator, extender, collision_checker, model_checker);
@@ -99,12 +102,12 @@ main ()
   // 2. INITALIZE PLANNING OBJECTS
 
   // 2.a Initialize the sampler
-  region<4> sampler_support;
-  for (int i = 0; i < 2; i++) {
+  region<NUM_DIMENSIONS*2> sampler_support;
+  for (int i = 0; i < NUM_DIMENSIONS; i++) {
     sampler_support.center[i] = 0.0;
     sampler_support.size[i] = 20.0;
   }
-  for (int i = 2; i < 4; i++) {
+  for (int i = NUM_DIMENSIONS; i < NUM_DIMENSIONS*2; i++) {
     sampler_support.center[i] = 0.0;
     sampler_support.size[i] = 2.0;
   }
@@ -118,21 +121,30 @@ main ()
   // 2.c Initialize the extender
  
   // 2.d Initialize the collision checker
-  /* NOTE that these are chosen to match the regions that are hard-coded in
-     model_checker_mu_calculus::mc_update_insert_vertex(), as defined in
-     model_checkers/mu_calculus.hpp */
-  region<NUM_DIMENSIONS> R;
+  region_t R;
   R.center[0] = R.center[1] = -3.5;
   R.size[0] = R.size[1] = 1.0;
+  if (NUM_DIMENSIONS >= 3) {
+	  R.center[2] = 5.0;
+	  R.size[2] = 2.0;
+  }
   collision_checker.add_region( R );
 
   R.center[0] = 5.5;
   R.center[1] = 1.5;
   R.size[0] = R.size[1] = 1.0;
+  if (NUM_DIMENSIONS >= 3) {
+	  R.center[2] = 5.0;
+	  R.size[2] = 2.0;
+  }
   collision_checker.add_region( R );
 
   R.center[0] = R.center[1] = 2.05;
   R.size[0] = R.size[1] = 3.9;
+  if (NUM_DIMENSIONS >= 3) {
+	  R.center[2] = 5.0;
+	  R.size[2] = 2.0;
+  }
   collision_checker.add_region( R );
 
   // 2.e Initialize the model checker
@@ -143,7 +155,7 @@ main ()
 
   // 2.f Initialize the planner
   state_t *state_initial = new state_t;
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < NUM_DIMENSIONS*2; i++) {
     state_initial->state_vars[i] = 0.0;
   }
   planner.initialize (state_initial);
