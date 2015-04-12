@@ -9,7 +9,7 @@ or if the name "-" is given, then stdin (standard input stream) is
 read instead.
 
 
-SCL; 12 Feb 2015
+SCL; 15 Apr 2015
 """
 from __future__ import division
 from __future__ import print_function
@@ -20,14 +20,6 @@ import io
 
 import numpy as np
 import networkx as nx
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-
-try:
-    from mayavi import mlab
-except ImportError:
-    # Fail cleanly if 3D plotting tool is unavailable
-    mayavi = None
 
 
 def plot_obs_3d(obs_list):
@@ -111,8 +103,15 @@ if __name__ == '__main__':
 
     assert len(wspace['bounds']) == 4 or len(wspace['bounds']) == 6
     if len(wspace['bounds']) == 6:
+        try:
+            from mayavi import mlab
+        except ImportError:
+            # Fail cleanly if 3D plotting tool is unavailable
+            mayavi = None
         is3D = True
     elif len(wspace['bounds']) == 4:
+        import matplotlib.pyplot as plt
+        import matplotlib as mpl
         is3D = False
     else:
         raise ValueError('"bounds" key in given file has invalid length: '
