@@ -9,7 +9,7 @@ or if the name "-" is given, then stdin (standard input stream) is
 read instead.
 
 
-SCL; 15 Apr 2015
+SCL; Feb, Apr 2015
 """
 from __future__ import division
 from __future__ import print_function
