@@ -1328,6 +1328,12 @@ ModelCheckerPG::getTrajectory()
 
 		} while (curr != loopv);
 
+		while (*(trajectory.begin()) != knotv->state) {
+			PGState *front = *(trajectory.begin());
+			trajectory.pop_front();
+			trajectory.push_back( front );
+		}
+
 		curr = knotv;
 		do {
 
