@@ -666,7 +666,7 @@ ModelCheckerPG::addState( PGState *state )
 	for (PGStateSet_it iter = this->states.begin();
 		 iter != this->states.end(); iter++)
 		if (*iter == state) {
-			cout << "ERROR: rModelChecker::addState: state already exists" << endl;
+			cout << "ERROR: ModelCheckerPG::addState: state already exists" << endl;
 			exit(1);
 		}
 #endif
@@ -1068,11 +1068,11 @@ ModelCheckerPG::addTransition( PGState *state_from, PGState *state_to, double ed
 
 #if !TRUST_ME
 	if (state_from->successors.find (state_to) != state_from->successors.end()) {
-     cerr << "ERROR: rModelChecker::addTransition: transition already exists" << endl;
+     cerr << "ERROR: ModelCheckerPG::addTransition: transition already exists" << endl;
      exit (-1);
 	}
 	if (state_to->predecessors.find (state_from) != state_to->predecessors.end() ) {
-     cerr << "ERROR: rModelChecker::addTransition: transition already exists" << endl;
+     cerr << "ERROR: ModelCheckerPG::addTransition: transition already exists" << endl;
      exit (-1);
 	}
 #endif
