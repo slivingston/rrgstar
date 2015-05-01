@@ -1346,7 +1346,7 @@ ModelCheckerPG::getTrajectory()
 
 		} while (curr != this->initialVertex);
 
-		std::cerr << "rModelChecker::getTrajectory(): returned trajectory cost is "
+		std::cerr << "ModelCheckerPG::getTrajectory(): returned trajectory cost is "
 				  << min_prefix_cost << " + " << min_loop_cost
 				  << " = " << min_prefix_cost + min_loop_cost << std::endl;
 
