@@ -1280,6 +1280,7 @@ PGStateList
 ModelCheckerPG::getTrajectory()
 {
 
+	PGState *prev_state = NULL;
 	PGStateList trajectory;
 
 	if (this->lV.size() > 0) {
@@ -1320,20 +1321,28 @@ ModelCheckerPG::getTrajectory()
 			key.clear();
 			key.push_back( this->initialVertex );
 			key.push_back( curr );
+
 			if (knotv == NULL || Cost[key] < min_prefix_cost) {
 				knotv = curr;
 				min_prefix_cost = Cost[key];
 			}
-			trajectory.push_front( curr->state );
+			if (prev_state == NULL || prev_state != curr->state) {
+				trajectory.push_front( curr->state );
+				prev_state = curr->state;
+			}
 
 		} while (curr != loopv);
 
-		while (*(trajectory.begin()) != knotv->state) {
-			PGState *front = *(trajectory.begin());
+		if (trajectory.front() == trajectory.back())
+			trajectory.pop_back();
+		while (trajectory.front() != knotv->state) {
+			PGState *front = trajectory.front();
 			trajectory.pop_front();
 			trajectory.push_back( front );
 		}
+		trajectory.push_back( knotv->state );
 
+		prev_state = trajectory.front();
 		curr = knotv;
 		do {
 
@@ -1342,7 +1351,10 @@ ModelCheckerPG::getTrajectory()
 			key.push_back( curr );
 			assert( Pr.find( key ) != Pr.end() );
 			curr = Pr[key];
-			trajectory.push_front( curr->state );
+			if (prev_state != curr->state) {
+				trajectory.push_front( curr->state );
+				prev_state = curr->state;
+			}
 
 		} while (curr != this->initialVertex);
 
@@ -1444,6 +1456,7 @@ rModelChecker::getTrajectory()
 //     cout << "k :" << k << endl;
 
 
+		trajectoryPath.pop_back();
 		for (stateList_it iter = trajectoryPath.begin();
 			 iter != trajectoryPath.end(); iter++)
 			trajectory.push_back (*iter);
