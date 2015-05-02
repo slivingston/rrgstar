@@ -1463,9 +1463,10 @@ rModelChecker::getTrajectory()
 		for (stateList_it iter = trajectoryPath.begin();
 			 iter != trajectoryPath.end(); iter++)
 			trajectory.push_back (*iter);
-    for (stateList_it iter = trajectoryLoop.begin();
-		 iter != trajectoryLoop.end(); iter++)
-		trajectory.push_back (*iter);
+
+		for (stateList_it iter = trajectoryLoop.begin();
+			 iter != trajectoryLoop.end(); iter++)
+			trajectory.push_back (*iter);
 
 	} else {
 		cout << "ERROR: rModelChecker::getTrajectory: final subformula type is neither PT_PRP nor PT_VAR" << endl;
