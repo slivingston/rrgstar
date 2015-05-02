@@ -1298,6 +1298,7 @@ ModelCheckerPG::getTrajectory()
 				list<PGVertex *> key;
 				key.push_back( *nuv );
 				key.push_back( *nuv );
+				assert( Cost.find( key ) != Cost.end() );
 				if (loopv == NULL || this->Cost[key] < min_loop_cost) {
 					loopv = *nuv;
 					min_loop_cost = this->Cost[key];
@@ -1316,12 +1317,14 @@ ModelCheckerPG::getTrajectory()
 			list<PGVertex *> key;
 			key.push_back( loopv );
 			key.push_back( curr );
+			assert( Pr.find( key ) != Pr.end() );
 			curr = Pr[key];
 
 			key.clear();
 			key.push_back( this->initialVertex );
 			key.push_back( curr );
 
+			assert( Cost.find( key ) != Cost.end() );
 			if (knotv == NULL || Cost[key] < min_prefix_cost) {
 				knotv = curr;
 				min_prefix_cost = Cost[key];
