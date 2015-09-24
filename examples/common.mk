@@ -30,7 +30,7 @@ CXXFLAGS_STD := -g \
 	-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE \
 	-Wall -Wno-unused-parameter -Wno-sign-compare -D__STDC_FORMAT_MACROS 
 
-LDFLAGS_STD = -lm -L $(LIBDIR)
+LDFLAGS_STD = -lm -L$(LIBDIR)
 
 
 
