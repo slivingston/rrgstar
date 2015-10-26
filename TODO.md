@@ -12,6 +12,3 @@ using comment blocks marked with "TODO".
 
 * Add in an example with multiple inheritance to create two components (and
   mention it in the documentation).
-
-* Add LICENSE.  The original code by Sertac Karaman and Emilio Frazzoli is under
-  the [MIT license](http://opensource.org/licenses/MIT).
