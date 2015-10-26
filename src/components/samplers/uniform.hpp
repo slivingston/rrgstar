@@ -1,18 +1,18 @@
-#ifndef _SMP_SAMPLER_UNIFORM_HPP_
-#define _SMP_SAMPLER_UNIFORM_HPP_
+#ifndef _RRGLIB_SAMPLER_UNIFORM_HPP_
+#define _RRGLIB_SAMPLER_UNIFORM_HPP_
 
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
 
-#include <smp/components/samplers/uniform.h>
+#include <components/samplers/uniform.h>
 
-#include <smp/components/samplers/base.hpp>
-#include <smp/common/region.hpp>
+#include <components/samplers/base.hpp>
+#include <common/region.hpp>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_uniform<typeparams,NUM_DIMENSIONS>
+int rrglib::sampler_uniform<typeparams,NUM_DIMENSIONS>
 ::sm_update_insert_vertex (vertex_t *vertex_in) {
   
   return 1;
@@ -20,7 +20,7 @@ int smp::sampler_uniform<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_uniform<typeparams,NUM_DIMENSIONS>
+int rrglib::sampler_uniform<typeparams,NUM_DIMENSIONS>
 ::sm_update_insert_edge (edge_t *edge_in) {
 
   return 1;
@@ -28,7 +28,7 @@ int smp::sampler_uniform<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_uniform<typeparams,NUM_DIMENSIONS>
+int rrglib::sampler_uniform<typeparams,NUM_DIMENSIONS>
 ::sm_update_delete_vertex (vertex_t *vertex_in) {
   
   return 1;
@@ -36,7 +36,7 @@ int smp::sampler_uniform<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_uniform<typeparams,NUM_DIMENSIONS>
+int rrglib::sampler_uniform<typeparams,NUM_DIMENSIONS>
 ::sm_update_delete_edge (edge_t *edge_in) {
   
   return 1;
@@ -44,7 +44,7 @@ int smp::sampler_uniform<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-smp::sampler_uniform<typeparams,NUM_DIMENSIONS>
+rrglib::sampler_uniform<typeparams,NUM_DIMENSIONS>
 ::sampler_uniform (unsigned int seed) {
 	if (seed == 0) {
 		srand(time(0));
@@ -61,7 +61,7 @@ smp::sampler_uniform<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-smp::sampler_uniform<typeparams,NUM_DIMENSIONS>
+rrglib::sampler_uniform<typeparams,NUM_DIMENSIONS>
 ::~sampler_uniform () {
     
 
@@ -69,7 +69,7 @@ smp::sampler_uniform<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_uniform<typeparams,NUM_DIMENSIONS>
+int rrglib::sampler_uniform<typeparams,NUM_DIMENSIONS>
 ::sample (state_t **state_sample_out) {
   
   if (NUM_DIMENSIONS <= 0)
@@ -88,7 +88,7 @@ int smp::sampler_uniform<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_uniform<typeparams,NUM_DIMENSIONS>
+int rrglib::sampler_uniform<typeparams,NUM_DIMENSIONS>
 ::set_support (region_t support_in) {
   
   support = support_in;

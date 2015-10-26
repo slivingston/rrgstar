@@ -1,14 +1,14 @@
-#ifndef _SMP_VERTEX_EDGE_HPP_
-#define _SMP_VERTEX_EDGE_HPP_
+#ifndef _RRGLIB_VERTEX_EDGE_HPP_
+#define _RRGLIB_VERTEX_EDGE_HPP_
 
-#include <smp/planner_utils/vertex_edge.h>
+#include <planner_utils/vertex_edge.h>
 
 
-#include <smp/planner_utils/trajectory.hpp>
+#include <planner_utils/trajectory.hpp>
 
 
 template< class typeparams >
-smp::edge< typeparams >
+rrglib::edge< typeparams >
 ::edge () {
   
   vertex_src = 0;
@@ -18,7 +18,7 @@ smp::edge< typeparams >
 
 
 template< class typeparams >
-smp::edge< typeparams >
+rrglib::edge< typeparams >
 ::~edge () {
 
   delete trajectory_edge;
@@ -26,7 +26,7 @@ smp::edge< typeparams >
 
 
 template< class typeparams >
-smp::vertex< typeparams >
+rrglib::vertex< typeparams >
 ::vertex () {
 
   state = NULL;
@@ -36,7 +36,7 @@ smp::vertex< typeparams >
 
 
 template< class typeparams >
-smp::vertex< typeparams >
+rrglib::vertex< typeparams >
 ::~vertex () {
 
   if (state)

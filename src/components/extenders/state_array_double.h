@@ -5,11 +5,11 @@
   data structure as a double array. 
 */
 
-#ifndef _SMP_STATE_ARRAY_DOUBLE_H_
-#define _SMP_STATE_ARRAY_DOUBLE_H_
+#ifndef _RRGLIB_STATE_ARRAY_DOUBLE_H_
+#define _RRGLIB_STATE_ARRAY_DOUBLE_H_
 
 
-namespace smp {
+namespace rrglib {
 
     //! Implementation of the state data structure as a double array.
     /*!

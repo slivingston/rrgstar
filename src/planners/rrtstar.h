@@ -5,16 +5,16 @@
   incremental sampling-based motion planner, overriding the iteration function.
  */
 
-#ifndef _SMP_PLANNER_RRTSTAR_H_
-#define _SMP_PLANNER_RRTSTAR_H_
+#ifndef _RRGLIB_PLANNER_RRTSTAR_H_
+#define _RRGLIB_PLANNER_RRTSTAR_H_
 
-#include <smp/planners/base_incremental.h>
-#include <smp/planners/planner_parameters.h>
+#include <planners/base_incremental.h>
+#include <planners/planner_parameters.h>
 
-#include <smp/components/cost_evaluators/base.h>
+#include <components/cost_evaluators/base.h>
 
 
-namespace smp {
+namespace rrglib {
 
     //! Vertex data structure for the RRT* algorithm.
     /*!

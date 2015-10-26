@@ -1,22 +1,22 @@
-#ifndef _SMP_INTERFACE_LIBBOT_HPP_
-#define _SMP_INTERFACE_LIBBOT_HPP_
+#ifndef _RRGLIB_INTERFACE_LIBBOT_HPP_
+#define _RRGLIB_INTERFACE_LIBBOT_HPP_
 
-#include <smp/interfaces/libbot.h>
+#include <interfaces/libbot.h>
 
-#include <smp/planners/base.hpp>
+#include <planners/base.hpp>
 
-#include <smp/interfaces/base.hpp>
-#include <smp/common/region.hpp>
+#include <interfaces/base.hpp>
+#include <common/region.hpp>
 
 
-smp::interface_libbot_environment
+rrglib::interface_libbot_environment
 ::interface_libbot_environment () {
   
   
 }
 
 
-smp::interface_libbot_environment
+rrglib::interface_libbot_environment
 ::~interface_libbot_environment () {
 
   // Clear the memory occupied by obstacles.
@@ -27,7 +27,7 @@ smp::interface_libbot_environment
 }
 
 
-int smp::interface_libbot_environment
+int rrglib::interface_libbot_environment
 ::set_operating_region (const region_t &region_in) {
   
   operating = region_in;
@@ -36,7 +36,7 @@ int smp::interface_libbot_environment
 }
 
 
-int smp::interface_libbot_environment
+int rrglib::interface_libbot_environment
 ::set_goal_region (const region_t &region_in) {
   
   goal = region_in;
@@ -45,7 +45,7 @@ int smp::interface_libbot_environment
 }
 
 
-int smp::interface_libbot_environment
+int rrglib::interface_libbot_environment
 ::clear_obstacle_list () {
   
   obstacles.clear();
@@ -54,7 +54,7 @@ int smp::interface_libbot_environment
 }
 
 
-int smp::interface_libbot_environment
+int rrglib::interface_libbot_environment
 ::add_obstacle (const region_t &region_in) {
   
   obstacles.push_back (new region_t(region_in));
@@ -65,7 +65,7 @@ int smp::interface_libbot_environment
 
 
 template< class typeparams >
-smp::interface_libbot<typeparams> 
+rrglib::interface_libbot<typeparams>
 ::interface_libbot () {
 
   lcm = globals_get_lcm ();
@@ -77,14 +77,14 @@ smp::interface_libbot<typeparams>
 
 
 template< class typeparams >
-smp::interface_libbot<typeparams> 
+rrglib::interface_libbot<typeparams>
 ::~interface_libbot () {
   
 }
 
 
 template< class typeparams >
-int smp::interface_libbot<typeparams> 
+int rrglib::interface_libbot<typeparams>
 ::set_planner (planner_t *planner_in) {
 
   this->planner_int = planner_in;
@@ -93,7 +93,7 @@ int smp::interface_libbot<typeparams>
 }
 
 template< class typeparams >
-int smp::interface_libbot<typeparams> 
+int rrglib::interface_libbot<typeparams>
 ::visualize_2d () {
   
   visualize_3d_on = 0;
@@ -102,7 +102,7 @@ int smp::interface_libbot<typeparams>
 }
 
 template< class typeparams >
-int smp::interface_libbot<typeparams> 
+int rrglib::interface_libbot<typeparams>
 ::visualize_3d () {
   
   visualize_3d_on = 1;
@@ -112,7 +112,7 @@ int smp::interface_libbot<typeparams>
 
 
 template< class typeparams >
-int smp::interface_libbot<typeparams> 
+int rrglib::interface_libbot<typeparams>
 ::publish_environment (const environment_t &environment_in) {
   
   lcmtypes_smp_environment_t *environment = (lcmtypes_smp_environment_t *) malloc (sizeof (lcmtypes_smp_environment_t));
@@ -161,7 +161,7 @@ int smp::interface_libbot<typeparams>
 
 
 template< class typeparams >
-int smp::interface_libbot<typeparams> 
+int rrglib::interface_libbot<typeparams>
 ::publish_data () {
 
 
@@ -270,7 +270,7 @@ int smp::interface_libbot<typeparams>
 
 
 template< class typeparams >
-int smp::interface_libbot<typeparams> 
+int rrglib::interface_libbot<typeparams>
 ::publish_trajectory (trajectory_t &trajectory_in) {
 
   lcmtypes_smp_trajectory_t lcm_traj;

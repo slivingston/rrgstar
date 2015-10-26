@@ -4,19 +4,19 @@
   The extender (aka, the extension function) generates that exactly or approximately 
   connects two given states. 
 */
-#ifndef _SMP_EXTENDER_BASE_H_
-#define _SMP_EXTENDER_BASE_H_
+#ifndef _RRGLIB_EXTENDER_BASE_H_
+#define _RRGLIB_EXTENDER_BASE_H_
 
 
-#include <smp/planner_utils/trajectory.h>
-#include <smp/planner_utils/vertex_edge.h>
+#include <planner_utils/trajectory.h>
+#include <planner_utils/vertex_edge.h>
 
 #include <list>
 
 using namespace std;
 
 
-namespace smp {
+namespace rrglib {
 
     //! The abstract class that specifies the structure of the extender component.
     /*!

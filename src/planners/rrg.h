@@ -5,15 +5,15 @@
   incremental sampling-based motion planner, overriding the iteration function.
  */
 
-#ifndef _SMP_PLANNER_RRG_H_
-#define _SMP_PLANNER_RRG_H_
+#ifndef _RRGLIB_PLANNER_RRG_H_
+#define _RRGLIB_PLANNER_RRG_H_
 
-#include <smp/components/model_checkers/mu_calculus.h>
-#include <smp/planners/base_incremental.h>
-#include <smp/planners/planner_parameters.h>
+#include <components/model_checkers/mu_calculus.h>
+#include <planners/base_incremental.h>
+#include <planners/planner_parameters.h>
 
 
-namespace smp {
+namespace rrglib {
 
     //! RRG algorithm
     /*!

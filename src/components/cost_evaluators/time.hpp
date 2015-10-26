@@ -1,18 +1,18 @@
-#ifndef _SMP_COST_EVALUATOR_TIME_HPP_
-#define _SMP_COST_EVALUATOR_TIME_HPP_
+#ifndef _RRGLIB_COST_EVALUATOR_TIME_HPP_
+#define _RRGLIB_COST_EVALUATOR_TIME_HPP_
 
 #include <iostream>
 
-#include <smp/components/cost_evaluators/time.h>
+#include <components/cost_evaluators/time.h>
 
-#include <smp/components/cost_evaluators/base.hpp>
+#include <components/cost_evaluators/base.hpp>
 
 
 using namespace std;
 
 
 template< class typeparams >
-int smp::cost_evaluator_time<typeparams>
+int rrglib::cost_evaluator_time<typeparams>
 ::ce_update_vertex_cost (vertex_t *vertex_in) {
 
   return 1;
@@ -20,7 +20,7 @@ int smp::cost_evaluator_time<typeparams>
 
 
 template< class typeparams >
-int smp::cost_evaluator_time<typeparams>
+int rrglib::cost_evaluator_time<typeparams>
 ::ce_update_edge_cost (edge_t *edge_in) {
   
   return 1;
@@ -29,7 +29,7 @@ int smp::cost_evaluator_time<typeparams>
 
 
 template< class typeparams >
-double smp::cost_evaluator_time<typeparams>
+double rrglib::cost_evaluator_time<typeparams>
 ::evaluate_cost_trajectory (state_t *state_initial_in,
 			    trajectory_t *trajectory_in,
 			    state_t *state_final_in) {

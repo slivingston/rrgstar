@@ -1,7 +1,7 @@
-#ifndef _SMP_DISTANCE_EVALUATOR_KDTREE_HPP_
-#define _SMP_DISTANCE_EVALUATOR_KDTREE_HPP_
+#ifndef _RRGLIB_DISTANCE_EVALUATOR_KDTREE_HPP_
+#define _RRGLIB_DISTANCE_EVALUATOR_KDTREE_HPP_
 
-#include <smp/components/distance_evaluators/kdtree.h>
+#include <components/distance_evaluators/kdtree.h>
 
 #include <iostream>
 
@@ -9,7 +9,7 @@ using namespace std;
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
+rrglib::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 ::distance_evaluator_kdtree () {
   
   kdtree = kd_create (NUM_DIMENSIONS);
@@ -24,7 +24,7 @@ smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
+rrglib::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 ::~distance_evaluator_kdtree () {
 
   kd_free (kdtree);
@@ -32,7 +32,7 @@ smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 
     
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
+int rrglib::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 ::de_update_insert_vertex (vertex_t *vertex_in) {
   
   state_t *state_in = vertex_in->state;
@@ -50,7 +50,7 @@ int smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
+int rrglib::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 ::de_update_insert_edge (edge_t *edge_in) {
 
   return 1;
@@ -58,7 +58,7 @@ int smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
+int rrglib::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 ::de_update_delete_vertex (vertex_t *vertex_in){ 
 
   vertex_deleted = true;
@@ -68,7 +68,7 @@ int smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
+int rrglib::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 ::de_update_delete_edge (edge_t *edge_in) {
 
   return 1;
@@ -76,7 +76,7 @@ int smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
+int rrglib::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 ::find_nearest_vertex (state_t *state_in,
 		       void **data_out) {
 
@@ -115,7 +115,7 @@ int smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
+int rrglib::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 ::find_near_vertices_r (state_t *state_in, double radius_in,
 			list<void *> *list_data_out) {
 
@@ -153,7 +153,7 @@ int smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
+int rrglib::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 ::find_near_vertices_k (state_t *state_in, int k_in,
 			list<void *> *list_data_out) {
   
@@ -163,7 +163,7 @@ int smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
+int rrglib::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 ::set_list_vertices (list<vertex_t*> *list_vertices_in) {
   
   list_vertices = list_vertices_in;
@@ -174,7 +174,7 @@ int smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
+int rrglib::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 ::reconstruct_kdtree_from_vertex_list () {
 
 
@@ -207,7 +207,7 @@ int smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
+int rrglib::distance_evaluator_kdtree< typeparams, NUM_DIMENSIONS >
 ::set_weights (double weights_in[NUM_DIMENSIONS]) {
 
   for (int i = 0; i < NUM_DIMENSIONS; i++) {

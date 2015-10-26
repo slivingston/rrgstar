@@ -1,15 +1,15 @@
-#ifndef _SMP_COLLISION_CHECKER_MU_CALCULUS_HPP_
-#define _SMP_COLLISION_CHECKER_MU_CALCULUS_HPP_
+#ifndef _RRGLIB_COLLISION_CHECKER_MU_CALCULUS_HPP_
+#define _RRGLIB_COLLISION_CHECKER_MU_CALCULUS_HPP_
 
 
-#include <smp/components/collision_checkers/mu_calculus.h>
+#include <components/collision_checkers/mu_calculus.h>
 
-#include <smp/components/collision_checkers/base.hpp>
-#include <smp/common/region.hpp>
+#include <components/collision_checkers/base.hpp>
+#include <common/region.hpp>
 
 
 template< class typeparams >
-smp::collision_checker_mu_calculus<typeparams>
+rrglib::collision_checker_mu_calculus<typeparams>
 ::collision_checker_mu_calculus () {
   
   num_discretization_steps = 20;
@@ -19,7 +19,7 @@ smp::collision_checker_mu_calculus<typeparams>
 
 
 template< class typeparams >
-smp::collision_checker_mu_calculus<typeparams>
+rrglib::collision_checker_mu_calculus<typeparams>
 ::~collision_checker_mu_calculus () {
 
   for (typename list<region_t*>::iterator iter = list_regions.begin();
@@ -33,7 +33,7 @@ smp::collision_checker_mu_calculus<typeparams>
 
 
 template< class typeparams >
-int smp::collision_checker_mu_calculus<typeparams>
+int rrglib::collision_checker_mu_calculus<typeparams>
 ::cc_update_insert_vertex (vertex_t *vertex_in) {
   
   return 1;
@@ -41,7 +41,7 @@ int smp::collision_checker_mu_calculus<typeparams>
 
 
 template< class typeparams >
-int smp::collision_checker_mu_calculus<typeparams>
+int rrglib::collision_checker_mu_calculus<typeparams>
 ::cc_update_insert_edge (edge_t *edge_in) {
   
   return 1;
@@ -49,7 +49,7 @@ int smp::collision_checker_mu_calculus<typeparams>
 
 
 template< class typeparams >
-int smp::collision_checker_mu_calculus<typeparams>
+int rrglib::collision_checker_mu_calculus<typeparams>
 ::cc_update_delete_vertex (vertex_t *vertex_in) {
   
   return 1;
@@ -57,7 +57,7 @@ int smp::collision_checker_mu_calculus<typeparams>
 
 
 template< class typeparams >
-int smp::collision_checker_mu_calculus<typeparams>
+int rrglib::collision_checker_mu_calculus<typeparams>
 ::cc_update_delete_edge (edge_t *edge_in) {
   
   return 1;
@@ -68,7 +68,7 @@ int smp::collision_checker_mu_calculus<typeparams>
 // returns 0 if there is a collision
 // returns 1 if no collision
 template< class typeparams >
-int smp::collision_checker_mu_calculus<typeparams>
+int rrglib::collision_checker_mu_calculus<typeparams>
 ::check_collision_state (state_t *state_in) {
 
   return 1; // Accept all states
@@ -98,7 +98,7 @@ int smp::collision_checker_mu_calculus<typeparams>
 
 
 template< class typeparams >
-int smp::collision_checker_mu_calculus<typeparams>
+int rrglib::collision_checker_mu_calculus<typeparams>
 ::get_region_index( state_t *x ) {
 
   int idx_curr = 0;
@@ -138,7 +138,7 @@ int smp::collision_checker_mu_calculus<typeparams>
 // returns 0 if there is a collision
 // returns 1 if no collision
 template< class typeparams >
-int smp::collision_checker_mu_calculus<typeparams>
+int rrglib::collision_checker_mu_calculus<typeparams>
 ::check_collision_trajectory (trajectory_t *trajectory_in) {
 
   
@@ -234,7 +234,7 @@ int smp::collision_checker_mu_calculus<typeparams>
 
 
 template< class typeparams >
-int smp::collision_checker_mu_calculus<typeparams>
+int rrglib::collision_checker_mu_calculus<typeparams>
 ::set_discretization_steps (int num_discretization_steps_in) {
   
   if (num_discretization_steps <= 0) {
@@ -252,7 +252,7 @@ int smp::collision_checker_mu_calculus<typeparams>
 
 
 template< class typeparams >
-int smp::collision_checker_mu_calculus<typeparams>
+int rrglib::collision_checker_mu_calculus<typeparams>
 ::set_discretization_length (double discretization_length_in) {
   
   if (discretization_length <= 0.0) {
@@ -270,7 +270,7 @@ int smp::collision_checker_mu_calculus<typeparams>
 
 
 template< class typeparams >
-int smp::collision_checker_mu_calculus<typeparams>
+int rrglib::collision_checker_mu_calculus<typeparams>
 ::add_region (region_t &obstacle_in) {
   
   list_regions.push_back (new region_t(obstacle_in));

@@ -7,17 +7,17 @@
 */
 
 
-#ifndef _SMP_MINIMUM_TIME_REACHABILITY_H_
-#define _SMP_MINIMUM_TIME_REACHABILITY_H_
+#ifndef _RRGLIB_MINIMUM_TIME_REACHABILITY_H_
+#define _RRGLIB_MINIMUM_TIME_REACHABILITY_H_
 
-#include <smp/planners/rrtstar.h>
-#include <smp/common/region.h>
-#include <smp/components/model_checkers/base.h>
-#include <smp/components/cost_evaluators/base.h>
+#include <planners/rrtstar.h>
+#include <common/region.h>
+#include <components/model_checkers/base.h>
+#include <components/cost_evaluators/base.h>
 
 
 
-namespace smp {
+namespace rrglib {
 
 
     //! Vertex data for minimum-time reachability.

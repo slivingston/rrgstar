@@ -1,11 +1,11 @@
-#ifndef _SMP_MODEL_CHECKER_BASE_HPP_
-#define _SMP_MODEL_CHECKER_BASE_HPP_
+#ifndef _RRGLIB_MODEL_CHECKER_BASE_HPP_
+#define _RRGLIB_MODEL_CHECKER_BASE_HPP_
 
 
-#include <smp/components/model_checkers/base.h>
+#include <components/model_checkers/base.h>
 
-#include <smp/planner_utils/trajectory.hpp>
-#include <smp/planner_utils/vertex_edge.hpp>
+#include <planner_utils/trajectory.hpp>
+#include <planner_utils/vertex_edge.hpp>
 
 
 #endif

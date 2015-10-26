@@ -1,17 +1,17 @@
-#ifndef _SMP_TRAJECTORY_HPP_
-#define _SMP_TRAJECTORY_HPP_
+#ifndef _RRGLIB_TRAJECTORY_HPP_
+#define _RRGLIB_TRAJECTORY_HPP_
 
-#include <smp/planner_utils/trajectory.h>
+#include <planner_utils/trajectory.h>
 
 template< class typeparams >
-smp::trajectory< typeparams >
+rrglib::trajectory< typeparams >
 ::trajectory () {
 
 }
 
 
 template< class typeparams >
-void smp::trajectory< typeparams >
+void rrglib::trajectory< typeparams >
 ::dump_states_json() const
 {
 	int i;
@@ -31,7 +31,7 @@ void smp::trajectory< typeparams >
 }
 
 template< class typeparams >
-smp::trajectory< typeparams >
+rrglib::trajectory< typeparams >
 ::~trajectory () {
   
   this->clear_delete ();
@@ -40,7 +40,7 @@ smp::trajectory< typeparams >
 
 
 template< class typeparams >
-int smp::trajectory< typeparams >
+int rrglib::trajectory< typeparams >
 ::clear () {
 
   // Clear the list of states and the list of inputs.
@@ -52,7 +52,7 @@ int smp::trajectory< typeparams >
 
 
 template< class typeparams >
-int smp::trajectory< typeparams >
+int rrglib::trajectory< typeparams >
 ::clear_delete () {
 
   // Free all the memory occupied by the states in the list. 

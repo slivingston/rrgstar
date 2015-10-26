@@ -1,12 +1,12 @@
-#ifndef _SMP_SYSTEM_DUBINS_DOUBLE_INTEGRATOR_HPP_
-#define _SMP_SYSTEM_DUBINS_DOUBLE_INTEGRATOR_HPP_
+#ifndef _RRGLIB_SYSTEM_DUBINS_DOUBLE_INTEGRATOR_HPP_
+#define _RRGLIB_SYSTEM_DUBINS_DOUBLE_INTEGRATOR_HPP_
 
 
-#include <smp/components/extenders/dubins_double_integrator.h>
+#include <components/extenders/dubins_double_integrator.h>
 
-#include <smp/components/extenders/state_array_double.hpp>
-#include <smp/components/extenders/input_array_double.hpp>
-#include <smp/components/extenders/base.hpp>
+#include <components/extenders/state_array_double.hpp>
+#include <components/extenders/input_array_double.hpp>
+#include <components/extenders/base.hpp>
 
 
 #include <cmath>
@@ -46,7 +46,7 @@
 
 
 template< class typeparams >
-smp::extender_dubins_double_integrator<typeparams>
+rrglib::extender_dubins_double_integrator<typeparams>
 ::extender_dubins_double_integrator () {
   
 }
@@ -54,7 +54,7 @@ smp::extender_dubins_double_integrator<typeparams>
 
 
 template< class typeparams >
-smp::extender_dubins_double_integrator<typeparams>
+rrglib::extender_dubins_double_integrator<typeparams>
 ::~extender_dubins_double_integrator () {
   
 }
@@ -62,7 +62,7 @@ smp::extender_dubins_double_integrator<typeparams>
 
 
 template< class typeparams >
-double smp::extender_dubins_double_integrator<typeparams>
+double rrglib::extender_dubins_double_integrator<typeparams>
 ::extend_dubins_spheres_return_params (double x_s1, double y_s1, double t_s1, 
 				       double x_s2, double y_s2, double t_s2, int comb_no, 
 				       double *t_increment_s1_out, double *s_increment_out, double *t_increment_s2_out) {
@@ -168,7 +168,7 @@ double smp::extender_dubins_double_integrator<typeparams>
 
 // Computes the minimum time required to reach from s_ini (pos,vel) to s_fin (pos,vel)
 template< class typeparams >
-double smp::extender_dubins_double_integrator<typeparams>
+double rrglib::extender_dubins_double_integrator<typeparams>
 ::extend_with_time_optimal_control_one_axis (double s_ini[2], double s_fin[2], double u_max, 
 					     int *direction, int *traj_saturated,
 					     double *x_intersect_beg, double *x_intersect_end,
@@ -320,7 +320,7 @@ double smp::extender_dubins_double_integrator<typeparams>
 
 
 template< class typeparams >
-int smp::extender_dubins_double_integrator<typeparams>
+int rrglib::extender_dubins_double_integrator<typeparams>
 ::extend_with_effort_optimal_control_one_axis (double s_ini[2], double s_fin[2], double u_max, 
 					       double t_min, double t_goal, double t_eps,
 					       int *dir, int *traj_saturated, double *max_control,
@@ -366,7 +366,7 @@ int smp::extender_dubins_double_integrator<typeparams>
 
 
 template< class typeparams >
-int smp::extender_dubins_double_integrator<typeparams>
+int rrglib::extender_dubins_double_integrator<typeparams>
 ::extend_dubins_di (state_t* state_ini, state_t* state_fin, 
 		    int *fully_extends, list<state_t*> *list_states_out, list<input_t*> *list_inputs_out) {
   
@@ -788,7 +788,7 @@ int smp::extender_dubins_double_integrator<typeparams>
 
 
 template< class typeparams >
-int smp::extender_dubins_double_integrator<typeparams>
+int rrglib::extender_dubins_double_integrator<typeparams>
 ::extend (state_t *state_from_in, state_t *state_towards_in,
 	  int *exact_connection_out, trajectory_t *trajectory_out,
 	  list<state_t*> *intermediate_vertices_out) {

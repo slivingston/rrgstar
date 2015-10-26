@@ -1,17 +1,17 @@
-#ifndef _SMP_MINIMUM_TIME_REACHABILITY_HPP_
-#define _SMP_MINIMUM_TIME_REACHABILITY_HPP_
+#ifndef _RRGLIB_MINIMUM_TIME_REACHABILITY_HPP_
+#define _RRGLIB_MINIMUM_TIME_REACHABILITY_HPP_
 
-#include <smp/components/multipurpose/minimum_time_reachability.h>
+#include <components/multipurpose/minimum_time_reachability.h>
 
-#include <smp/planners/rrtstar.hpp>
-#include <smp/common/region.hpp>
-#include <smp/components/model_checkers/base.hpp>
-#include <smp/components/cost_evaluators/base.hpp>
+#include <planners/rrtstar.hpp>
+#include <common/region.hpp>
+#include <components/model_checkers/base.hpp>
+#include <components/cost_evaluators/base.hpp>
 
 
 
 template < class typeparams, int NUM_DIMENSIONS >
-smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS> 
+rrglib::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 ::minimum_time_reachability () {
 
   min_cost_vertex = NULL;
@@ -25,7 +25,7 @@ smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template < class typeparams, int NUM_DIMENSIONS >
-smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS> 
+rrglib::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 ::~minimum_time_reachability () {
 
   
@@ -33,7 +33,7 @@ smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template < class typeparams, int NUM_DIMENSIONS >
-smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS> 
+rrglib::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 ::minimum_time_reachability (const region_t &region_in) {
   
   region_goal = region_in;
@@ -41,7 +41,7 @@ smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template < class typeparams, int NUM_DIMENSIONS >
-int smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS> 
+int rrglib::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 ::set_goal_region (const region_t &region_in) {
 
   region_goal = region_in;
@@ -51,7 +51,7 @@ int smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS> 
+int rrglib::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 ::ce_update_vertex_cost (vertex_t *vertex_in) {
     
   if (vertex_in->data.reaches_goal == true) {
@@ -117,7 +117,7 @@ int smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS> 
+int rrglib::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 ::ce_update_edge_cost (edge_t *edge_in) {
 
   return 1;
@@ -125,7 +125,7 @@ int smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS> 
+int rrglib::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 ::mc_update_insert_vertex (vertex_t *vertex_in) {
 
   for (int i = 0; i < NUM_DIMENSIONS; i++)  {
@@ -142,7 +142,7 @@ int smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS> 
+int rrglib::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 ::mc_update_insert_edge (edge_t *edge_in) {
 
   return 1;
@@ -150,7 +150,7 @@ int smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS> 
+int rrglib::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 ::mc_update_delete_vertex (vertex_t *vertex_in) {
 
   return 1;
@@ -158,7 +158,7 @@ int smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS> 
+int rrglib::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 ::mc_update_delete_edge (edge_t *edge_in) {
 
   return 1;
@@ -166,7 +166,7 @@ int smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS> 
+int rrglib::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 ::get_solution (trajectory_t &trajectory_out) {
 
 
@@ -193,7 +193,7 @@ int smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-double smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS> 
+double rrglib::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 ::evaluate_cost_trajectory (state_t *state_initial_in,
 			    trajectory_t *trajectory_in,
 			    state_t *state_final_in) {
@@ -213,7 +213,7 @@ double smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-double smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS> 
+double rrglib::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 ::get_best_cost () {
   
   if (min_cost_vertex == NULL)
@@ -224,7 +224,7 @@ double smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS> 
+int rrglib::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 ::clear_update_function_list () {
   
   list_update_functions.clear();
@@ -234,7 +234,7 @@ int smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::minimum_time_reachability<typeparams,NUM_DIMENSIONS> 
+int rrglib::minimum_time_reachability<typeparams,NUM_DIMENSIONS>
 ::register_new_update_function (update_func_t update_function) {
 
   if (update_function == NULL) 

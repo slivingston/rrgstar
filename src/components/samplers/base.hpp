@@ -1,8 +1,8 @@
-#ifndef _SMP_SAMPLER_BASE_HPP_
-#define _SMP_SAMPLER_BASE_HPP_
+#ifndef _RRGLIB_SAMPLER_BASE_HPP_
+#define _RRGLIB_SAMPLER_BASE_HPP_
 
-#include <smp/components/samplers/base.h>
+#include <components/samplers/base.h>
 
-#include <smp/planner_utils/vertex_edge.hpp>
+#include <planner_utils/vertex_edge.hpp>
 
 #endif

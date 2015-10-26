@@ -2,17 +2,17 @@
   \brief An optimal Rapidly-exploring Random Graph (RRG) algorithm for mu-calculus specifications
  */
 
-#ifndef _SMP_PLANNER_RRGSTAR_H_
-#define _SMP_PLANNER_RRGSTAR_H_
+#ifndef _RRGLIB_PLANNER_RRGSTAR_H_
+#define _RRGLIB_PLANNER_RRGSTAR_H_
 
-#include <smp/components/model_checkers/mu_calculus_pg.h>
-#include <smp/planners/base_incremental.h>
-#include <smp/planners/planner_parameters.h>
+#include <components/model_checkers/mu_calculus_pg.h>
+#include <planners/base_incremental.h>
+#include <planners/planner_parameters.h>
 
-#include <smp/components/cost_evaluators/base.h>
+#include <components/cost_evaluators/base.h>
 
 
-namespace smp {
+namespace rrglib {
 
 	template< class typeparams >
 	class rrgstar : public planner_incremental< typeparams > {

@@ -5,20 +5,20 @@
 */
 
 
-#ifndef _SMP_MODEL_CHECKER_MU_CALCULUS_PG_H_
-#define _SMP_MODEL_CHECKER_MU_CALCULUS_PG_H_
+#ifndef _RRGLIB_MODEL_CHECKER_MU_CALCULUS_PG_H_
+#define _RRGLIB_MODEL_CHECKER_MU_CALCULUS_PG_H_
 
-#include <smp/components/model_checkers/base.h>
-#include <smp/components/collision_checkers/mu_calculus.h>
-#include <smp/components/cost_evaluators/base.h>
+#include <components/model_checkers/base.h>
+#include <components/collision_checkers/mu_calculus.h>
+#include <components/cost_evaluators/base.h>
 
-#include <smp/external_libraries/inc_mu_mc/ms.h>
-#include <smp/external_libraries/inc_mu_mc/pt.h>
-
-
+#include <external_libraries/inc_mu_mc/ms.h>
+#include <external_libraries/inc_mu_mc/pt.h>
 
 
-namespace smp {
+
+
+namespace rrglib {
 
 	//! Implements the vertex data for mu-calculus model checking if using rrgstar
 	class model_checker_mu_calculus_pg_vertex_data {

@@ -10,14 +10,14 @@
 */
 
 
-#ifndef _SMP_MODEL_CHECKER_REACHABILITY_H_
-#define _SMP_MODEL_CHECKER_REACHABILITY_H_
+#ifndef _RRGLIB_MODEL_CHECKER_REACHABILITY_H_
+#define _RRGLIB_MODEL_CHECKER_REACHABILITY_H_
 
-#include <smp/components/model_checkers/base.h>
-#include <smp/common/region.h>
+#include <components/model_checkers/base.h>
+#include <common/region.h>
 
 
-namespace smp {
+namespace rrglib {
 
     //! Vertex data for reachability checking.
     /*!

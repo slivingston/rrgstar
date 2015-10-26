@@ -6,15 +6,15 @@
   when appropriate.
 */
 
-#ifndef _SMP_SYSTEM_SINGLE_INTEGRATOR_H_
-#define _SMP_SYSTEM_SINGLE_INTEGRATOR_H_
+#ifndef _RRGLIB_SYSTEM_SINGLE_INTEGRATOR_H_
+#define _RRGLIB_SYSTEM_SINGLE_INTEGRATOR_H_
 
-#include <smp/components/extenders/state_array_double.h>
-#include <smp/components/extenders/input_array_double.h>
-#include <smp/components/extenders/base.h>
+#include <components/extenders/state_array_double.h>
+#include <components/extenders/input_array_double.h>
+#include <components/extenders/base.h>
 
 
-namespace smp {
+namespace rrglib {
 
 
     //! State data structure for the single integrator dynamics

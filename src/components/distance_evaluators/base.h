@@ -6,17 +6,17 @@
 */
 
 
-#ifndef _SMP_DISTANCE_EVALUATOR_BASE_H_
-#define _SMP_DISTANCE_EVALUATOR_BASE_H_
+#ifndef _RRGLIB_DISTANCE_EVALUATOR_BASE_H_
+#define _RRGLIB_DISTANCE_EVALUATOR_BASE_H_
 
 
-#include <smp/planner_utils/vertex_edge.h>
+#include <planner_utils/vertex_edge.h>
 
 
 #include <list>
 using namespace std;
 
-namespace smp {
+namespace rrglib {
 
     //! The abstract class that specifies the structure of a distance evaluator component.
     /*!

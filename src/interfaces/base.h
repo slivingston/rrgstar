@@ -6,14 +6,14 @@
   Operating System (ROS), and their visualization tools.
 */
 
-#ifndef _SMP_INTERFACE_BASE_H_
-#define _SMP_INTERFACE_BASE_H_
+#ifndef _RRGLIB_INTERFACE_BASE_H_
+#define _RRGLIB_INTERFACE_BASE_H_
 
 
-#include <smp/planners/base.h>
+#include <planners/base.h>
 
 
-namespace smp {
+namespace rrglib {
 
     //! The abstract class that specifies the structure of a interfacing component.
     /*!

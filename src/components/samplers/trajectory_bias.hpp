@@ -1,19 +1,19 @@
-#ifndef _SMP_SAMPLER_TRAJECTORY_BIAS_HPP_
-#define _SMP_SAMPLER_TRAJECTORY_BIAS_HPP_
+#ifndef _RRGLIB_SAMPLER_TRAJECTORY_BIAS_HPP_
+#define _RRGLIB_SAMPLER_TRAJECTORY_BIAS_HPP_
 
 #include <iostream>
 #include <cstdlib>
 #include <cmath>
 
-#include <smp/components/samplers/trajectory_bias.h>
+#include <components/samplers/trajectory_bias.h>
 
-#include <smp/components/samplers/base.hpp>
-#include <smp/common/region.hpp>
-#include <smp/planner_utils/trajectory.hpp>
+#include <components/samplers/base.hpp>
+#include <common/region.hpp>
+#include <planner_utils/trajectory.hpp>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
+int rrglib::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 ::sm_update_insert_vertex (vertex_t *vertex_in) {
   
   return 1;
@@ -21,7 +21,7 @@ int smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
+int rrglib::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 ::sm_update_insert_edge (edge_t *edge_in) {
 
   return 1;
@@ -29,7 +29,7 @@ int smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
+int rrglib::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 ::sm_update_delete_vertex (vertex_t *vertex_in) {
   
   return 1;
@@ -37,7 +37,7 @@ int smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
+int rrglib::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 ::sm_update_delete_edge (edge_t *edge_in) {
   
   return 1;
@@ -45,7 +45,7 @@ int smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
+rrglib::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 ::sampler_trajectory_bias () {
 
   bias_probability = 0.1;
@@ -65,7 +65,7 @@ smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
+rrglib::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 ::~sampler_trajectory_bias () {
     
 
@@ -73,7 +73,7 @@ smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
+int rrglib::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 ::sample (state_t **state_sample_out) {
   
   if (NUM_DIMENSIONS <= 0)
@@ -171,7 +171,7 @@ int smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
+int rrglib::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 ::set_support (region_t support_in) {
   
   support = support_in;
@@ -181,7 +181,7 @@ int smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS> 
+int rrglib::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 ::update_trajectory (trajectory_t *trajectory_in) {
   
 
@@ -235,7 +235,7 @@ int smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS> 
+int rrglib::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 ::set_sample_dispersion (double dispersion_in) {
 
   if (dispersion_in > 0.0)  {
@@ -248,7 +248,7 @@ int smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS> 
+int rrglib::sampler_trajectory_bias<typeparams,NUM_DIMENSIONS>
 ::set_bias_probability (double bias_probability_in) {
 
   if (bias_probability_in > 0.0)  {

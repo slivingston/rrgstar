@@ -1,14 +1,14 @@
-#ifndef _SMP_COLLISION_CHECKER_STANDARD_HPP_
-#define _SMP_COLLISION_CHECKER_STANDARD_HPP_
+#ifndef _RRGLIB_COLLISION_CHECKER_STANDARD_HPP_
+#define _RRGLIB_COLLISION_CHECKER_STANDARD_HPP_
 
-#include <smp/components/collision_checkers/standard.h>
+#include <components/collision_checkers/standard.h>
 
-#include <smp/components/collision_checkers/base.hpp>
-#include <smp/common/region.hpp>
+#include <components/collision_checkers/base.hpp>
+#include <common/region.hpp>
 
 
-template< class typeparams, int NUM_DIMENSIONS > 
-smp::collision_checker_standard<typeparams,NUM_DIMENSIONS> 
+template< class typeparams, int NUM_DIMENSIONS >
+rrglib::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 ::collision_checker_standard () {
   
   num_discretization_steps = 20;
@@ -17,8 +17,8 @@ smp::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 }
 
 
-template< class typeparams, int NUM_DIMENSIONS > 
-smp::collision_checker_standard<typeparams,NUM_DIMENSIONS> 
+template< class typeparams, int NUM_DIMENSIONS >
+rrglib::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 ::~collision_checker_standard () {
 
   for (typename list<region_t*>::iterator iter = list_obstacles.begin();
@@ -32,7 +32,7 @@ smp::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::collision_checker_standard<typeparams,NUM_DIMENSIONS>
+int rrglib::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 ::cc_update_insert_vertex (vertex_t *vertex_in) {
   
   return 1;
@@ -40,7 +40,7 @@ int smp::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::collision_checker_standard<typeparams,NUM_DIMENSIONS>
+int rrglib::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 ::cc_update_insert_edge (edge_t *edge_in) {
   
   return 1;
@@ -48,7 +48,7 @@ int smp::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::collision_checker_standard<typeparams,NUM_DIMENSIONS>
+int rrglib::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 ::cc_update_delete_vertex (vertex_t *vertex_in) {
   
   return 1;
@@ -56,7 +56,7 @@ int smp::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::collision_checker_standard<typeparams,NUM_DIMENSIONS>
+int rrglib::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 ::cc_update_delete_edge (edge_t *edge_in) {
   
   return 1;
@@ -66,8 +66,8 @@ int smp::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 // returns a negative number to indicate error
 // returns 0 if there is a collision
 // returns 1 if no collision
-template< class typeparams, int NUM_DIMENSIONS > 
-int smp::collision_checker_standard<typeparams,NUM_DIMENSIONS> 
+template< class typeparams, int NUM_DIMENSIONS >
+int rrglib::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 ::check_collision_state (state_t *state_in) {
 
   if (list_obstacles.size() == 0)
@@ -96,8 +96,8 @@ int smp::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 // returns a negative number to indicate error
 // returns 0 if there is a collision
 // returns 1 if no collision
-template< class typeparams, int NUM_DIMENSIONS > 
-int smp::collision_checker_standard<typeparams,NUM_DIMENSIONS> 
+template< class typeparams, int NUM_DIMENSIONS >
+int rrglib::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 ::check_collision_trajectory (trajectory_t *trajectory_in) {
   
   
@@ -184,8 +184,8 @@ int smp::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 }
 
 
-template< class typeparams, int NUM_DIMENSIONS > 
-int smp::collision_checker_standard<typeparams,NUM_DIMENSIONS> 
+template< class typeparams, int NUM_DIMENSIONS >
+int rrglib::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 ::set_discretization_steps (int num_discretization_steps_in) {
   
   if (num_discretization_steps <= 0) {
@@ -202,8 +202,8 @@ int smp::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 }
 
 
-template< class typeparams, int NUM_DIMENSIONS > 
-int smp::collision_checker_standard<typeparams,NUM_DIMENSIONS> 
+template< class typeparams, int NUM_DIMENSIONS >
+int rrglib::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 ::set_discretization_length (double discretization_length_in) {
   
   if (discretization_length <= 0.0) {
@@ -220,8 +220,8 @@ int smp::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 }
 
 
-template< class typeparams, int NUM_DIMENSIONS > 
-int smp::collision_checker_standard<typeparams,NUM_DIMENSIONS> 
+template< class typeparams, int NUM_DIMENSIONS >
+int rrglib::collision_checker_standard<typeparams,NUM_DIMENSIONS>
 ::add_obstacle (region_t &obstacle_in) {
   
   list_obstacles.push_back (new region_t(obstacle_in));

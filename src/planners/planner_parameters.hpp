@@ -1,10 +1,10 @@
-#ifndef _SMP_PLANNER_PARAMETERS_HPP_
-#define _SMP_PLANNER_PARAMETERS_HPP_
+#ifndef _RRGLIB_PLANNER_PARAMETERS_HPP_
+#define _RRGLIB_PLANNER_PARAMETERS_HPP_
 
-#include <smp/planners/planner_parameters.h>
+#include <planners/planner_parameters.h>
 
 
-smp::planner_parameters
+rrglib::planner_parameters
 ::planner_parameters () {
   
   phase = 2;
@@ -16,13 +16,13 @@ smp::planner_parameters
 }
 
 
-smp::planner_parameters
+rrglib::planner_parameters
 ::~planner_parameters () {
 
 }
 
 
-int smp::planner_parameters
+int rrglib::planner_parameters
 ::set_phase (int phase_in) {
   
   if ( (0 <= phase_in) && (phase_in <= 2) ) {
@@ -35,7 +35,7 @@ int smp::planner_parameters
 }
 
 
-int smp::planner_parameters
+int rrglib::planner_parameters
 ::set_gamma (double gamma_in) {
   
   if (0.0 < gamma_in) {
@@ -48,7 +48,7 @@ int smp::planner_parameters
 }
 
 
-int smp::planner_parameters
+int rrglib::planner_parameters
 ::set_dimension (int dimension_in) {
   
   if (2 <= dimension_in) {
@@ -61,7 +61,7 @@ int smp::planner_parameters
 }
 
 
-int smp::planner_parameters
+int rrglib::planner_parameters
 ::set_max_radius (double max_radius_in) {
   
   if (0 < max_radius_in) {
@@ -74,7 +74,7 @@ int smp::planner_parameters
 }
 
 
-int smp::planner_parameters
+int rrglib::planner_parameters
 ::set_fixed_radius (double fixed_radius_in) {
   
   if (fixed_radius_in > 0.0) 

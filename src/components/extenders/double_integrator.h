@@ -7,20 +7,20 @@
   The author is working on the case when d > 2.
 */
 
-#ifndef _SMP_SYSTEM_DOUBLE_INTEGRATOR_H_
-#define _SMP_SYSTEM_DOUBLE_INTEGRATOR_H_
+#ifndef _RRGLIB_SYSTEM_DOUBLE_INTEGRATOR_H_
+#define _RRGLIB_SYSTEM_DOUBLE_INTEGRATOR_H_
 
 
-#include <smp/components/extenders/state_array_double.h>
-#include <smp/components/extenders/input_array_double.h>
-#include <smp/components/extenders/base.h>
+#include <components/extenders/state_array_double.h>
+#include <components/extenders/input_array_double.h>
+#include <components/extenders/base.h>
 
 
 #include <list>
 
 using namespace std;
 
-namespace smp {
+namespace rrglib {
 
 
     //! Implementation of the state data structure for the double integrator dynamics

@@ -1,27 +1,27 @@
-#ifndef _SMP_PLANNER_RRGSTAR_HPP_
-#define _SMP_PLANNER_RRGSTAR_HPP_
+#ifndef _RRGLIB_PLANNER_RRGSTAR_HPP_
+#define _RRGLIB_PLANNER_RRGSTAR_HPP_
 
-#include <smp/planners/rrgstar.h>
+#include <planners/rrgstar.h>
 
-#include <smp/planners/base_incremental.hpp>
-#include <smp/planners/planner_parameters.hpp>
+#include <planners/base_incremental.hpp>
+#include <planners/planner_parameters.hpp>
 
 
 
 template< class typeparams >
-smp::rrgstar<typeparams>
+rrglib::rrgstar<typeparams>
 ::rrgstar()
 { }
 
 
 template< class typeparams >
-smp::rrgstar<typeparams>
+rrglib::rrgstar<typeparams>
 ::~rrgstar()
 { }
 
 
 template< class typeparams >
-smp::rrgstar<typeparams>
+rrglib::rrgstar<typeparams>
 ::rrgstar( sampler_t &sampler_in, distance_evaluator_t &distance_evaluator_in, extender_t &extender_in,
 		   collision_checker_t &collision_checker_in, model_checker_t &model_checker_in,
 		   cost_evaluator_t &cost_evaluator_in ) :
@@ -35,7 +35,7 @@ smp::rrgstar<typeparams>
 
 
 template< class typeparams >
-int smp::rrgstar<typeparams>
+int rrglib::rrgstar<typeparams>
 ::initialize( state_t *initial_state_in )
 {
 	planner_incremental<typeparams>::initialize( initial_state_in );
@@ -44,7 +44,7 @@ int smp::rrgstar<typeparams>
 }
 
 template< class typeparams >
-int smp::rrgstar<typeparams>
+int rrglib::rrgstar<typeparams>
 ::iteration()
 {
 	// 1. Sample a new state from the obstacle-free space
@@ -219,14 +219,14 @@ int smp::rrgstar<typeparams>
 
 
 template< class typeparams >
-bool smp::rrgstar<typeparams>
+bool rrglib::rrgstar<typeparams>
 ::has_feasible() const
 {
 	return model_checker.has_feasible();
 }
 
 template< class typeparams >
-double smp::rrgstar<typeparams>
+double rrglib::rrgstar<typeparams>
 ::current_min_cost() const
 {
 	return model_checker.mcpg.getCurrentMinCost();
@@ -234,7 +234,7 @@ double smp::rrgstar<typeparams>
 
 
 template<class typeparams>
-void smp::rrgstar<typeparams>
+void rrglib::rrgstar<typeparams>
 ::dump_json( bool include_graph ) const
 {
 	int k;

@@ -2,16 +2,16 @@
   \brief Branch and bound with the Euclidean distance heuristic
 */
 
-#ifndef _SMP_BRANCH_AND_BOUND_EUCLIDEAN_H_
-#define _SMP_BRANCH_AND_BOUND_EUCLIDEAN_H_
+#ifndef _RRGLIB_BRANCH_AND_BOUND_EUCLIDEAN_H_
+#define _RRGLIB_BRANCH_AND_BOUND_EUCLIDEAN_H_
 
-#include <smp/utils/branch_and_bound_base.h>
+#include <utils/branch_and_bound_base.h>
 
-#include <smp/planner_utils/vertex_edge.h>
-#include <smp/common/region.h>
+#include <planner_utils/vertex_edge.h>
+#include <common/region.h>
 
 
-namespace smp{
+namespace rrglib{
 
     //! Branch and bound with the Euclidean distance admissible heuristic (not considering obstacles).
     /*!

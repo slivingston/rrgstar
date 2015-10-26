@@ -7,14 +7,14 @@
   the new trajectory is suitable to be included in the graph.
 */
 
-#ifndef _SMP_COLLISION_CHECKER_BASE_H_
-#define _SMP_COLLISION_CHECKER_BASE_H_
+#ifndef _RRGLIB_COLLISION_CHECKER_BASE_H_
+#define _RRGLIB_COLLISION_CHECKER_BASE_H_
 
-#include <smp/planner_utils/trajectory.h>
-#include <smp/planner_utils/vertex_edge.h>
+#include <planner_utils/trajectory.h>
+#include <planner_utils/vertex_edge.h>
 
 
-namespace smp {
+namespace rrglib {
 
     //! An abstract collision checker.
     /*!

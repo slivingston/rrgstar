@@ -5,11 +5,11 @@
   in the Euclidean space, the dimension of which is a template argument.
 */
 
-#ifndef _SMP_REGION_H_
-#define _SMP_REGION_H_
+#ifndef _RRGLIB_REGION_H_
+#define _RRGLIB_REGION_H_
 
 
-namespace smp {
+namespace rrglib {
 
     //! A rectangular region in an Euclidean space of prespecified dimension.
     /*!

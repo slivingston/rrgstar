@@ -1,27 +1,27 @@
-#ifndef _SMP_PLANNER_BASE_HPP_
-#define _SMP_PLANNER_BASE_HPP_
+#ifndef _RRGLIB_PLANNER_BASE_HPP_
+#define _RRGLIB_PLANNER_BASE_HPP_
 
 #include <iostream>
 #include <list>
 
 
-#include <smp/planners/base.h>
+#include <planners/base.h>
 
-#include <smp/planner_utils/vertex_edge.hpp>
-#include <smp/planner_utils/trajectory.hpp>
+#include <planner_utils/vertex_edge.hpp>
+#include <planner_utils/trajectory.hpp>
 
-#include <smp/components/extenders/base.hpp>
-#include <smp/components/samplers/base.hpp>
-#include <smp/components/collision_checkers/base.hpp>
-#include <smp/components/distance_evaluators/base.hpp>
-#include <smp/components/model_checkers/base.hpp>
+#include <components/extenders/base.hpp>
+#include <components/samplers/base.hpp>
+#include <components/collision_checkers/base.hpp>
+#include <components/distance_evaluators/base.hpp>
+#include <components/model_checkers/base.hpp>
 
 using namespace std;
 
 
 
 template< class typeparams >
-smp::planner<typeparams>
+rrglib::planner<typeparams>
 ::planner () {
 
   list_vertices.clear ();
@@ -31,7 +31,7 @@ smp::planner<typeparams>
 
 
 template< class typeparams >
-smp::planner<typeparams>
+rrglib::planner<typeparams>
 ::planner (sampler_t &sampler_in, distance_evaluator_t &distance_evaluator_in, extender_t &extender_in,
 	   collision_checker_t &collision_checker_in, model_checker_t &model_checker_in)
   : sampler(sampler_in), distance_evaluator(distance_evaluator_in), extender(extender_in),
@@ -44,7 +44,7 @@ smp::planner<typeparams>
 
 
 template< class typeparams >
-smp::planner<typeparams>
+rrglib::planner<typeparams>
 ::~planner () {
 
   initialize ();  // run the initialization function that clears up
@@ -55,7 +55,7 @@ smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::initialize () {
 
   // Delete all edges and vertices
@@ -79,7 +79,7 @@ int smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::insert_vertex (vertex_t *vertex_in)
 {
 
@@ -114,7 +114,7 @@ int smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::delete_vertex (vertex_t *vertex_in) {
 
 
@@ -173,7 +173,7 @@ int smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::insert_edge (vertex_t *vertex_src_in, edge_t *edge_in, vertex_t *vertex_dst_in)
 {
 	// WARNING: Overriding pointed data. May cause memory leaks.
@@ -202,7 +202,7 @@ int smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::delete_edge (edge_t *edge_in) {
 
   // UPDATE ALL COMPONENTS
@@ -229,7 +229,7 @@ int smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::insert_trajectory (vertex_t *vertex_src_in, trajectory_t *trajectory_in,
 					 list<state_t*> *intermediate_vertices_in,
 					 vertex_t *vertex_dst_in)
@@ -270,7 +270,7 @@ int smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::insert_trajectories (vertex_t *vertex_src_in, list< trajectory_t *> *list_trajectories_in, vertex_t *vertex_dst_in) {
 
   // Exit if there no trajectories in the list
@@ -323,7 +323,7 @@ int smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::init_sampler (sampler_t &sampler_in) {
 
   sampler = sampler_in;
@@ -333,7 +333,7 @@ int smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::init_distance_evaluator (distance_evaluator_t &distance_evaluator_in) {
 
   distance_evaluator = distance_evaluator_in;
@@ -343,7 +343,7 @@ int smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::init_extender (extender_t &extender_in) {
 
   extender = extender_in;
@@ -353,7 +353,7 @@ int smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::init_collision_checker (collision_checker_t &collision_checker_in) {
 
   collision_checker = collision_checker_in;
@@ -363,7 +363,7 @@ int smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::init_model_checker (model_checker_t &model_checker_in) {
 
   model_checker = model_checker_in;
@@ -374,7 +374,7 @@ int smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::clear_update_function_list_vertex_insert () {
 
   list_update_insert_vertex_functions.clear ();
@@ -384,7 +384,7 @@ int smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::register_new_update_function_vertex_insert (vertex_update_func_t *vertex_update_func_in) {
 
   list_update_insert_vertex_functions.push_back (vertex_update_func_in);
@@ -394,7 +394,7 @@ int smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::clear_update_function_list_vertex_delete ()  {
 
   list_update_delete_vertex_functions.clear ();
@@ -405,7 +405,7 @@ int smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::register_new_update_function_vertex_delete (vertex_update_func_t *vertex_update_func_in)  {
 
   list_update_delete_vertex_functions.push_back (vertex_update_func_in);
@@ -415,7 +415,7 @@ int smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::clear_update_function_list_edge_insert ()  {
 
   list_update_insert_edge_functions.clear ();
@@ -425,7 +425,7 @@ int smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::register_new_update_function_edge_insert (edge_update_func_t *edge_update_func_in) {
 
   list_update_insert_edge_functions.push_back (edge_update_func_in);
@@ -436,7 +436,7 @@ int smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::clear_update_function_list_edge_delete ()  {
 
   list_update_delete_edge_functions.clear ();
@@ -446,7 +446,7 @@ int smp::planner<typeparams>
 
 
 template< class typeparams >
-int smp::planner<typeparams>
+int rrglib::planner<typeparams>
 ::register_new_update_function_edge_delete (edge_update_func_t *edge_update_func_in)  {
 
   list_update_delete_edge_functions.push_back (edge_update_func_in);

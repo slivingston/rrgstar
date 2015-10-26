@@ -1,27 +1,27 @@
-#ifndef _SMP_PLANNER_RRG_HPP_
-#define _SMP_PLANNER_RRG_HPP_
+#ifndef _RRGLIB_PLANNER_RRG_HPP_
+#define _RRGLIB_PLANNER_RRG_HPP_
 
-#include <smp/planners/rrg.h>
+#include <planners/rrg.h>
 
-#include <smp/planners/base_incremental.hpp>
-#include <smp/planners/planner_parameters.hpp>
+#include <planners/base_incremental.hpp>
+#include <planners/planner_parameters.hpp>
 
 
 
 template< class typeparams >
-smp::rrg<typeparams>
+rrglib::rrg<typeparams>
 ::rrg()
 { }
 
 
 template< class typeparams >
-smp::rrg<typeparams>
+rrglib::rrg<typeparams>
 ::~rrg()
 { }
 
 
 template< class typeparams >
-smp::rrg<typeparams>
+rrglib::rrg<typeparams>
 ::rrg( sampler_t &sampler_in, distance_evaluator_t &distance_evaluator_in,
 	   extender_t &extender_in, collision_checker_t &collision_checker_in,
 	   model_checker_t &model_checker_in) :
@@ -32,7 +32,7 @@ smp::rrg<typeparams>
 
 
 template< class typeparams >
-int smp::rrg<typeparams>
+int rrglib::rrg<typeparams>
 ::iteration()
 {
 	// TODO: Check whether the rrg is initialized properly (including its base classes)
@@ -207,7 +207,7 @@ int smp::rrg<typeparams>
 
 
 template< class typeparams >
-bool smp::rrg<typeparams>
+bool rrglib::rrg<typeparams>
 ::has_feasible() const
 {
 	return model_checker.has_feasible();
@@ -215,7 +215,7 @@ bool smp::rrg<typeparams>
 
 
 template<class typeparams>
-void smp::rrg<typeparams>
+void rrglib::rrg<typeparams>
 ::dump_json( bool include_graph ) const
 {
 	int k;

@@ -1,14 +1,14 @@
-#ifndef _SMP_PLANNER_RRT_HPP_
-#define _SMP_PLANNER_RRT_HPP_
+#ifndef _RRGLIB_PLANNER_RRT_HPP_
+#define _RRGLIB_PLANNER_RRT_HPP_
 
 
-#include <smp/planners/rrt.h>
+#include <planners/rrt.h>
 
-#include <smp/planners/base_incremental.hpp>
+#include <planners/base_incremental.hpp>
 
 
 template< class typeparams >
-smp::rrt<typeparams>
+rrglib::rrt<typeparams>
 ::rrt () {
   
 
@@ -17,7 +17,7 @@ smp::rrt<typeparams>
 
 
 template< class typeparams >
-smp::rrt<typeparams>
+rrglib::rrt<typeparams>
 ::~rrt () {
 
   
@@ -25,7 +25,7 @@ smp::rrt<typeparams>
 
 
 template< class typeparams >
-smp::rrt<typeparams>
+rrglib::rrt<typeparams>
 ::rrt (sampler_t &sampler_in, distance_evaluator_t &distance_evaluator_in, extender_t &extender_in, 
        collision_checker_t &collision_checker_in, model_checker_t &model_checker_in) :
   planner_incremental<typeparams>(sampler_in, distance_evaluator_in, extender_in, collision_checker_in, model_checker_in) {
@@ -35,7 +35,7 @@ smp::rrt<typeparams>
 
 
 template< class typeparams >
-int smp::rrt<typeparams>
+int rrglib::rrt<typeparams>
 ::iteration () {
   
   // TODO: Check whether the rrt is initialized properly (including its base classes)

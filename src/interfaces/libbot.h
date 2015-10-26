@@ -7,19 +7,19 @@
   distribution of the smp.
 */
 
-#ifndef _SMP_INTERFACE_LIBBOT_H_
-#define _SMP_INTERFACE_LIBBOT_H_
+#ifndef _RRGLIB_INTERFACE_LIBBOT_H_
+#define _RRGLIB_INTERFACE_LIBBOT_H_
 
-#include <smp/planners/base.h>
+#include <planners/base.h>
 
-#include <smp/interfaces/base.h>
-#include <smp/common/region.h>
+#include <interfaces/base.h>
+#include <common/region.h>
 
 #include <common/globals.h>
 #include "../../../../libbot/src/lcmtypes/lcmtypes.h"
 
 
-namespace smp {
+namespace rrglib {
 
     template< class typeparams > class interface_libbot;
 

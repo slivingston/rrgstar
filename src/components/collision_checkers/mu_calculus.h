@@ -5,16 +5,16 @@
   model checker. The region class, which is used to describe rectangular 
   obstacles in the Euclidean space is defined in region.h
 */
-#ifndef _SMP_COLLISION_CHECKER_MU_CALCULUS_H_
-#define _SMP_COLLISION_CHECKER_MU_CALCULUS_H_
+#ifndef _RRGLIB_COLLISION_CHECKER_MU_CALCULUS_H_
+#define _RRGLIB_COLLISION_CHECKER_MU_CALCULUS_H_
 
-#include <smp/components/collision_checkers/base.h>
-#include <smp/common/region.h>
+#include <components/collision_checkers/base.h>
+#include <common/region.h>
 
 #include <list>
 
 
-namespace smp {
+namespace rrglib {
 
     //! mu-calculus collision checker
     /*!

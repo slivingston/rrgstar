@@ -3,15 +3,15 @@
 
 */
 
-#ifndef _SMP_TRAJECTORY_H_
-#define _SMP_TRAJECTORY_H_
+#ifndef _RRGLIB_TRAJECTORY_H_
+#define _RRGLIB_TRAJECTORY_H_
 
 #include<list>
 
 using namespace std;
 
 
-namespace smp {
+namespace rrglib {
 
     //! Trajectory definition as a states with interleaving inputs. 
     /*!

@@ -5,13 +5,13 @@
   cost of the trajectory based on the time it takes to execute it.
 */
 
-#ifndef _SMP_COST_EVALUATOR_TIME_H_
-#define _SMP_COST_EVALUATOR_TIME_H_
+#ifndef _RRGLIB_COST_EVALUATOR_TIME_H_
+#define _RRGLIB_COST_EVALUATOR_TIME_H_
 
-#include <smp/components/cost_evaluators/base.h>
+#include <components/cost_evaluators/base.h>
 
 
-namespace smp {
+namespace rrglib {
 
     //! The cost evaluator class based on the trajectory execution time
     /*!

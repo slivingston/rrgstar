@@ -1,14 +1,14 @@
-#ifndef _SMP_MODEL_CHECKER_REACHABILITY_HPP_
-#define _SMP_MODEL_CHECKER_REACHABILITY_HPP_
+#ifndef _RRGLIB_MODEL_CHECKER_REACHABILITY_HPP_
+#define _RRGLIB_MODEL_CHECKER_REACHABILITY_HPP_
 
-#include <smp/components/model_checkers/reachability.h>
+#include <components/model_checkers/reachability.h>
 
-#include <smp/components/model_checkers/base.hpp>
-#include <smp/common/region.hpp>
+#include <components/model_checkers/base.hpp>
+#include <common/region.hpp>
 
 
 template < class typeparams, int NUM_DIMENSIONS >
-smp::model_checker_reachability<typeparams,NUM_DIMENSIONS> 
+rrglib::model_checker_reachability<typeparams,NUM_DIMENSIONS>
 ::model_checker_reachability () {
 
   for (int i = 0; i < NUM_DIMENSIONS; i++) {
@@ -20,7 +20,7 @@ smp::model_checker_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template < class typeparams, int NUM_DIMENSIONS >
-smp::model_checker_reachability<typeparams,NUM_DIMENSIONS> 
+rrglib::model_checker_reachability<typeparams,NUM_DIMENSIONS>
 ::~model_checker_reachability () {
 
 
@@ -28,7 +28,7 @@ smp::model_checker_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template < class typeparams, int NUM_DIMENSIONS >
-smp::model_checker_reachability<typeparams,NUM_DIMENSIONS> 
+rrglib::model_checker_reachability<typeparams,NUM_DIMENSIONS>
 ::model_checker_reachability (const region_t &region_in) {
   
   region_goal = region_in;
@@ -36,7 +36,7 @@ smp::model_checker_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template < class typeparams, int NUM_DIMENSIONS >
-int smp::model_checker_reachability<typeparams,NUM_DIMENSIONS> 
+int rrglib::model_checker_reachability<typeparams,NUM_DIMENSIONS>
 ::set_goal_region (const region_t &region_in) {
 
   region_goal = region_in;
@@ -46,7 +46,7 @@ int smp::model_checker_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template < class typeparams, int NUM_DIMENSIONS >
-int smp::model_checker_reachability<typeparams,NUM_DIMENSIONS>
+int rrglib::model_checker_reachability<typeparams,NUM_DIMENSIONS>
 ::mc_update_insert_vertex (vertex_t *vertex_in) {
   
   for (int i = 0; i < NUM_DIMENSIONS; i++)  {
@@ -66,7 +66,7 @@ int smp::model_checker_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template < class typeparams, int NUM_DIMENSIONS >
-int smp::model_checker_reachability<typeparams,NUM_DIMENSIONS>
+int rrglib::model_checker_reachability<typeparams,NUM_DIMENSIONS>
 ::mc_update_insert_edge (edge_t *edge_in) {
   
   return 1;
@@ -74,7 +74,7 @@ int smp::model_checker_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template < class typeparams, int NUM_DIMENSIONS >
-int smp::model_checker_reachability<typeparams,NUM_DIMENSIONS>
+int rrglib::model_checker_reachability<typeparams,NUM_DIMENSIONS>
 ::mc_update_delete_vertex (vertex_t *vertex_in) {
   
   return 1;
@@ -82,7 +82,7 @@ int smp::model_checker_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template < class typeparams, int NUM_DIMENSIONS >
-int smp::model_checker_reachability<typeparams,NUM_DIMENSIONS>
+int rrglib::model_checker_reachability<typeparams,NUM_DIMENSIONS>
 ::mc_update_delete_edge (edge_t *edge_in) {
   
   return 1;
@@ -90,7 +90,7 @@ int smp::model_checker_reachability<typeparams,NUM_DIMENSIONS>
 
 
 template < class typeparams, int NUM_DIMENSIONS >
-int smp::model_checker_reachability<typeparams,NUM_DIMENSIONS>
+int rrglib::model_checker_reachability<typeparams,NUM_DIMENSIONS>
 ::get_solution (trajectory_t &trajectory_out) {
   
   trajectory_out.clear ();

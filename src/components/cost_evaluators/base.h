@@ -5,14 +5,14 @@
   generic cost evaluator.
 */
 
-#ifndef _SMP_COST_EVALUATOR_BASE_H_
-#define _SMP_COST_EVALUATOR_BASE_H_
+#ifndef _RRGLIB_COST_EVALUATOR_BASE_H_
+#define _RRGLIB_COST_EVALUATOR_BASE_H_
 
-#include <smp/planner_utils/trajectory.h>
-#include <smp/planner_utils/vertex_edge.h>
+#include <planner_utils/trajectory.h>
+#include <planner_utils/vertex_edge.h>
 
 
-namespace smp {
+namespace rrglib {
 
     //! The abstract class that specifies the structure of the cost evaluator component.
     /*!

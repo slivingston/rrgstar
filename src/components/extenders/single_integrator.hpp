@@ -1,12 +1,12 @@
-#ifndef _SMP_SYSTEM_SINGLE_INTEGRATOR_HPP_
-#define _SMP_SYSTEM_SINGLE_INTEGRATOR_HPP_
+#ifndef _RRGLIB_SYSTEM_SINGLE_INTEGRATOR_HPP_
+#define _RRGLIB_SYSTEM_SINGLE_INTEGRATOR_HPP_
 
 
-#include <smp/components/extenders/single_integrator.h>
+#include <components/extenders/single_integrator.h>
 
-#include <smp/components/extenders/state_array_double.hpp>
-#include <smp/components/extenders/input_array_double.hpp>
-#include <smp/components/extenders/base.hpp>
+#include <components/extenders/state_array_double.hpp>
+#include <components/extenders/input_array_double.hpp>
+#include <components/extenders/base.hpp>
 
 #include <iostream>
 #include <cmath>
@@ -16,7 +16,7 @@ using namespace std;
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::extender_single_integrator< typeparams, NUM_DIMENSIONS >
+int rrglib::extender_single_integrator< typeparams, NUM_DIMENSIONS >
 ::ex_update_insert_vertex (vertex_t *vertex_in) {
 
   return 1;
@@ -24,7 +24,7 @@ int smp::extender_single_integrator< typeparams, NUM_DIMENSIONS >
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::extender_single_integrator< typeparams, NUM_DIMENSIONS >
+int rrglib::extender_single_integrator< typeparams, NUM_DIMENSIONS >
 ::ex_update_insert_edge (edge_t *edge_in) {
 
   return 1;
@@ -32,7 +32,7 @@ int smp::extender_single_integrator< typeparams, NUM_DIMENSIONS >
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::extender_single_integrator< typeparams, NUM_DIMENSIONS >
+int rrglib::extender_single_integrator< typeparams, NUM_DIMENSIONS >
 ::ex_update_delete_vertex (vertex_t *vertex_in){
 
   return 1;
@@ -40,7 +40,7 @@ int smp::extender_single_integrator< typeparams, NUM_DIMENSIONS >
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::extender_single_integrator< typeparams, NUM_DIMENSIONS >
+int rrglib::extender_single_integrator< typeparams, NUM_DIMENSIONS >
 ::ex_update_delete_edge (edge_t *edge_in) {
 
   return 1;
@@ -48,7 +48,7 @@ int smp::extender_single_integrator< typeparams, NUM_DIMENSIONS >
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-smp::extender_single_integrator< typeparams, NUM_DIMENSIONS >
+rrglib::extender_single_integrator< typeparams, NUM_DIMENSIONS >
 ::extender_single_integrator () {
 
   max_length = 1.0;
@@ -56,13 +56,13 @@ smp::extender_single_integrator< typeparams, NUM_DIMENSIONS >
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-smp::extender_single_integrator< typeparams, NUM_DIMENSIONS >
+rrglib::extender_single_integrator< typeparams, NUM_DIMENSIONS >
 ::~extender_single_integrator () {
 
 }
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::extender_single_integrator< typeparams, NUM_DIMENSIONS >
+int rrglib::extender_single_integrator< typeparams, NUM_DIMENSIONS >
 ::set_max_length (double max_length_in) {
 
   if (max_length_in <= 0.0)
@@ -75,7 +75,7 @@ int smp::extender_single_integrator< typeparams, NUM_DIMENSIONS >
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::extender_single_integrator< typeparams, NUM_DIMENSIONS >
+int rrglib::extender_single_integrator< typeparams, NUM_DIMENSIONS >
 ::extend( state_t *state_from_in, state_t *state_towards_in,
 		  int *exact_connection_out, trajectory_t *trajectory_out,
 		  list<state_t*> *intermediate_vertices_out )

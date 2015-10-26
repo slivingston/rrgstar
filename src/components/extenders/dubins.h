@@ -7,20 +7,20 @@
 */
 
 
-#ifndef _SMP_SYSTEM_DUBINS_H_
-#define _SMP_SYSTEM_DUBINS_H_
+#ifndef _RRGLIB_SYSTEM_DUBINS_H_
+#define _RRGLIB_SYSTEM_DUBINS_H_
 
 
-#include <smp/components/extenders/state_array_double.h>
-#include <smp/components/extenders/input_array_double.h>
-#include <smp/components/extenders/base.h>
+#include <components/extenders/state_array_double.h>
+#include <components/extenders/input_array_double.h>
+#include <components/extenders/base.h>
 
 #include <list>
 
 using namespace std;
 
 
-namespace smp {
+namespace rrglib {
 
     //! Implementation of the state data structure for the Dubins car dynamics
     /*!

@@ -5,11 +5,11 @@
   data structure as a double array. 
 */
 
-#ifndef _SMP_INPUT_ARRAY_DOUBLE_H_
-#define _SMP_INPUT_ARRAY_DOUBLE_H_
+#ifndef _RRGLIB_INPUT_ARRAY_DOUBLE_H_
+#define _RRGLIB_INPUT_ARRAY_DOUBLE_H_
 
 
-namespace smp {
+namespace rrglib {
 
     //! Implementation of the input data structure as a double array.
     /*!

@@ -10,14 +10,14 @@
   the current best trajectory in the tree.
 */
 
-#ifndef _SMP_BRANCH_AND_BOUND_BASE_H_
-#define _SMP_BRANCH_AND_BOUND_BASE_H_
+#ifndef _RRGLIB_BRANCH_AND_BOUND_BASE_H_
+#define _RRGLIB_BRANCH_AND_BOUND_BASE_H_
 
-#include <smp/planner_utils/vertex_edge.h>
-#include <smp/planners/base.h>
+#include <planner_utils/vertex_edge.h>
+#include <planners/base.h>
 
 
-namespace smp{
+namespace rrglib{
 
     //! Branch and bound base class.
     /*!

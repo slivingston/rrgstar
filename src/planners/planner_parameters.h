@@ -5,11 +5,11 @@
   of the algorithms. 
 */
 
-#ifndef _SMP_PLANNER_PARAMETERS_H_
-#define _SMP_PLANNER_PARAMETERS_H_
+#ifndef _RRGLIB_PLANNER_PARAMETERS_H_
+#define _RRGLIB_PLANNER_PARAMETERS_H_
 
 
-namespace smp {
+namespace rrglib {
     
     
     //! Parameters for the RRG and the RRT* algorithms

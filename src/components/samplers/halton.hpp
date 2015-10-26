@@ -1,17 +1,17 @@
-#ifndef _SMP_SAMPLER_HALTON_HPP_
-#define _SMP_SAMPLER_HALTON_HPP_
+#ifndef _RRGLIB_SAMPLER_HALTON_HPP_
+#define _RRGLIB_SAMPLER_HALTON_HPP_
 
 #include <iostream>
 #include <cstdlib>
 
-#include <smp/components/samplers/halton.h>
+#include <components/samplers/halton.h>
 
-#include <smp/components/samplers/base.hpp>
-#include <smp/common/region.hpp>
+#include <components/samplers/base.hpp>
+#include <common/region.hpp>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_halton<typeparams,NUM_DIMENSIONS>
+int rrglib::sampler_halton<typeparams,NUM_DIMENSIONS>
 ::sm_update_insert_vertex (vertex_t *vertex_in) {
   
   return 1;
@@ -19,7 +19,7 @@ int smp::sampler_halton<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_halton<typeparams,NUM_DIMENSIONS>
+int rrglib::sampler_halton<typeparams,NUM_DIMENSIONS>
 ::sm_update_insert_edge (edge_t *edge_in) {
 
   return 1;
@@ -27,7 +27,7 @@ int smp::sampler_halton<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_halton<typeparams,NUM_DIMENSIONS>
+int rrglib::sampler_halton<typeparams,NUM_DIMENSIONS>
 ::sm_update_delete_vertex (vertex_t *vertex_in) {
   
   return 1;
@@ -35,7 +35,7 @@ int smp::sampler_halton<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_halton<typeparams,NUM_DIMENSIONS>
+int rrglib::sampler_halton<typeparams,NUM_DIMENSIONS>
 ::sm_update_delete_edge (edge_t *edge_in) {
   
   return 1;
@@ -43,7 +43,7 @@ int smp::sampler_halton<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-smp::sampler_halton<typeparams,NUM_DIMENSIONS>
+rrglib::sampler_halton<typeparams,NUM_DIMENSIONS>
 ::sampler_halton () {
   
   // Initialize the sampling distribution support.
@@ -59,7 +59,7 @@ smp::sampler_halton<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-smp::sampler_halton<typeparams,NUM_DIMENSIONS>
+rrglib::sampler_halton<typeparams,NUM_DIMENSIONS>
 ::~sampler_halton () {
     
 
@@ -67,7 +67,7 @@ smp::sampler_halton<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_halton<typeparams,NUM_DIMENSIONS>
+int rrglib::sampler_halton<typeparams,NUM_DIMENSIONS>
 ::sample (state_t **state_sample_out) {
   
   if (NUM_DIMENSIONS <= 0)
@@ -91,7 +91,7 @@ int smp::sampler_halton<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::sampler_halton<typeparams,NUM_DIMENSIONS>
+int rrglib::sampler_halton<typeparams,NUM_DIMENSIONS>
 ::set_support (region_t support_in) {
   
   support = support_in;

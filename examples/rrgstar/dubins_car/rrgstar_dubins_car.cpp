@@ -4,20 +4,20 @@ using namespace std;
 
 
 // SMP HEADER FILES ------
-#include <smp/components/samplers/uniform.hpp>
-#include <smp/components/distance_evaluators/kdtree.hpp>
-#include <smp/components/extenders/dubins.hpp>
-#include <smp/components/collision_checkers/mu_calculus.hpp>
-#include <smp/components/model_checkers/mu_calculus_pg.hpp>
-#include <smp/components/cost_evaluators/time.hpp>
+#include <components/samplers/uniform.hpp>
+#include <components/distance_evaluators/kdtree.hpp>
+#include <components/extenders/dubins.hpp>
+#include <components/collision_checkers/mu_calculus.hpp>
+#include <components/model_checkers/mu_calculus_pg.hpp>
+#include <components/cost_evaluators/time.hpp>
 
-#include <smp/planners/rrgstar.hpp>
+#include <planners/rrgstar.hpp>
 
-#include <smp/planner_utils/trajectory.hpp>
+#include <planner_utils/trajectory.hpp>
 
 
 // SMP TYPE DEFINITIONS -------
-using namespace smp;
+using namespace rrglib;
 
 // State, input, vertex_data, and edge_data definitions
 typedef state_dubins state_t;

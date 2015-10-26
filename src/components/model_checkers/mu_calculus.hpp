@@ -1,13 +1,13 @@
-#ifndef _SMP_MODEL_CHECKER_MU_CALCULUS_HPP_
-#define _SMP_MODEL_CHECKER_MU_CALCULUS_HPP_
+#ifndef _RRGLIB_MODEL_CHECKER_MU_CALCULUS_HPP_
+#define _RRGLIB_MODEL_CHECKER_MU_CALCULUS_HPP_
 
-#include <smp/components/model_checkers/mu_calculus.h>
+#include <components/model_checkers/mu_calculus.h>
 
-#include <smp/components/model_checkers/base.hpp>
+#include <components/model_checkers/base.hpp>
 
 
 template< class typeparams >
-smp::model_checker_mu_calculus<typeparams>
+rrglib::model_checker_mu_calculus<typeparams>
 ::model_checker_mu_calculus ()
 	: collision_checker(NULL)
 {
@@ -20,14 +20,14 @@ smp::model_checker_mu_calculus<typeparams>
 
 
 template< class typeparams >
-smp::model_checker_mu_calculus<typeparams>
+rrglib::model_checker_mu_calculus<typeparams>
 ::~model_checker_mu_calculus () {
 
 
 };
 
 template< class typeparams>
-void smp::model_checker_mu_calculus<typeparams>
+void rrglib::model_checker_mu_calculus<typeparams>
 ::add_labeler( collision_checker_mu_calculus<typeparams> *collision_checker_in )
 {
 	collision_checker = collision_checker_in;
@@ -35,7 +35,7 @@ void smp::model_checker_mu_calculus<typeparams>
 
 
 template< class typeparams >
-int smp::model_checker_mu_calculus<typeparams>
+int rrglib::model_checker_mu_calculus<typeparams>
 ::mc_update_insert_vertex (vertex_t *vertex_in) {
 
   // Create a new state
@@ -72,7 +72,7 @@ int smp::model_checker_mu_calculus<typeparams>
 
 
 template< class typeparams >
-int smp::model_checker_mu_calculus<typeparams>
+int rrglib::model_checker_mu_calculus<typeparams>
 ::mc_update_insert_edge (edge_t *edge_in) {
 
   vertex_t *vertex_src = edge_in->vertex_src;
@@ -87,7 +87,7 @@ int smp::model_checker_mu_calculus<typeparams>
 
 
 template< class typeparams >
-int smp::model_checker_mu_calculus<typeparams>
+int rrglib::model_checker_mu_calculus<typeparams>
 ::mc_update_delete_vertex (vertex_t *vertex_in) {
 
   return 1;
@@ -95,21 +95,21 @@ int smp::model_checker_mu_calculus<typeparams>
 
 
 template< class typeparams >
-int smp::model_checker_mu_calculus<typeparams>
+int rrglib::model_checker_mu_calculus<typeparams>
 ::mc_update_delete_edge (edge_t *edge_in) {
 
   return 1;
 }
 
 template< class typeparams >
-bool smp::model_checker_mu_calculus<typeparams>
+bool rrglib::model_checker_mu_calculus<typeparams>
 ::has_feasible() const
 {
 	return found_solution;
 }
 
 template< class typeparams >
-int smp::model_checker_mu_calculus<typeparams>
+int rrglib::model_checker_mu_calculus<typeparams>
 ::get_solution (trajectory_t &trajectory_out)
 {
 

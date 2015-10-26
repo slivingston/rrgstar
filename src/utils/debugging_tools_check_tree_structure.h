@@ -12,8 +12,8 @@
   monotonicity constraint. See the documentation of each function for further details.
   */
 
-#ifndef _SMP_DEBUGGING_TOOLS_CHECK_TREE_STRUCTURE_H_
-#define _SMP_DEBUGGING_TOOLS_CHECK_TREE_STRUCTURE_H_
+#ifndef _RRGLIB_DEBUGGING_TOOLS_CHECK_TREE_STRUCTURE_H_
+#define _RRGLIB_DEBUGGING_TOOLS_CHECK_TREE_STRUCTURE_H_
 
 
 /**

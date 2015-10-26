@@ -5,14 +5,14 @@
   a bounded region.
 */
 
-#ifndef _SMP_SAMPLER_HALTON_H_
-#define _SMP_SAMPLER_HALTON_H_
+#ifndef _RRGLIB_SAMPLER_HALTON_H_
+#define _RRGLIB_SAMPLER_HALTON_H_
 
-#include <smp/components/samplers/base.h>
-#include <smp/common/region.h>
-#include <smp/external_libraries/halton/halton.h>
+#include <components/samplers/base.h>
+#include <common/region.h>
+#include <external_libraries/halton/halton.h>
 
-namespace smp {
+namespace rrglib {
 
     //! Implements the sampler components that relies on halton sampling.
     /*!

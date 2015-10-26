@@ -1,15 +1,15 @@
-#ifndef _SMP_BRANCH_AND_BOUND_EUCLIDEAN_HPP_
-#define _SMP_BRANCH_AND_BOUND_EUCLIDEAN_HPP_
+#ifndef _RRGLIB_BRANCH_AND_BOUND_EUCLIDEAN_HPP_
+#define _RRGLIB_BRANCH_AND_BOUND_EUCLIDEAN_HPP_
 
-#include <smp/utils/branch_and_bound_euclidean.h>
+#include <utils/branch_and_bound_euclidean.h>
 
-#include <smp/planner_utils/vertex_edge.hpp>
-#include <smp/utils/branch_and_bound_base.hpp>
+#include <planner_utils/vertex_edge.hpp>
+#include <utils/branch_and_bound_base.hpp>
 
 #include <cmath>
 
 template< class typeparams, int NUM_DIMENSIONS >
-smp::branch_and_bound_euclidean<typeparams,NUM_DIMENSIONS>
+rrglib::branch_and_bound_euclidean<typeparams,NUM_DIMENSIONS>
 ::branch_and_bound_euclidean () {
   
   for (int i = 0; i < NUM_DIMENSIONS; i++) {
@@ -22,7 +22,7 @@ smp::branch_and_bound_euclidean<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-smp::branch_and_bound_euclidean<typeparams,NUM_DIMENSIONS>
+rrglib::branch_and_bound_euclidean<typeparams,NUM_DIMENSIONS>
 ::~branch_and_bound_euclidean () {
 
 }
@@ -30,7 +30,7 @@ smp::branch_and_bound_euclidean<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::branch_and_bound_euclidean<typeparams,NUM_DIMENSIONS>
+int rrglib::branch_and_bound_euclidean<typeparams,NUM_DIMENSIONS>
 ::add_children_to_list (list<vertex_t*> &list_vertices_in, vertex_t *vertex_in) {
   
   list_vertices_in.push_back (vertex_in);
@@ -49,7 +49,7 @@ int smp::branch_and_bound_euclidean<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::branch_and_bound_euclidean<typeparams,NUM_DIMENSIONS>
+int rrglib::branch_and_bound_euclidean<typeparams,NUM_DIMENSIONS>
 ::run_branch_and_bound () {
   
   if (this->upper_bound_cost < 0.0) 
@@ -159,7 +159,7 @@ int smp::branch_and_bound_euclidean<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::branch_and_bound_euclidean<typeparams,NUM_DIMENSIONS>
+int rrglib::branch_and_bound_euclidean<typeparams,NUM_DIMENSIONS>
 ::set_goal_region (region_t region_goal_in) {
   
   region_goal = region_goal_in;
@@ -171,7 +171,7 @@ int smp::branch_and_bound_euclidean<typeparams,NUM_DIMENSIONS>
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::branch_and_bound_euclidean<typeparams,NUM_DIMENSIONS>
+int rrglib::branch_and_bound_euclidean<typeparams,NUM_DIMENSIONS>
 ::set_root_vertex (vertex_t *root_vertex_in) {
 
   this->root_vertex = root_vertex_in;

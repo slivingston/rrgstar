@@ -3,14 +3,14 @@
 
 */
 
-#ifndef _SMP_MODEL_CHECKER_BASE_H_
-#define _SMP_MODEL_CHECKER_BASE_H_
+#ifndef _RRGLIB_MODEL_CHECKER_BASE_H_
+#define _RRGLIB_MODEL_CHECKER_BASE_H_
 
-#include <smp/planner_utils/trajectory.h>
-#include <smp/planner_utils/vertex_edge.h>
+#include <planner_utils/trajectory.h>
+#include <planner_utils/vertex_edge.h>
 
 
-namespace smp {
+namespace rrglib {
 
     //! An abstract model checker
     /*!

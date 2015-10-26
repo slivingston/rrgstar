@@ -1,11 +1,11 @@
-#ifndef _SMP_SYSTEM_DOUBLE_INTEGRATOR_HPP_
-#define _SMP_SYSTEM_DOUBLE_INTEGRATOR_HPP_
+#ifndef _RRGLIB_SYSTEM_DOUBLE_INTEGRATOR_HPP_
+#define _RRGLIB_SYSTEM_DOUBLE_INTEGRATOR_HPP_
 
-#include <smp/components/extenders/double_integrator.h>
+#include <components/extenders/double_integrator.h>
 
-#include <smp/components/extenders/state_array_double.hpp>
-#include <smp/components/extenders/input_array_double.hpp>
-#include <smp/components/extenders/base.hpp>
+#include <components/extenders/state_array_double.hpp>
+#include <components/extenders/input_array_double.hpp>
+#include <components/extenders/base.hpp>
 
 
 
@@ -251,7 +251,7 @@ int extend_with_effort_optimal_control_one_axis (double s_ini[2], double s_fin[2
 
 
 template< class typeparams, int NUM_DIMENSIONS >
-int smp::extender_double_integrator<typeparams,NUM_DIMENSIONS>
+int rrglib::extender_double_integrator<typeparams,NUM_DIMENSIONS>
 ::extend_with_optimal_control( state_t *state_ini, state_t *state_fin,
 							   list<state_t*> *list_states_out, list<input_t*> *list_inputs_out)
 {
@@ -544,21 +544,21 @@ int smp::extender_double_integrator<typeparams,NUM_DIMENSIONS>
 
 
 template <class typeparams, int NUM_DIMENSIONS>
-smp::extender_double_integrator<typeparams,NUM_DIMENSIONS>
+rrglib::extender_double_integrator<typeparams,NUM_DIMENSIONS>
 ::extender_double_integrator () {
 
 }
 
 
 template <class typeparams, int NUM_DIMENSIONS>
-smp::extender_double_integrator<typeparams,NUM_DIMENSIONS>
+rrglib::extender_double_integrator<typeparams,NUM_DIMENSIONS>
 ::~extender_double_integrator () {
 
 }
 
 
 template <class typeparams, int NUM_DIMENSIONS>
-int smp::extender_double_integrator<typeparams,NUM_DIMENSIONS>
+int rrglib::extender_double_integrator<typeparams,NUM_DIMENSIONS>
 ::extend( state_t *state_from_in, state_t *state_towards_in,
 		  int *exact_connection_out, trajectory_t *trajectory_out,
 		  list<state_t*> *intermediate_vertices_out )

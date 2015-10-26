@@ -6,10 +6,10 @@
   the vertices as well as the type of the data that is stored in the edges as an argument.
 */
 
-#ifndef _SMP_VERTEX_EDGE_H_
-#define _SMP_VERTEX_EDGE_H_
+#ifndef _RRGLIB_VERTEX_EDGE_H_
+#define _RRGLIB_VERTEX_EDGE_H_
 
-#include <smp/planner_utils/trajectory.h>
+#include <planner_utils/trajectory.h>
 
 #include <list>
 using namespace std;
@@ -23,10 +23,10 @@ using namespace std;
   be set to one when there is intense vertex deletion, e.g., when using a branch and
   bound heuristic.
  */
-#define _SMP_FAST_VERTEX_DELETE 1
+#define _RRGLIB_FAST_VERTEX_DELETE 1
 
 
-namespace smp {
+namespace rrglib {
 
 
     template< class typeparams > class vertex;

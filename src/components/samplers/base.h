@@ -5,13 +5,13 @@
 */
 
 
-#ifndef _SMP_SAMPLER_BASE_H_
-#define _SMP_SAMPLER_BASE_H_
+#ifndef _RRGLIB_SAMPLER_BASE_H_
+#define _RRGLIB_SAMPLER_BASE_H_
 
-#include <smp/planner_utils/vertex_edge.h>
+#include <planner_utils/vertex_edge.h>
 
 
-namespace smp {
+namespace rrglib {
 
     //! The abstract class that specifies the structure of a sampler component.
     /*!

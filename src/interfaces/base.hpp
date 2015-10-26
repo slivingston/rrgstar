@@ -1,9 +1,9 @@
-#ifndef _SMP_INTERFACE_BASE_HPP_
-#define _SMP_INTERFACE_BASE_HPP_
+#ifndef _RRGLIB_INTERFACE_BASE_HPP_
+#define _RRGLIB_INTERFACE_BASE_HPP_
 
-#include <smp/interfaces/base.h>
+#include <interfaces/base.h>
 
-#include <smp/planners/base.hpp>
+#include <planners/base.hpp>
 
 
 #endif

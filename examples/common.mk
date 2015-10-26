@@ -6,7 +6,7 @@
 LIBDIR = /usr/local/lib
 
 # 2. Directory where the smp trunk/ is located
-SMP_ROOT_PATH = $(shell pwd)/../../../
+SRC_ROOT_PATH = $(shell pwd)/../../../
 
 #-----------------------------------------------------------------------------
 #-----------------------------------------------------------------------------
@@ -40,12 +40,12 @@ LDFLAGS_STD = -lm -L$(LIBDIR)
 #-----------------------------------------------------------------------------
 
 # SMP paths
-SMP_SRC_PATH  = $(SMP_ROOT_PATH)/src
-SMP_BIN_PATH  = $(SMP_ROOT_PATH)/bin
-SMP_LIB_PATH  = $(SMP_ROOT_PATH)/lib
+SRC_PATH  = $(SRC_ROOT_PATH)/src
+BIN_PATH  = $(SRC_ROOT_PATH)/bin
+LIB_PATH  = $(SRC_ROOT_PATH)/lib
 
 # SMP flags
-CXXFLAGS_SMP := -I$(SMP_SRC_PATH)
+CXXFLAGS_SMP := -I$(SRC_PATH)
 LDFALGS_SMP := 
 
 

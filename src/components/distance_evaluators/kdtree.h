@@ -4,15 +4,15 @@
   The sampler provides random or quasi-random sample states.
 */
 
-#ifndef _SMP_DISTANCE_EVALUATOR_KDTREE_H_
-#define _SMP_DISTANCE_EVALUATOR_KDTREE_H_
+#ifndef _RRGLIB_DISTANCE_EVALUATOR_KDTREE_H_
+#define _RRGLIB_DISTANCE_EVALUATOR_KDTREE_H_
 
-#include <smp/components/distance_evaluators/base.h>
+#include <components/distance_evaluators/base.h>
 
-#include <smp/external_libraries/kdtree/kdtree.h>
+#include <external_libraries/kdtree/kdtree.h>
 
 
-namespace smp {
+namespace rrglib {
 
     //! Distance evaluator that employs a kd-tree structure.
     /*!

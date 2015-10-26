@@ -1,14 +1,14 @@
-#ifndef _SMP_INPUT_ARRAY_DOUBLE_HPP_
-#define _SMP_INPUT_ARRAY_DOUBLE_HPP_
+#ifndef _RRGLIB_INPUT_ARRAY_DOUBLE_HPP_
+#define _RRGLIB_INPUT_ARRAY_DOUBLE_HPP_
 
-#include <smp/components/extenders/input_array_double.h>
+#include <components/extenders/input_array_double.h>
 
 #include <iostream>
 
 using namespace std;
 
 template <int NUM_INPUTS>
-smp::input_array_double<NUM_INPUTS>
+rrglib::input_array_double<NUM_INPUTS>
 ::input_array_double () {
 
   for (int i = 0; i < NUM_INPUTS; i++) 
@@ -18,8 +18,8 @@ smp::input_array_double<NUM_INPUTS>
 
 
 template <int NUM_INPUTS>
-smp::input_array_double<NUM_INPUTS>
-::input_array_double (const smp::input_array_double<NUM_INPUTS> &input_in) {
+rrglib::input_array_double<NUM_INPUTS>
+::input_array_double (const rrglib::input_array_double<NUM_INPUTS> &input_in) {
 
   for (int i = 0; i < NUM_INPUTS; i++) 
     input_vars[i] = input_in.input_vars[i];
@@ -28,16 +28,16 @@ smp::input_array_double<NUM_INPUTS>
 
 
 template <int NUM_INPUTS>
-smp::input_array_double<NUM_INPUTS>
+rrglib::input_array_double<NUM_INPUTS>
 ::~input_array_double () {
 
 }
 
 
 template <int NUM_INPUTS>
-const smp::input_array_double<NUM_INPUTS> &
-smp::input_array_double<NUM_INPUTS>
-::operator=(const smp::input_array_double<NUM_INPUTS> &input_in) {
+const rrglib::input_array_double<NUM_INPUTS> &
+rrglib::input_array_double<NUM_INPUTS>
+::operator=(const rrglib::input_array_double<NUM_INPUTS> &input_in) {
 
   if (&input_in != this) {
     for (int i = 0; i < NUM_INPUTS; i++) 
@@ -49,7 +49,7 @@ smp::input_array_double<NUM_INPUTS>
 
 template <int NUM_INPUTS>
 double &
-smp::input_array_double<NUM_INPUTS>
+rrglib::input_array_double<NUM_INPUTS>
 ::operator[] (int index_in) {
 
   if ( (index_in < NUM_INPUTS) && (index_in >= 0) )

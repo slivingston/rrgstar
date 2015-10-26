@@ -1,19 +1,19 @@
-#ifndef _SMP_RRTSTAR_HPP_
-#define _SMP_RRTSTAR_HPP_
+#ifndef _RRGLIB_RRTSTAR_HPP_
+#define _RRGLIB_RRTSTAR_HPP_
 
 
-#include <smp/planners/rrtstar.h>
+#include <planners/rrtstar.h>
 
 
-#include <smp/planners/base_incremental.hpp>
-#include <smp/planners/planner_parameters.hpp>
+#include <planners/base_incremental.hpp>
+#include <planners/planner_parameters.hpp>
 
-#include <smp/components/cost_evaluators/base.hpp>
+#include <components/cost_evaluators/base.hpp>
 
 
 
 template< class typeparams >
-smp::rrtstar<typeparams>
+rrglib::rrtstar<typeparams>
 ::rrtstar()
 {
 	cost_evaluator = NULL;
@@ -21,12 +21,12 @@ smp::rrtstar<typeparams>
 
 
 template< class typeparams >
-smp::rrtstar<typeparams>
+rrglib::rrtstar<typeparams>
 ::~rrtstar() { }
 
 
 template< class typeparams >
-smp::rrtstar<typeparams>
+rrglib::rrtstar<typeparams>
 ::rrtstar( sampler_t &sampler_in, distance_evaluator_t &distance_evaluator_in,
 		   extender_t &extender_in, collision_checker_t &collision_checker_in,
 		   model_checker_t &model_checker_in,
@@ -38,7 +38,7 @@ smp::rrtstar<typeparams>
 
 
 template< class typeparams >
-int smp::rrtstar<typeparams>
+int rrglib::rrtstar<typeparams>
 ::initialize( state_t *initial_state_in )
 {
 	planner_incremental_t::initialize(initial_state_in);
@@ -49,7 +49,7 @@ int smp::rrtstar<typeparams>
 }
 
 template< class typeparams >
-int smp::rrtstar<typeparams>
+int rrglib::rrtstar<typeparams>
 ::init_cost_evaluator( cost_evaluator_t &cost_evaluator_in )
 {
 	cost_evaluator = cost_evaluator_in;
@@ -59,7 +59,7 @@ int smp::rrtstar<typeparams>
 
 
 template< class typeparams >
-int smp::rrtstar<typeparams>
+int rrglib::rrtstar<typeparams>
 ::propagate_cost( vertex_t *vertex_in, double total_cost_new )
 {
 
@@ -86,7 +86,7 @@ int smp::rrtstar<typeparams>
 
 
 template< class typeparams >
-int smp::rrtstar<typeparams>
+int rrglib::rrtstar<typeparams>
 ::iteration()
 {
 

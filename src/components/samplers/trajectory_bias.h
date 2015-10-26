@@ -6,15 +6,15 @@
   for an implementation of the trajectory bias.
 */
 
-#ifndef _SMP_SAMPLER_TRAJECTORY_BIAS_H_
-#define _SMP_SAMPLER_TRAJECTORY_BIAS_H_
+#ifndef _RRGLIB_SAMPLER_TRAJECTORY_BIAS_H_
+#define _RRGLIB_SAMPLER_TRAJECTORY_BIAS_H_
 
-#include <smp/components/samplers/base.h>
-#include <smp/common/region.h>
-#include <smp/planner_utils/trajectory.h>
+#include <components/samplers/base.h>
+#include <common/region.h>
+#include <planner_utils/trajectory.h>
 
 
-namespace smp {
+namespace rrglib {
 
 //! Implements the sampler components that relies on uniform sampling.
 /*!

@@ -15,17 +15,17 @@
 // TODO: add a flag to indicate whether the planner is initialized properly
 
 
-#ifndef _SMP_PLANNER_BASE_H_
-#define _SMP_PLANNER_BASE_H_
+#ifndef _RRGLIB_PLANNER_BASE_H_
+#define _RRGLIB_PLANNER_BASE_H_
 
-#include <smp/planner_utils/vertex_edge.h>
-#include <smp/planner_utils/trajectory.h>
+#include <planner_utils/vertex_edge.h>
+#include <planner_utils/trajectory.h>
 
-#include <smp/components/extenders/base.h>
-#include <smp/components/samplers/base.h>
-#include <smp/components/collision_checkers/base.h>
-#include <smp/components/distance_evaluators/base.h>
-#include <smp/components/model_checkers/base.h>
+#include <components/extenders/base.h>
+#include <components/samplers/base.h>
+#include <components/collision_checkers/base.h>
+#include <components/distance_evaluators/base.h>
+#include <components/model_checkers/base.h>
 
 #include <iostream>
 #include <list>
@@ -33,7 +33,7 @@
 using namespace std;
 
 //! Sampling-based Motion Planning (SMP) Library
-namespace smp {
+namespace rrglib {
 
     //! Generic sampling-based motion planner
     /*!

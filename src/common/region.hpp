@@ -1,11 +1,11 @@
-#ifndef _SMP_REGION_HPP_
-#define _SMP_REGION_HPP_
+#ifndef _RRGLIB_REGION_HPP_
+#define _RRGLIB_REGION_HPP_
 
-#include <smp/common/region.h>
+#include <common/region.h>
 
 
 template <int NUM_DIMENSIONS>
-smp::region<NUM_DIMENSIONS>
+rrglib::region<NUM_DIMENSIONS>
 ::region () {
 
   for (int i = 0; i < NUM_DIMENSIONS; i++) {
@@ -16,7 +16,7 @@ smp::region<NUM_DIMENSIONS>
 
 
 template <int NUM_DIMENSIONS>
-smp::region<NUM_DIMENSIONS>
+rrglib::region<NUM_DIMENSIONS>
 ::~region () {
 
   
@@ -24,8 +24,8 @@ smp::region<NUM_DIMENSIONS>
 
 
 template <int NUM_DIMENSIONS>
-smp::region<NUM_DIMENSIONS>
-::region (const smp::region<NUM_DIMENSIONS> &region_in) {
+rrglib::region<NUM_DIMENSIONS>
+::region (const rrglib::region<NUM_DIMENSIONS> &region_in) {
   
   for (int i = 0; i < NUM_DIMENSIONS; i++) {
     this->center[i] = region_in.center[i];
@@ -35,9 +35,9 @@ smp::region<NUM_DIMENSIONS>
 
 
 template <int NUM_DIMENSIONS>
-const smp::region<NUM_DIMENSIONS> &
-smp::region<NUM_DIMENSIONS>
-::operator=(const smp::region<NUM_DIMENSIONS> &region_in) {
+const rrglib::region<NUM_DIMENSIONS> &
+rrglib::region<NUM_DIMENSIONS>
+::operator=(const rrglib::region<NUM_DIMENSIONS> &region_in) {
 
   if (&region_in != this) {
     for (int i = 0; i < NUM_DIMENSIONS; i++) {

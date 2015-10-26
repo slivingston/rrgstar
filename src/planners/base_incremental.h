@@ -7,13 +7,13 @@
   algorithm.  
  */
 
-#ifndef _SMP_PLANNER_INCREMENTAL_H_
-#define _SMP_PLANNER_INCREMENTAL_H_
+#ifndef _RRGLIB_PLANNER_INCREMENTAL_H_
+#define _RRGLIB_PLANNER_INCREMENTAL_H_
 
-#include <smp/planners/base.h>
+#include <planners/base.h>
 
 
-namespace smp {
+namespace rrglib {
 
     //! Generic incremental sampling-based motion planner
     /*!

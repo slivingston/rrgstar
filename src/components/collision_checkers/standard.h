@@ -5,17 +5,17 @@
   class, which is used to describe rectangular obstacles in the Euclidean
   space is defined in region.h
 */
-#ifndef _SMP_COLLISION_CHECKER_STANDARD_H_
-#define _SMP_COLLISION_CHECKER_STANDARD_H_
+#ifndef _RRGLIB_COLLISION_CHECKER_STANDARD_H_
+#define _RRGLIB_COLLISION_CHECKER_STANDARD_H_
 
-#include <smp/components/collision_checkers/base.h>
+#include <components/collision_checkers/base.h>
 
-#include <smp/common/region.h>
+#include <common/region.h>
 
 #include <list>
 
 
-namespace smp {
+namespace rrglib {
 
     //! Standard collision checker
     /*!

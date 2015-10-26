@@ -5,13 +5,13 @@
   incremental sampling-based motion planner, overriding the iteration function.
  */
 
-#ifndef _SMP_PLANNER_RRT_H_
-#define _SMP_PLANNER_RRT_H_
+#ifndef _RRGLIB_PLANNER_RRT_H_
+#define _RRGLIB_PLANNER_RRT_H_
 
-#include <smp/planners/base_incremental.h>
+#include <planners/base_incremental.h>
 
 
-namespace smp {
+namespace rrglib {
 
 
     //! RRT algorithm.

@@ -1,5 +1,5 @@
-#ifndef _SMP_SYSTEM_DUBINS_HPP_
-#define _SMP_SYSTEM_DUBINS_HPP_
+#ifndef _RRGLIB_SYSTEM_DUBINS_HPP_
+#define _RRGLIB_SYSTEM_DUBINS_HPP_
 
 #define DISTANCE_LIMIT 100.0
 #define DELTA_DISTANCE 0.25
@@ -10,18 +10,18 @@
 #define DBL_MAX 10000000000000000.0
 #endif
 
-#include <smp/components/extenders/dubins.h>
+#include <components/extenders/dubins.h>
 
-#include <smp/components/extenders/state_array_double.hpp>
-#include <smp/components/extenders/input_array_double.hpp>
-#include <smp/components/extenders/base.hpp>
+#include <components/extenders/state_array_double.hpp>
+#include <components/extenders/input_array_double.hpp>
+#include <components/extenders/base.hpp>
 
 #include <cmath>
 #include <cstdlib>
 
 
 template< class typeparams >
-int smp::extender_dubins<typeparams>
+int rrglib::extender_dubins<typeparams>
 ::ex_update_insert_vertex (vertex_t *vertex_in) {
 
   return 1;
@@ -29,7 +29,7 @@ int smp::extender_dubins<typeparams>
 
 
 template< class typeparams >
-int smp::extender_dubins<typeparams>
+int rrglib::extender_dubins<typeparams>
 ::ex_update_insert_edge (edge_t *edge_in) { 
 
   return 1;
@@ -37,7 +37,7 @@ int smp::extender_dubins<typeparams>
 
 
 template< class typeparams >
-int smp::extender_dubins<typeparams>
+int rrglib::extender_dubins<typeparams>
 ::ex_update_delete_vertex (vertex_t *vertex_in){
   
   return 1;
@@ -45,7 +45,7 @@ int smp::extender_dubins<typeparams>
 
 
 template< class typeparams >
-int smp::extender_dubins<typeparams>
+int rrglib::extender_dubins<typeparams>
 ::ex_update_delete_edge (edge_t *edge_in) {
 
   return 1;
@@ -54,7 +54,7 @@ int smp::extender_dubins<typeparams>
 
 
 template< class typeparams >
-int smp::extender_dubins<typeparams>
+int rrglib::extender_dubins<typeparams>
 ::extend_dubins_spheres (double x_s1, double y_s1, double t_s1, 
 			 double x_s2, double y_s2, double t_s2, int comb_no,
 			 int *fully_extends, list<state_t *> *list_states, list<input_t *> *list_inputs) {
@@ -291,7 +291,7 @@ int smp::extender_dubins<typeparams>
 
 
 template< class typeparams >
-double smp::extender_dubins<typeparams>
+double rrglib::extender_dubins<typeparams>
 ::extend_dubins_all (state_t *state_ini, state_t *state_fin, 
 		     int *fully_extends, list<state_t *> *list_states_out, list<input_t *> *list_inputs_out) {
     
@@ -397,21 +397,21 @@ double smp::extender_dubins<typeparams>
 
 
 template< class typeparams >
-smp::extender_dubins<typeparams>
+rrglib::extender_dubins<typeparams>
 ::extender_dubins () {
 
 }
 
 
 template< class typeparams >
-smp::extender_dubins<typeparams>
+rrglib::extender_dubins<typeparams>
 ::~extender_dubins () {
 
 }
 
 
 template< class typeparams >
-int smp::extender_dubins<typeparams>
+int rrglib::extender_dubins<typeparams>
 ::extend (state_t *state_from_in, state_t *state_towards_in,
 	  int *exact_connection_out, trajectory_t *trajectory_out,
 	  list<state_t*> *intermediate_vertices_out) {
