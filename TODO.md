@@ -2,9 +2,6 @@ Below is a list of important tasks that are broadly relevant to this
 project. Additional tasks may also be described directly in the source code
 using comment blocks marked with "TODO".
 
-* **libbot extensions**: visualization of trajectories: The viewer in the libbot
-  extensions does not visualize the trajectories published by the planners.
-
 * **Collision checker bounding box**: /components/collision_checkers/standard,
   along with obstacles, should also take in a bounding box as a parameter and
   ensure that the trajectories lie inside the bounding box. Currently it only
