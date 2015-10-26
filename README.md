@@ -1,3 +1,6 @@
+Rapidly-exploring random graphs library
+=======================================
+
 References
 ----------
 
@@ -51,15 +54,30 @@ Compiling the documentation
 requires [Doxygen](http://www.doxygen.org/) to be installed.
 
 
-Compiling libbot extensions
----------------------------
+Visualizations, interfaces
+--------------------------
 
-**Summary.** The extension and libbot examples are currently broken, due to
-out-of-date dependencies.
-
-Once the code is updated for current versions of dependencies, or once we
-identify specific old versions required to build, then to compile the libbot
-extensions, go into the libbot directory and type `make`.  Dependencies:
+Note that visualization is not intended to be the focus of this repository, so
+Mayavi, Matplotlib, etc. as used in tools/rrgplot.py are regarded as optional
+dependencies.  Similarly, building the various interfaces may require external
+resources to be available, like ROS.  However, those dependencies are only
+necessary if you want to build that particular interface.
 
 * [libbot](https://code.google.com/p/libbot/)
 * [LCM](https://lcm-proj.github.io/)
+
+
+Authors
+-------
+
+Scott C. Livingston (Caltech)
+Sertac Karaman and Emilio Frazzoli (MIT)
+
+
+License
+-------
+
+This is free software released under the terms of [the MIT License]
+(http://opensource.org/licenses/MIT).  There is no warranty; not even for
+merchantability or fitness for a particular purpose.  Consult LICENSE for
+copying conditions.
