@@ -3,7 +3,7 @@
 using namespace std;
 
 
-// SMP HEADER FILES ------
+// RRGLIB HEADER FILES ------
 #include <components/samplers/uniform.hpp>
 #include <components/distance_evaluators/kdtree.hpp>
 #include <components/extenders/dubins.hpp>
@@ -16,7 +16,7 @@ using namespace std;
 #include <planner_utils/trajectory.hpp>
 
 
-// SMP TYPE DEFINITIONS -------
+// RRGLIB TYPE DEFINITIONS -------
 using namespace rrglib;
 
 // State, input, vertex_data, and edge_data definitions

@@ -1,9 +1,8 @@
 
-/** @mainpage Sampling-based Motion Planning (SMP) Library
+/** @mainpage Rapidly-exploring random graphs library
 *
-* @authors Sertac Karaman and Emilio Frazzoli 
-*	(Laboratory for Information and Decision Systems, 
-*	Massachusetts Institute of Techonology, Cambridge, MA.)
+* @authors Scott C. Livingston (Caltech),
+*          Sertac Karaman and Emilio Frazzoli (MIT)
 *
 * @section intro Introduction
 * 

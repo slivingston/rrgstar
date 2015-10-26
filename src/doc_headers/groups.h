@@ -230,8 +230,7 @@
 /**
  * \defgroup typeparams Algorithm Type Parameters
  *
- * This module collects the four essential type parameters used in the 
- * SMP library:
+ * This module collects the four essential type parameters used in the library:
  * - State type definitions
  * - Input type definitions
  * - Vertex data type definitions

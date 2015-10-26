@@ -18,7 +18,7 @@ template< class typeparams >
 rrglib::planner_incremental<typeparams>
 ::~planner_incremental () {
 
-  // Note that the root vertex is deleted by the smp_planner class
+  // Note that the root vertex is deleted by the base planner class
 }
 
 template< class typeparams >

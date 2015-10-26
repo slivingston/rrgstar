@@ -37,8 +37,7 @@ namespace rrglib {
 	//! Implements the mu-calculus model checker.
 	/*!
 	  This class inherits from the model_checker_base class. It implements the
-	  mu-calculus model checker using the mu-calculus external libraries that are
-	  included with the smp library.
+	  mu-calculus model checker using the mu-calculus external libraries.
 
 	  \ingroup model_checkers
 	*/

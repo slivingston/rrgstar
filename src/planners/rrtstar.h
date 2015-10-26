@@ -69,7 +69,7 @@ namespace rrglib {
         typedef trajectory<typeparams> trajectory_t;
 
         typedef vertex<typeparams> vertex_t;
-        typedef smp::edge<typeparams> edge_t;
+        typedef edge<typeparams> edge_t;
 
         typedef planner_incremental<typeparams> planner_incremental_t;
 

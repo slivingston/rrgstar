@@ -32,7 +32,7 @@
 
 using namespace std;
 
-//! Sampling-based Motion Planning (SMP) Library
+//! Rapidly-exploring random graphs library
 namespace rrglib {
 
     //! Generic sampling-based motion planner

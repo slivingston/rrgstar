@@ -1,7 +1,7 @@
 /*! \file components/cost_evaluators/time.h
   \brief The cost evaluator based on the execution time
   
-  This file implements the smp_cost_evaluator_time class that computes the
+  This file implements the cost_evaluator_time class that computes the
   cost of the trajectory based on the time it takes to execute it.
 */
 

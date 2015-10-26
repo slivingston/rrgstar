@@ -7,7 +7,7 @@ using namespace std;
 #include <cstdlib>  // To get strtod()
 
 
-// SMP HEADER FILES ------
+// RRGLIB HEADER FILES ------
 #include <components/samplers/uniform.hpp>
 #include <components/distance_evaluators/kdtree.hpp>
 #include <components/extenders/dubins_double_integrator.hpp>
@@ -20,7 +20,7 @@ using namespace std;
 #include <planner_utils/trajectory.hpp>
 
 
-// SMP TYPE DEFINITIONS -------
+// RRGLIB TYPE DEFINITIONS -------
 using namespace rrglib;
 
 // State, input, vertex_data, and edge_data definitions

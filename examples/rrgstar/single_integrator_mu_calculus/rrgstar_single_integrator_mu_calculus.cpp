@@ -5,7 +5,7 @@
 using namespace std;
 
 
-// SMP HEADER FILES ------
+// RRGLIB HEADER FILES ------
 #include <components/samplers/uniform.hpp>
 #include <components/extenders/single_integrator.hpp>
 #include <components/distance_evaluators/kdtree.hpp>
@@ -34,7 +34,7 @@ using namespace std;
 // *********************************************************************
 
 
-// SMP TYPE DEFINITIONS -------
+// RRGLIB TYPE DEFINITIONS -------
 using namespace rrglib;
 
 // State, input, vertex_data, and edge_data definitions
