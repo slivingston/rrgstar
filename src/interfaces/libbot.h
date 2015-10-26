@@ -3,8 +3,10 @@
   
   This file provides the necessary classes and functions to
   interface with a libbot 1 robotics software development environement.
-  A libbot viewer renderer is also provided separately in the libbot
-  distribution of the smp.
+
+  The original LCM message type definitions that used in this interface are
+  currently under contrib/ of this repository.  If this interface is
+  re-invigorated, consider beginning with those types.
 */
 
 #ifndef _RRGLIB_INTERFACE_LIBBOT_H_
