@@ -70,7 +70,7 @@ necessary if you want to build that particular interface.
 Authors
 -------
 
-Scott C. Livingston (Caltech)
+Scott C. Livingston (Caltech),
 Sertac Karaman and Emilio Frazzoli (MIT)
 
 
