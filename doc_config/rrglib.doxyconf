@@ -1,0 +1,41 @@
+# Doxyfile 1.7.3
+
+DOXYFILE_ENCODING      = UTF-8
+PROJECT_NAME           = RRGLIB
+PROJECT_NUMBER         =
+OUTPUT_DIRECTORY       = build
+CREATE_SUBDIRS         = NO
+OUTPUT_LANGUAGE        = English
+BRIEF_MEMBER_DESC      = YES
+INLINE_INHERITED_MEMB  = NO
+FULL_PATH_NAMES        = NO
+SHORT_NAMES            = NO
+INHERIT_DOCS           = YES
+SEPARATE_MEMBER_PAGES  = NO
+TAB_SIZE               = 8
+BUILTIN_STL_SUPPORT    = NO
+SUBGROUPING            = YES
+TYPEDEF_HIDES_STRUCT   = NO
+SOURCE_BROWSER         = NO
+VERBATIM_HEADERS       = YES
+SORT_BRIEF_DOCS        = YES
+SORT_MEMBER_DOCS       = YES
+
+ALPHABETICAL_INDEX     = YES
+COLS_IN_ALPHA_INDEX    = 5
+
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+HTML_FILE_EXTENSION    = .html
+HTML_FOOTER            = ./doc_config/footer.html
+GENERATE_TREEVIEW      = YES
+
+WARNINGS               = YES
+
+INPUT                  = ./src
+RECURSIVE              = YES
+FILE_PATTERNS          = *.h
+EXCLUDE                = ./src/external_libraries
+
+EXAMPLE_PATH           = ./examples
+EXAMPLE_RECURSIVE      = YES
