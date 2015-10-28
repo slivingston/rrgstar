@@ -1,6 +1,11 @@
 cmake_minimum_required (VERSION 2.8.3)
 project (rrglib)
 
+add_compile_options (-g
+    -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE
+    -Wall -Wno-unused-parameter -Wno-sign-compare -D__STDC_FORMAT_MACROS
+    )
+
 add_subdirectory (src)
 add_subdirectory (examples/rrg)
 add_subdirectory (examples/rrgstar)
@@ -10,6 +15,7 @@ if (${DOXYGEN_FOUND})
     add_custom_target (doc ${DOXYGEN_EXECUTABLE}
                        ${CMAKE_SOURCE_DIR}/doc_config/rrglib.doxyconf
                        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+    set_property (DIRECTORY PROPERTY ADDITIONAL_MAKE_CLEAN_FILES html)
 else  ()
     message ("Doxygen not found. The manual will not be built.")
 endif ()

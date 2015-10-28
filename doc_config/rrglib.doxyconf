@@ -30,6 +30,7 @@ HTML_FILE_EXTENSION    = .html
 HTML_FOOTER            = ./doc_config/footer.html
 GENERATE_TREEVIEW      = YES
 
+GENERATE_LATEX         = NO
 WARNINGS               = YES
 
 INPUT                  = ./src
