@@ -218,50 +218,58 @@ template<class typeparams>
 void rrglib::rrg<typeparams>
 ::dump_json( bool include_graph ) const
 {
+	dump_json( std::cout, include_graph );
+}
+
+
+template<class typeparams>
+void rrglib::rrg<typeparams>
+::dump_json( std::ostream &s, bool include_graph ) const
+{
 	int k;
 	int num_edges;
-	std::cout << "{" << std::endl;
+	s << "{" << std::endl;
 
-	std::cout << "\"has_feasible\": ";
+	s << "\"has_feasible\": ";
 	if (this->has_feasible()) {
-		std::cout << "true" << std::endl;
+		s << "true" << std::endl;
 		trajectory_t *traj = new trajectory_t;
 		model_checker.get_solution( *traj );
-		std::cout << ",\"solution\": ";
+		s << ",\"solution\": ";
 		traj->dump_states_json();
 	} else {
-		std::cout << "false" << std::endl;
+		s << "false" << std::endl;
 	}
 	if (include_graph) {
-		std::cout << ",\"V\": {" << std::endl;
+		s << ",\"V\": {" << std::endl;
 		for (typename list<vertex_t*>::const_iterator it = this->list_vertices.begin();
 			 it != this->list_vertices.end();
 			 it++) {
 			if (it != this->list_vertices.begin())
-				std::cout << ",";
-			std::cout << "\"" << *it << "\": {\n    \"state\": [";
+				s << ",";
+			s << "\"" << *it << "\": {\n    \"state\": [";
 			for (k = 0; k < (*it)->state->size() - 1; k++)
-				std::cout << (*((*it)->state))[k] << ", ";
-			std::cout << (*((*it)->state))[k] << "]," << std::endl;
-			std::cout << "    \"successors\": {";
+				s << (*((*it)->state))[k] << ", ";
+			s << (*((*it)->state))[k] << "]," << std::endl;
+			s << "    \"successors\": {";
 			num_edges = (*it)->outgoing_edges.size();
 			k = 0;
 			for (typename list<edge_t *>::const_iterator itedge = (*it)->outgoing_edges.begin();
 				 itedge != (*it)->outgoing_edges.end();
 				 itedge++) {
-				std::cout << "\"" << (*itedge)->vertex_dst << "\": ";
+				s << "\"" << (*itedge)->vertex_dst << "\": ";
 				(*itedge)->trajectory_edge->dump_states_json();
 
 				if (k < num_edges-1)
-					std::cout << ",";
+					s << ",";
 				k++;
 			}
-			std::cout << "}}" << std::endl;
+			s << "}}" << std::endl;
 		}
-		std::cout << "}";
+		s << "}";
 	}
 
-	std::cout << "}" << std::endl;
+	s << "}" << std::endl;
 }
 
 #endif

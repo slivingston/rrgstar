@@ -91,6 +91,7 @@ namespace rrglib {
 		double current_min_cost() const;  // Only defined if has_feasible()
 
 		void dump_json( bool include_graph = true ) const;
+		void dump_json( std::ostream &s, bool include_graph = true ) const;
 
 		void dumpArenaDOT( std::ofstream &outf ) const
 			{ model_checker.mcpg.dumpDOT( outf ); }
