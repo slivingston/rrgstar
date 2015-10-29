@@ -12,22 +12,22 @@ rrglib::trajectory< typeparams >
 
 template< class typeparams >
 void rrglib::trajectory< typeparams >
-::dump_states_json() const
+::dump_states_json( std::ostream &s ) const
 {
 	int i;
 	int j = 0;
-	std::cout << "[";
+	s << "[";
 	for (typename list<state_t *>::const_iterator it = list_states.begin();
 		 it != list_states.end(); it++) {
-		std::cout << "[";
+		s << "[";
 		for (i = 0; i < (*it)->size() - 1; i++)
-			std::cout << (**it)[i] << ",";
-		std::cout << (**it)[i] << "]" << std::endl;
+			s << (**it)[i] << ",";
+		s << (**it)[i] << "]" << std::endl;
 		if (j < list_states.size() - 1)
-			std::cout << ",";
+			s << ",";
 		j++;
 	}
-	std::cout << "]" << std::endl;
+	s << "]" << std::endl;
 }
 
 template< class typeparams >

@@ -42,7 +42,7 @@ namespace rrglib {
 		   array of length K with each element being an array of length N, where
 		   N is the dimension of the state space, and K is the number of
 		   states. E.g., invoked by rrg::dump_json() */
-        void dump_states_json() const;
+        void dump_states_json( std::ostream &s = std::cout ) const;
 
         //! Clears the trajectory.
         /*!
