@@ -236,7 +236,7 @@ void rrglib::rrg<typeparams>
 		trajectory_t *traj = new trajectory_t;
 		model_checker.get_solution( *traj );
 		s << ",\"solution\": ";
-		traj->dump_states_json();
+		traj->dump_states_json( s );
 	} else {
 		s << "false" << std::endl;
 	}
@@ -258,7 +258,7 @@ void rrglib::rrg<typeparams>
 				 itedge != (*it)->outgoing_edges.end();
 				 itedge++) {
 				s << "\"" << (*itedge)->vertex_dst << "\": ";
-				(*itedge)->trajectory_edge->dump_states_json();
+				(*itedge)->trajectory_edge->dump_states_json( s );
 
 				if (k < num_edges-1)
 					s << ",";
