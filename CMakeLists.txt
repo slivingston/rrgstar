@@ -1,6 +1,11 @@
 cmake_minimum_required (VERSION 2.8.3)
 project (rrglib)
 
+install (DIRECTORY src/ DESTINATION include/rrglib
+         FILES_MATCHING
+         PATTERN "*.h"
+         PATTERN "*.hpp")
+
 add_compile_options (-g
     -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE
     -Wall -Wno-unused-parameter -Wno-sign-compare -D__STDC_FORMAT_MACROS
