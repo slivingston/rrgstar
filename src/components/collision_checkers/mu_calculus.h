@@ -48,7 +48,9 @@ namespace rrglib {
         int discretization_method;     
 
         list< region_t* > list_regions;
-        
+
+		// Return true iff two lists of indices are equal
+		bool is_match( list<int> indices1, list<int> indices2 );
 
     public:
         collision_checker_mu_calculus ();
@@ -64,6 +66,8 @@ namespace rrglib {
 		   The first match is returned, so that one of two overlapping regions
 		   will occlude the other, depending on their order in list_regions. */
         int get_region_index( state_t *x );
+
+		std::list<int> get_region_indices( state_t *x );
 
 
         int cc_update_insert_vertex (vertex_t *vertex_in);

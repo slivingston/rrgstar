@@ -50,12 +50,10 @@ int rrglib::model_checker_mu_calculus_pg<typeparams>
 	}
 
 	// Add propositions to pg_state
-
-	// TODO: The current implementation assumes disjoint regions, so that at most
-	// one prop need be added to the state labeling. Relax this assumption.
-	int slabel = collision_checker->get_region_index( state_curr );
-	if (slabel)
-		pg_state_new->addprop( slabel );
+	std::list<int> slabels = collision_checker->get_region_indices( state_curr );
+	for (list<int>::const_iterator it_slabel = slabels.begin();
+		 it_slabel != slabels.end(); it_slabel++)
+		pg_state_new->addprop( *it_slabel );
 
 	pg_state_new->data = (void *)vertex_in;
 
