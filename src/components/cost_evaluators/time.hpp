@@ -1,6 +1,7 @@
 #ifndef _RRGLIB_COST_EVALUATOR_TIME_HPP_
 #define _RRGLIB_COST_EVALUATOR_TIME_HPP_
 
+#include <cassert>
 #include <iostream>
 
 #include <components/cost_evaluators/time.h>
@@ -43,7 +44,7 @@ double rrglib::cost_evaluator_time<typeparams>
     total_time += (*input_curr)[0];
     
   }
-  
+  assert( total_time > 0.0 );
   return total_time;
 };
 
