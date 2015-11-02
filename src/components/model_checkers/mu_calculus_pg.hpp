@@ -7,11 +7,12 @@
 
 template< class typeparams >
 rrglib::model_checker_mu_calculus_pg<typeparams>
-::model_checker_mu_calculus_pg()
+::model_checker_mu_calculus_pg( unsigned int number_of_goals,
+								unsigned int number_of_obstacles )
 	: collision_checker(NULL), cost_evaluator(NULL)
 {
 	found_solution = false;
-	mcpg.pt.parseFormula( "Phi" ); // Formula parse tree is hardcoded now.
+	mcpg.pt.parseFormula( number_of_goals, number_of_obstacles );
 }
 
 

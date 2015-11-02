@@ -66,11 +66,16 @@ public:
 
 void printFormula( PT_node *ptnode, std::ofstream &out );
 
+PT_operator *genNotConjunction( PT_operator *base_formula, unsigned int first_index, unsigned int last_index );
+PT_node *genFormulaReachAvoid( unsigned int number_of_goals, unsigned int number_of_obstacles );
+
 class ParseTree {
 public: 
 	ParseTree ();
 	~ParseTree ();
 	int parseFormula (string s);
+	int parseFormula( unsigned int number_of_goals,
+					  unsigned int number_of_obstacles );
 	bool isEmpty ();
 // 	subformulaeSet& getSubformulaeSuc ();
 // 	subformulaeSet& getSubformulaeMu ();

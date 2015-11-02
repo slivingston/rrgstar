@@ -85,7 +85,8 @@ namespace rrglib {
 
 		void add_labeler( collision_checker_mu_calculus<typeparams> *collision_checker_in );
 
-        model_checker_mu_calculus ();
+        model_checker_mu_calculus( unsigned int number_of_goals = 2,
+								   unsigned int number_of_obstacles = 1 );
 
         ~model_checker_mu_calculus ();
     

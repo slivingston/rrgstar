@@ -8,15 +8,15 @@
 
 template< class typeparams >
 rrglib::model_checker_mu_calculus<typeparams>
-::model_checker_mu_calculus ()
+::model_checker_mu_calculus( unsigned int number_of_goals,
+							 unsigned int number_of_obstacles )
 	: collision_checker(NULL)
 {
+	uid_counter = 0;
+	found_solution = false;
 
-  uid_counter = 0;
-  found_solution = false;
-
-  ms.pt.parseFormula ("Phi"); // Formula parse tree is hardcoded now.
-};
+	ms.pt.parseFormula( number_of_goals, number_of_obstacles );
+}
 
 
 template< class typeparams >

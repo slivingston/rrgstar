@@ -1,3 +1,5 @@
+#include <cassert>
+
 #include "pt.h"
 
 
@@ -776,315 +778,207 @@ PT_prp *ParseTree::getConjunctPrp( PT_operator *andNode )
 }
 
 
+PT_operator *
+genNotConjunction( PT_operator *base_formula,
+				   unsigned int first_index, unsigned int last_index )
+{
+	assert( base_formula != NULL );
+	assert( first_index > 0 && last_index >= first_index );
+
+	PT_operator *node_operator;
+	PT_prp *node_prp;
+	PT_operator *formula = base_formula;
+
+	for (int i = first_index; i <= last_index; i++) {
+
+		node_prp = new PT_prp();
+		node_prp->type = PT_NPRP;
+		node_prp->prp = i;
+		node_prp->AD = 0;
+
+		node_operator = new PT_operator();
+		node_operator->type = PT_AND;
+		node_operator->children.insert( node_prp );
+		node_operator->children.insert( formula );
+		node_operator->boundVar = -1;
+		node_operator->AD = 0;
+		node_prp->parent = node_operator;
+		formula->parent = node_operator;
+		formula = node_operator;
+	}
+
+	return formula;
+}
+
+
 PT_node *
-parseFormulaLoop4 () {
+genFormulaReachAvoid( unsigned int number_of_goals,
+					  unsigned int number_of_obstacles )
+{
+	assert( number_of_goals > 0 );
+	assert( number_of_obstacles > 0 );
 
-  PT_node *node_child1, *node_child2, *node_tmp1, *node_tmp2;
-  PT_var *node_var;
-  PT_operator *node_operator;
-  PT_prp *node_prp;
+	PT_node *node_child1, *node_child2, *node_tmp1, *node_tmp2;
+	PT_var *node_var;
+	PT_operator *node_operator;
+	PT_prp *node_prp;
 
-  // Create (z)
-  node_var = new PT_var ();
-  node_var->type = PT_VAR;
-  node_var->var = 3;  // z = 3
-  node_var->AD = 0;
+	PT_operator *goals_subformula = NULL;
 
-  // Create (suc z)
-  node_operator = new PT_operator();
-  node_operator->type = PT_SUC;
-  node_operator->children.insert( node_var );
-  node_operator->boundVar = -1;
-  node_operator->AD = 0;
-  node_var->parent = node_operator;
+	for (int i = 1; i <= number_of_goals; i++) {
 
-  // Create (p1)
-  node_prp = new PT_prp ();
-  node_prp->type = PT_PRP;
-  node_prp->prp = 1; // p1 = 1
-  node_prp->AD = 0;
-  
-  // Create (p1 and suc z)
-  node_child1 = node_prp;
-  node_child2 = node_operator;
-  node_operator = new PT_operator ();
-  node_operator->type = PT_AND;
-  node_operator->children.insert (node_child1);
-  node_operator->children.insert (node_child2);
-  node_operator->boundVar = -1;
-  node_operator->AD = 0;
-  node_child1->parent = node_operator;
-  node_child2->parent = node_operator;
-  node_tmp1 = node_operator; // Save this until ( (p1 and suc z) or suc x)
-  
-  // Create (x)
-  node_var = new PT_var ();
-  node_var->type = PT_VAR;
-  node_var->var = 1; // x = 1
-  node_var->AD = 0;
+		node_var = new PT_var ();
+		node_var->type = PT_VAR;
+		node_var->var = number_of_goals+1;
+		node_var->AD = 0;
 
-  // Create (suc x)
-  node_child1 = node_var;
-  node_operator = new PT_operator ();
-  node_operator->type = PT_SUC;
-  node_operator->children.insert (node_child1);
-  node_operator->boundVar = -1;
-  node_operator->AD = 0;
-  node_child1->parent = node_operator;
+		node_operator = new PT_operator();
+		node_operator->type = PT_SUC;
+		node_operator->children.insert( node_var );
+		node_operator->boundVar = -1;
+		node_operator->AD = 0;
+		node_var->parent = node_operator;
 
-  // Create ( (p1 and suc z) or suc x)
-  node_child1 = node_tmp1;
-  node_child2 = node_operator;
-  node_operator = new PT_operator ();
-  node_operator->type = PT_OR;
-  node_operator->children.insert (node_child1);
-  node_operator->children.insert (node_child2);
-  node_operator->boundVar = -1;
-  node_operator->AD = 0;
-  node_child1->parent = node_operator;
-  node_child2->parent = node_operator;
+		node_prp = new PT_prp ();
+		node_prp->type = PT_PRP;
+		node_prp->prp = i;
+		node_prp->AD = 0;
 
-  // Create (!p3)
-  node_prp = new PT_prp ();
-  node_prp->type = PT_NPRP;
-  node_prp->prp = 3; // p3 = 3
-  node_prp->AD = 0;
-  
-  // Create (!p3 and (p1 and suc z) or suc x)
-  node_child1 = node_prp;
-  node_child2 = node_operator;
-  node_operator = new PT_operator ();
-  node_operator->type = PT_AND;
-  node_operator->children.insert (node_child1);
-  node_operator->children.insert (node_child2);
-  node_operator->boundVar = -1;
-  node_operator->AD = 0;
-  node_child1->parent = node_operator;
-  node_child2->parent = node_operator;
-  
-  // Create mu x .( !p3 and (p1 and suc z) or suc x)
-  node_child1 = node_operator;
-  node_operator = new PT_operator ();
-  node_operator->type = PT_LFP;
-  node_operator->children.insert (node_child1);
-  node_operator->boundVar = 1; // x = 1
-  node_operator->AD = 1;
-  node_child1->parent = node_operator;
+		node_child1 = node_prp;
+		node_child2 = node_operator;
+		node_operator = new PT_operator ();
+		node_operator->type = PT_AND;
+		node_operator->children.insert (node_child1);
+		node_operator->children.insert (node_child2);
+		node_operator->boundVar = -1;
+		node_operator->AD = 0;
+		node_child1->parent = node_operator;
+		node_child2->parent = node_operator;
+		node_tmp1 = node_operator;
 
-  // Create (p2)
-  node_prp = new PT_prp ();
-  node_prp->type = PT_PRP;
-  node_prp->prp = 2; // p2 = 2
-  node_prp->AD = 0;
+		node_var = new PT_var ();
+		node_var->type = PT_VAR;
+		node_var->var = i;
+		node_var->AD = 0;
 
-  // Create ( p2 and (mu x .( !p3 and (p1 and suc z) or suc x) ) )
-  node_child1 = node_prp;
-  node_child2 = node_operator;
-  node_operator = new PT_operator ();
-  node_operator->type = PT_AND;
-  node_operator->children.insert (node_child1);
-  node_operator->children.insert (node_child2);
-  node_operator->boundVar = -1;
-  node_operator->AD = 1;
-  node_child1->parent = node_operator;
-  node_child2->parent = node_operator;
-  node_tmp2 = node_operator; // Save this until    ( ( p2 and (mu x .(!p3 and ( (p1 and suc z) or suc x) ) ) ) or
-                             //                            ( p1 and (mu y .( (p2 and suc z) or suc y) ) ) )
-  
-  
-  // Create (z)
-  node_var = new PT_var ();
-  node_var->type = PT_VAR;
-  node_var->var = 3; // z = 3
-  node_var->AD = 0;
+		node_child1 = node_var;
+		node_operator = new PT_operator ();
+		node_operator->type = PT_SUC;
+		node_operator->children.insert (node_child1);
+		node_operator->boundVar = -1;
+		node_operator->AD = 0;
+		node_child1->parent = node_operator;
 
-  // Create (suc z)
-  node_operator = new PT_operator();
-  node_operator->type = PT_SUC;
-  node_operator->children.insert( node_var );
-  node_operator->boundVar = -1;
-  node_operator->AD = 0;
-  node_var->parent = node_operator;
+		node_child1 = node_tmp1;
+		node_child2 = node_operator;
+		node_operator = new PT_operator ();
+		node_operator->type = PT_OR;
+		node_operator->children.insert (node_child1);
+		node_operator->children.insert (node_child2);
+		node_operator->boundVar = -1;
+		node_operator->AD = 0;
+		node_child1->parent = node_operator;
+		node_child2->parent = node_operator;
 
-  // Create (p2)
-  node_prp = new PT_prp ();
-  node_prp->type = PT_PRP;
-  node_prp->prp = 2; // p2 = 2
-  node_prp->AD = 0;
-  
-  // Create (p2 and suc z)
-  node_child1 = node_prp;
-  node_child2 = node_operator;
-  node_operator = new PT_operator ();
-  node_operator->type = PT_AND;
-  node_operator->children.insert (node_child1);
-  node_operator->children.insert (node_child2);
-  node_operator->boundVar = -1;
-  node_operator->AD = 0;
-  node_child1->parent = node_operator;
-  node_child2->parent = node_operator;
-  node_tmp1 = node_operator; // Save this until       ( (pr and suc z) or suc y)
-  
-  // Create (y)
-  node_var = new PT_var ();
-  node_var->type = PT_VAR;
-  node_var->var = 2; // y = 2
-  node_var->AD = 0;
-  
-  // Create (suc y)
-  node_child1 = node_var;
-  node_operator = new PT_operator ();
-  node_operator->type = PT_SUC;
-  node_operator->children.insert (node_child1);
-  node_operator->boundVar = -1; 
-  node_operator->AD = 0;
-  node_child1->parent = node_operator;
+		node_operator = genNotConjunction( node_operator,
+										   number_of_goals+1,
+										   number_of_goals+number_of_obstacles );
 
-  // Create ( (p2 and suc z) or suc y)
-  node_child1 = node_tmp1;
-  node_child2 = node_operator;
-  node_operator = new PT_operator ();
-  node_operator->type = PT_OR;
-  node_operator->children.insert (node_child1);
-  node_operator->children.insert (node_child2);
-  node_operator->boundVar = -1;
-  node_operator->AD = 0;
-  node_child1->parent = node_operator;
-  node_child2->parent = node_operator;
+		node_child1 = node_operator;
+		node_operator = new PT_operator ();
+		node_operator->type = PT_LFP;
+		node_operator->children.insert (node_child1);
+		node_operator->boundVar = i;
+		node_operator->AD = 1;
+		node_child1->parent = node_operator;
 
-  // Create (!p3)
-  node_prp = new PT_prp ();
-  node_prp->type = PT_NPRP;
-  node_prp->prp = 3; // p3 = 3
-  node_prp->AD = 0;
-  
-  // Create (!p3 and (p2 and suc z) or suc y)
-  node_child1 = node_prp;
-  node_child2 = node_operator;
-  node_operator = new PT_operator ();
-  node_operator->type = PT_AND;
-  node_operator->children.insert (node_child1);
-  node_operator->children.insert (node_child2);
-  node_operator->boundVar = -1;
-  node_operator->AD = 0;
-  node_child1->parent = node_operator;
-  node_child2->parent = node_operator;
+		node_prp = new PT_prp ();
+		node_prp->type = PT_PRP;
+		node_prp->prp = (i % number_of_goals) + 1;
+		node_prp->AD = 0;
 
-  // Create (mu y .( !p3 and (p2 and suc z) or suc y )
-  node_child1 = node_operator;
-  node_operator = new PT_operator ();
-  node_operator->type = PT_LFP;
-  node_operator->children.insert (node_child1);
-  node_operator->boundVar = 2; // y = 2
-  node_operator->AD = 1;
-  node_child1->parent = node_operator;
+		node_child1 = node_prp;
+		node_child2 = node_operator;
+		node_operator = new PT_operator ();
+		node_operator->type = PT_AND;
+		node_operator->children.insert (node_child1);
+		node_operator->children.insert (node_child2);
+		node_operator->boundVar = -1;
+		node_operator->AD = 1;
+		node_child1->parent = node_operator;
+		node_child2->parent = node_operator;
 
-  // Create (p1)
-  node_prp = new PT_prp ();
-  node_prp->type = PT_PRP;
-  node_prp->prp = 1; // p1 = 1
-  node_prp->AD = 0;
-  
-  // Create (p1 and mu y . ( !p3 and (p2 and suc z) or suc y) )
-  node_child1 = node_prp;
-  node_child2 = node_operator;
-  node_operator = new PT_operator ();
-  node_operator->type = PT_AND;
-  node_operator->children.insert (node_child1);
-  node_operator->children.insert (node_child2);
-  node_operator->boundVar = -1;
-  node_operator->AD = 1;
-  node_child1->parent = node_operator;
-  node_child2->parent = node_operator;
+		if (goals_subformula == NULL) {
+			goals_subformula = node_operator;
+		} else {
 
-  // Create ( (p2 and mu x . ( (p1 and suc z) or suc x) ) or (p1 and mu y . ( (p2 and suc z) or suc y) ) ) 
-  node_child1 = node_tmp2;
-  node_child2 = node_operator;
-  node_operator = new PT_operator ();
-  node_operator->type = PT_OR;
-  node_operator->children.insert (node_child1);
-  node_operator->children.insert (node_child2);
-  node_operator->boundVar = -1;
-  node_operator->AD = 1;
-  node_child1->parent = node_operator;
-  node_child2->parent = node_operator;
+			node_tmp1 = node_operator;
 
-  // Create ( nu z. ( (p2 and mu x . ( (p1 and suc z) or suc x) ) or (p1 and mu y . ( (p2 and suc z) or suc y) ) ) )
-  node_child1 = node_operator;
-  node_operator = new PT_operator ();
-  node_operator->type = PT_GFP;
-  node_operator->children.insert (node_child1);
-  node_operator->boundVar = 3;  // z = 3
-  node_operator->AD = 2;
-  node_child1->parent = node_operator;
-  node_tmp1 = node_operator;  // save this node until     ( (suc w) or 
-                              //   ( nu z. ( (p2 and mu x . ( (p1 and suc z) or suc x) ) or (p1 and mu y . ( (p2 and suc z) or suc y) ) ) ) )
+			node_operator = new PT_operator();
+			node_operator->type = PT_OR;
+			node_operator->children.insert( node_tmp1 );
+			node_operator->children.insert( goals_subformula );
+			node_operator->boundVar = -1;
+			node_operator->AD = 1;
+			node_tmp1->parent = node_operator;
+			goals_subformula->parent = node_operator;
 
-  // Create (w)
-  node_var = new PT_var ();
-  node_var->type = PT_VAR;
-  node_var->var = 4; // w = 4
-  node_var->AD = 0;
-  
-  // Create (suc w)
-  node_child1 = node_var;
-  node_operator = new PT_operator ();
-  node_operator->type = PT_SUC;
-  node_operator->children.insert (node_child1);
-  node_operator->boundVar = -1;
-  node_operator->AD = 0;
-  node_child1->parent = node_operator;
+			goals_subformula = node_operator;
+		}
 
-  // Create ( (suc w) or ( nu z. ( (p2 and mu x . ( (p1 and suc z) or suc x) ) or (p1 and mu y . ( (p2 and suc z) or suc y) ) ) ) )
-  node_child1 = node_operator;
-  node_child2 = node_tmp1;
-  node_operator = new PT_operator ();
-  node_operator->type = PT_OR;
-  node_operator->children.insert (node_child1);
-  node_operator->children.insert (node_child2);
-  node_operator->boundVar = -1;
-  node_operator->AD = 2;
-  node_child1->parent = node_operator;
-  node_child2->parent = node_operator;
+	}
 
+	node_operator = new PT_operator();
+	node_operator->type = PT_GFP;
+	node_operator->children.insert( goals_subformula );
+	node_operator->boundVar = number_of_goals+1;
+	node_operator->AD = 2;
+	goals_subformula->parent = node_operator;
+	node_tmp1 = node_operator;
 
-  // Create (!p3)
-  node_prp = new PT_prp ();
-  node_prp->type = PT_NPRP;
-  node_prp->prp = 3;  // p3 = 3
-  node_prp->AD = 0;
-  
-  // Create (!p3 and ( (suc w) or ( nu z. ( (p2 and mu x . ( (p1 and suc z) or suc x) ) or (p1 and mu y . ( (p2 and suc z) or suc y) ) ) ) ) )
-  node_child1 = node_prp;
-  node_child2 = node_operator;
-  node_operator = new PT_operator ();
-  node_operator->type = PT_AND;
-  node_operator->children.insert (node_child1);
-  node_operator->children.insert (node_child2);
-  node_operator->boundVar = -1;
-  node_operator->AD = 2;
-  node_child1->parent = node_operator;
-  node_child2->parent = node_operator;
+	node_var = new PT_var ();
+	node_var->type = PT_VAR;
+	node_var->var = number_of_goals+2;
+	node_var->AD = 0;
 
-  // Create ( mu w. ( !p3 and ( (suc w) or
-  //               ( nu z. ( (p2 and mu x . ( (p1 and suc z) or suc x) ) or (p1 and mu y . ( (p2 and suc z) or suc y) ) ) ) ) ) )
-  node_child1 = node_operator;
-  node_operator = new PT_operator ();
-  node_operator->type = PT_LFP;
-  node_operator->children.insert (node_child1);
-  node_operator->boundVar = 4;    // w = 4
-  node_operator->AD = 3;
-  node_child1->parent = node_operator;
+	node_child1 = node_var;
+	node_operator = new PT_operator ();
+	node_operator->type = PT_SUC;
+	node_operator->children.insert (node_child1);
+	node_operator->boundVar = -1;
+	node_operator->AD = 0;
+	node_child1->parent = node_operator;
 
-//  cout << "Parsed formulaLoop4 " << endl;
-  
-  return node_operator;
+	node_child1 = node_operator;
+	node_child2 = node_tmp1;
+	node_operator = new PT_operator ();
+	node_operator->type = PT_OR;
+	node_operator->children.insert (node_child1);
+	node_operator->children.insert (node_child2);
+	node_operator->boundVar = -1;
+	node_operator->AD = 2;
+	node_child1->parent = node_operator;
+	node_child2->parent = node_operator;
+
+	node_operator = genNotConjunction( node_operator,
+									   number_of_goals+1,
+									   number_of_goals+number_of_obstacles );
+
+	node_child1 = node_operator;
+	node_operator = new PT_operator ();
+	node_operator->type = PT_LFP;
+	node_operator->children.insert (node_child1);
+	node_operator->boundVar = number_of_goals+2;
+	node_operator->AD = 3;
+	node_child1->parent = node_operator;
+
+	return node_operator;
 }
 
 
 int ParseTree::parseFormula (string s) {
 //  this->root = parseFormulaReachability();
-  this->root = parseFormulaLoop4();
+  this->root = genFormulaReachAvoid( 2, 1 );
 
   this->root->parent = NULL;
 
@@ -1096,6 +990,16 @@ int ParseTree::parseFormula (string s) {
   //this->root->AD = this->computeAD( this->root ); TODO: Currently hard-coded into parseFormulaLoop4
   
   return 1;
+}
+
+int ParseTree::parseFormula( unsigned int number_of_goals,
+							 unsigned int number_of_obstacles )
+{
+	this->root = genFormulaReachAvoid( number_of_goals, number_of_obstacles );
+	this->root->parent = NULL;
+	this->sucFormulae.clear();
+	sucCache( this->sucFormulae, this->root );
+	return 1;
 }
 
 

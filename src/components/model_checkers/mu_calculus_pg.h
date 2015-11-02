@@ -71,7 +71,8 @@ namespace rrglib {
 		void add_labeler( collision_checker_mu_calculus<typeparams> *collision_checker_in );
 		void add_costeval( cost_evaluator_base<typeparams> *cost_evaluator_in );
 
-		model_checker_mu_calculus_pg();
+		model_checker_mu_calculus_pg( unsigned int number_of_goals = 2,
+									  unsigned int number_of_obstacles = 1 );
 		~model_checker_mu_calculus_pg();
 
 		int mc_update_insert_vertex( vertex_t *vertex_new );
