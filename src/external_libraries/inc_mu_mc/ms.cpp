@@ -1034,6 +1034,7 @@ ModelCheckerPG::updateVertexSets( PGVertex *vertex_from, PGVertex *vertex_to )
 
 		if (vertex_to->RV.find( vertex_from ) == vertex_to->RV.end()
 			&& (vertex_to->color <= vertex_from->color || vertex_from == this->initialVertex)) {
+			assert( !(vertex_to == vertex_from && edge_cost == 0) );
 
 			vertex_to->RV.insert( vertex_from );
 
@@ -1063,7 +1064,6 @@ ModelCheckerPG::updateVertexSets( PGVertex *vertex_from, PGVertex *vertex_to )
 bool
 ModelCheckerPG::addTransition( PGState *state_from, PGState *state_to, double edge_cost )
 {
-
 	bool foundWitness = false;
 
 #if !TRUST_ME
@@ -1115,22 +1115,52 @@ ModelCheckerPG::addTransition( PGState *state_from, PGState *state_to, double ed
 			std::cerr << "nonempty lV" << std::endl;
 			foundWitness = true;
 		} else {
-			double min_loop_cost = -1;
+			PGVertex *loopv;
+			PGVertex *curr;
+			double min_cost = -1;
+			double loop_cost, prefix_cost;
 			for (PGVertexSet_it nuv = this->nV.begin(); nuv != this->nV.end();
 				 nuv++) {
 				if ((*nuv)->RV.find( *nuv ) != (*nuv)->RV.end()) {
 					list<PGVertex *> key;
 					key.push_back( *nuv );
 					key.push_back( *nuv );
-					if (min_loop_cost < 0 || this->Cost[key] < min_loop_cost)
-						min_loop_cost = this->Cost[key];
-					foundWitness = true;
+					assert( this->Cost.find( key ) != this->Cost.end() );
+					loop_cost = this->Cost[key];
+					if (loop_cost == 0)
+						continue;
+					loopv = *nuv;
+					curr = loopv;
+					prefix_cost = -1;
+					do {
+
+						key.clear();
+						key.push_back( loopv );
+						key.push_back( curr );
+						assert( Pr.find( key ) != Pr.end() );
+						curr = Pr[key];
+
+						key.clear();
+						key.push_back( this->initialVertex );
+						key.push_back( curr );
+
+						assert( Cost.find( key ) != Cost.end() );
+						if (prefix_cost < 0 || Cost[key] < prefix_cost) {
+							prefix_cost = Cost[key];
+						}
+
+					} while (curr != loopv);
+
+					if (min_cost < 0 || prefix_cost + loop_cost < min_cost) {
+						min_cost = prefix_cost + loop_cost;
+						foundWitness = true;
+					}
 				}
 			}
 			if (foundWitness) {
-				if (this->last_min_cost < 0 || min_loop_cost < this->last_min_cost) {
-					this->last_min_cost = min_loop_cost;
-					std::cerr << min_loop_cost << std::endl;
+				if (this->last_min_cost < 0 || min_cost < this->last_min_cost) {
+					this->last_min_cost = min_cost;
+					std::cerr << min_cost << std::endl;
 				}
 			}
 		}
@@ -1290,63 +1320,80 @@ ModelCheckerPG::getTrajectory()
 
 	} else {
 
-		PGVertex *loopv = NULL;
-		double min_loop_cost = -1;  // Ignored until loopv != NULL
+		PGVertex *min_loopv = NULL, *min_knotv;
+		double min_cost = -1;  // Ignored until min_loopv != NULL
+		PGVertex *curr;
+		PGVertex *loopv;
+		PGVertex *knotv;
+		double loop_cost, prefix_cost;
 		for (PGVertexSet_it nuv = this->nV.begin(); nuv != this->nV.end();
 			 nuv++) {
 			if ((*nuv)->RV.find( *nuv ) != (*nuv)->RV.end()) {
 				list<PGVertex *> key;
 				key.push_back( *nuv );
 				key.push_back( *nuv );
-				assert( Cost.find( key ) != Cost.end() );
-				if (loopv == NULL || this->Cost[key] < min_loop_cost) {
-					loopv = *nuv;
-					min_loop_cost = this->Cost[key];
+				assert( this->Cost.find( key ) != this->Cost.end() );
+				loop_cost = this->Cost[key];
+				if (loop_cost == 0)
+					continue;
+				loopv = *nuv;
+				curr = loopv;
+				prefix_cost = -1;
+				do {
+
+					key.clear();
+					key.push_back( loopv );
+					key.push_back( curr );
+					assert( Pr.find( key ) != Pr.end() );
+					curr = Pr[key];
+
+					key.clear();
+					key.push_back( this->initialVertex );
+					key.push_back( curr );
+
+					assert( Cost.find( key ) != Cost.end() );
+					if (prefix_cost < 0 || Cost[key] < prefix_cost) {
+						knotv = curr;
+						prefix_cost = Cost[key];
+					}
+
+				} while (curr != loopv);
+
+				if (min_cost < 0 || prefix_cost + loop_cost < min_cost) {
+					min_loopv = loopv;
+					min_knotv = knotv;
+					min_cost = prefix_cost + loop_cost;
 				}
 			}
 		}
-		if (loopv == NULL)  // No feasible nu-loop
+		if (min_loopv == NULL)  // No feasible nu-loop
 			return trajectory;
 
-		PGVertex *knotv = NULL;
-		double min_prefix_cost = -1;
-
-		PGVertex *curr = loopv;
+		curr = min_loopv;
 		do {
-
 			list<PGVertex *> key;
-			key.push_back( loopv );
+			key.push_back( min_loopv );
 			key.push_back( curr );
 			assert( Pr.find( key ) != Pr.end() );
 			curr = Pr[key];
-
-			key.clear();
-			key.push_back( this->initialVertex );
-			key.push_back( curr );
-
-			assert( Cost.find( key ) != Cost.end() );
-			if (knotv == NULL || Cost[key] < min_prefix_cost) {
-				knotv = curr;
-				min_prefix_cost = Cost[key];
-			}
 			if (prev_state == NULL || prev_state != curr->state) {
 				trajectory.push_front( curr->state );
 				prev_state = curr->state;
 			}
+		} while (curr != min_loopv);
 
-		} while (curr != loopv);
-
+		assert( trajectory.size() > 1 );
 		if (trajectory.front() == trajectory.back())
 			trajectory.pop_back();
-		while (trajectory.front() != knotv->state) {
+		while (trajectory.front() != min_knotv->state) {
 			PGState *front = trajectory.front();
 			trajectory.pop_front();
 			trajectory.push_back( front );
 		}
-		trajectory.push_back( knotv->state );
+		trajectory.push_back( min_knotv->state );
 
 		prev_state = trajectory.front();
-		curr = knotv;
+		curr = min_knotv;
 		do {
 
 			list<PGVertex *> key;
@@ -1362,8 +1409,7 @@ ModelCheckerPG::getTrajectory()
 		} while (curr != this->initialVertex);
 
 		std::cerr << "ModelCheckerPG::getTrajectory(): returned trajectory cost is "
-				  << min_prefix_cost << " + " << min_loop_cost
-				  << " = " << min_prefix_cost + min_loop_cost << std::endl;
+				  << min_cost << std::endl;
 
 	}
 
