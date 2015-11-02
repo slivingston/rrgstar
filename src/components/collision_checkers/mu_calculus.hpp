@@ -167,7 +167,7 @@ std::list<int> rrglib::collision_checker_mu_calculus<typeparams>
 
 template< class typeparams >
 bool rrglib::collision_checker_mu_calculus<typeparams>
-::is_match( list<int> indices1, list<int> indices2 )
+::is_match( list<int> indices1, list<int> indices2 ) const
 {
 	bool match = true;
 	if (indices1.size() != indices2.size()) {

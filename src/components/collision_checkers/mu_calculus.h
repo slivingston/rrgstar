@@ -50,7 +50,7 @@ namespace rrglib {
         list< region_t* > list_regions;
 
 		// Return true iff two lists of indices are equal
-		bool is_match( list<int> indices1, list<int> indices2 );
+		bool is_match( list<int> indices1, list<int> indices2 ) const;
 
     public:
         collision_checker_mu_calculus ();
