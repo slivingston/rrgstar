@@ -78,7 +78,8 @@ void ModelCheckerPG::optRewire( PGState *z_new )
 					key.push_back( *rv_it );
 					key.push_back( *pre_it );
 
-					assert( Cost.find( key ) != Cost.end() );
+					if (Cost.find( key ) == Cost.end())
+						continue;
 
 					c_new = Cost[key] + ((*pre_it)->state == (*z_new_v_it)->state ? 0 : (*pre_it)->state->edgeCost[(*z_new_v_it)->state]);
 					if (c_new < Cost[key_existing]) {
