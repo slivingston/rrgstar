@@ -816,7 +816,6 @@ genFormulaReachAvoid( unsigned int number_of_goals,
 					  unsigned int number_of_obstacles )
 {
 	assert( number_of_goals > 0 );
-	assert( number_of_obstacles > 0 );
 
 	PT_node *node_child1, *node_child2, *node_tmp1, *node_tmp2;
 	PT_var *node_var;
@@ -880,9 +879,10 @@ genFormulaReachAvoid( unsigned int number_of_goals,
 		node_child1->parent = node_operator;
 		node_child2->parent = node_operator;
 
-		node_operator = genNotConjunction( node_operator,
-										   number_of_goals+1,
-										   number_of_goals+number_of_obstacles );
+		if (number_of_obstacles > 0)
+			node_operator = genNotConjunction( node_operator,
+											   number_of_goals+1,
+											   number_of_goals+number_of_obstacles );
 
 		node_child1 = node_operator;
 		node_operator = new PT_operator ();
@@ -960,9 +960,10 @@ genFormulaReachAvoid( unsigned int number_of_goals,
 	node_child1->parent = node_operator;
 	node_child2->parent = node_operator;
 
-	node_operator = genNotConjunction( node_operator,
-									   number_of_goals+1,
-									   number_of_goals+number_of_obstacles );
+	if (number_of_obstacles > 0)
+		node_operator = genNotConjunction( node_operator,
+										   number_of_goals+1,
+										   number_of_goals+number_of_obstacles );
 
 	node_child1 = node_operator;
 	node_operator = new PT_operator ();
