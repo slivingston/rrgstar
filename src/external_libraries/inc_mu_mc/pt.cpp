@@ -780,7 +780,8 @@ PT_prp *ParseTree::getConjunctPrp( PT_operator *andNode )
 
 PT_operator *
 genNotConjunction( PT_operator *base_formula,
-				   unsigned int first_index, unsigned int last_index )
+				   unsigned int first_index, unsigned int last_index,
+				   int AD )
 {
 	assert( base_formula != NULL );
 	assert( first_index > 0 && last_index >= first_index );
@@ -794,14 +795,14 @@ genNotConjunction( PT_operator *base_formula,
 		node_prp = new PT_prp();
 		node_prp->type = PT_NPRP;
 		node_prp->prp = i;
-		node_prp->AD = 0;
+		node_prp->AD = AD;
 
 		node_operator = new PT_operator();
 		node_operator->type = PT_AND;
 		node_operator->children.insert( node_prp );
 		node_operator->children.insert( formula );
 		node_operator->boundVar = -1;
-		node_operator->AD = 0;
+		node_operator->AD = AD;
 		node_prp->parent = node_operator;
 		formula->parent = node_operator;
 		formula = node_operator;
@@ -831,20 +832,13 @@ genFormulaReachAvoid( unsigned int number_of_goals,
 		node_var->var = number_of_goals+1;
 		node_var->AD = 0;
 
-		node_operator = new PT_operator();
-		node_operator->type = PT_SUC;
-		node_operator->children.insert( node_var );
-		node_operator->boundVar = -1;
-		node_operator->AD = 0;
-		node_var->parent = node_operator;
-
 		node_prp = new PT_prp ();
 		node_prp->type = PT_PRP;
 		node_prp->prp = i;
 		node_prp->AD = 0;
 
 		node_child1 = node_prp;
-		node_child2 = node_operator;
+		node_child2 = node_var;
 		node_operator = new PT_operator ();
 		node_operator->type = PT_AND;
 		node_operator->children.insert (node_child1);
@@ -860,16 +854,8 @@ genFormulaReachAvoid( unsigned int number_of_goals,
 		node_var->var = i;
 		node_var->AD = 0;
 
-		node_child1 = node_var;
-		node_operator = new PT_operator ();
-		node_operator->type = PT_SUC;
-		node_operator->children.insert (node_child1);
-		node_operator->boundVar = -1;
-		node_operator->AD = 0;
-		node_child1->parent = node_operator;
-
 		node_child1 = node_tmp1;
-		node_child2 = node_operator;
+		node_child2 = node_var;
 		node_operator = new PT_operator ();
 		node_operator->type = PT_OR;
 		node_operator->children.insert (node_child1);
@@ -883,6 +869,14 @@ genFormulaReachAvoid( unsigned int number_of_goals,
 			node_operator = genNotConjunction( node_operator,
 											   number_of_goals+1,
 											   number_of_goals+number_of_obstacles );
+
+		node_child1 = node_operator;
+		node_operator = new PT_operator ();
+		node_operator->type = PT_SUC;
+		node_operator->children.insert (node_child1);
+		node_operator->boundVar = -1;
+		node_operator->AD = 0;
+		node_child1->parent = node_operator;
 
 		node_child1 = node_operator;
 		node_operator = new PT_operator ();
@@ -963,7 +957,8 @@ genFormulaReachAvoid( unsigned int number_of_goals,
 	if (number_of_obstacles > 0)
 		node_operator = genNotConjunction( node_operator,
 										   number_of_goals+1,
-										   number_of_goals+number_of_obstacles );
+										   number_of_goals+number_of_obstacles,
+										   2 );
 
 	node_child1 = node_operator;
 	node_operator = new PT_operator ();
