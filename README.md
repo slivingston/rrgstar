@@ -22,36 +22,52 @@ latter makes use of important results from [3].
   DOI: 10.1177/0278364911406761
 
 
-Compiling examples
-------------------
+Compiling examples, documentation
+---------------------------------
 
-To build all of the "standalone" examples (i.e., those not depending on libbot),
+The usual [CMake](http://www.cmake.org) idiom,
 
-    make all
+    mkdir build
+    cd build
+    cmake ..
 
-The library consists of .h and .hpp header files.  It does not require
-compilation a priori.  Alternatively to `make all`, individual examples may be
-built by first creating the bin/ directory if it does not exist,
+On a standard UNIX platform, you can next run `make` to build all examples, the
+programs for which will be under bin/.  To instead build a particular example,
+call `make` with its name, e.g., to build only the rrg_dubins_car example,
 
-    mkdir -p bin
+    make rrg_dubins_car
 
-and then going into the directory
-
-    examples/
-
-where you can find all the examples. Consult notes near the end of this README
-concerning examples and usage here of `libbot`. Type `make` in the folder that
-contains the particular example you would like to execute. This should compile
-the part of the library required by that example, and the resulting binary will
-be placed in the bin/ directory at the root of the source tree.
-
-
-Compiling the documentation
----------------------------
+To build the API manual,
 
     make doc
 
-requires [Doxygen](http://www.doxygen.org/) to be installed.
+which requires [Doxygen](http://www.doxygen.org/) to be installed. The generated
+files will be under the directory html/
+
+
+Using rrglib
+------------
+
+The rrglib library consists primarily of header files and does not require
+compilation a priori.  However, support is provided for installing header files
+and libraries in a common location and against which other programs can
+link. The default CMake install prefix can be changed by providing a value for
+CMAKE_INSTALL_PREFIX. E.g., `cmake -DCMAKE_INSTALL_PREFIX=~/opt ..` will use the
+opt/ directory in your home directory instead of the system-wide /usr or
+/usr/local.  HPP files will be placed under include/rrglib/ (after the install
+prefix), and compiled object and CMake configuration files will be installed
+under lib/rrglib/
+
+For example, to use it in a CMakeLists.txt
+
+    find_package (rrglib REQUIRED)
+    include_directories (~/opt/include/rrglib)
+
+    add_executable (rrgstar_double_integrator rrgstar_doubleinteg.cpp)
+    target_link_libraries (rrgstar_double_integrator kdtree incmumc)
+
+where incmumc is part of rrglib.  kdtree is not a part of rrglib (it originates
+elsewhere) but is shipped with rrglib for convenience.
 
 
 Visualizations, interfaces
