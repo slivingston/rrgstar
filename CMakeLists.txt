@@ -18,7 +18,7 @@ add_subdirectory (examples/rrgstar)
 find_package (Doxygen)
 if (${DOXYGEN_FOUND})
     add_custom_target (doc ${DOXYGEN_EXECUTABLE}
-                       ${CMAKE_SOURCE_DIR}/doc_config/rrglib.doxyconf
+                       ${CMAKE_SOURCE_DIR}/doc/rrglib.doxyconf
                        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
     set_property (DIRECTORY PROPERTY ADDITIONAL_MAKE_CLEAN_FILES html)
 else  ()
