@@ -7,8 +7,8 @@ install (DIRECTORY src/ DESTINATION include/rrglib
          PATTERN "*.hpp")
 
 add_compile_options (-g
-    -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE
-    -Wall -Wno-unused-parameter -Wno-sign-compare -D__STDC_FORMAT_MACROS
+    -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D__STDC_FORMAT_MACROS
+    -Wall
     )
 
 add_subdirectory (src)
