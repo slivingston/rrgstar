@@ -1,5 +1,8 @@
 #!/usr/bin/env python
-"""Plot output from the RRG planner, as provided by rrg::dump_json()
+"""Plot output from the RRG planner
+
+Solutions are contained in JSON as provided by rrg::dump_json() or
+rrgstar::dump_json().
 
   Usage: rrgplot.py FILE1 [-|FILE2]
 
