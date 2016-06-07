@@ -10,13 +10,13 @@ paper makes use of important results from [3]. The implementation includes
 corrections to and missing details from [2].
 
 1. S. Karaman and E. Frazzoli (2009). Sampling-based Motion Planning with
-  Deterministic $mu$-Calculus Specifications. in Proceedings of the 48th IEEE
+  Deterministic μ-Calculus Specifications. in Proceedings of the 48th IEEE
   Conference on Decision and Control (CDC), pp. 2222-2229.
   DOI: 10.1109/CDC.2009.5400278
 
 2. S. Karaman and E. Frazzoli (2012). Sampling-based Algorithms for Optimal
-  Motion Planning with Deterministic $mu$-Calculus Specifications. in
-  Proceedings of the American Control Conference (ACC), pp. 735-74.
+  Motion Planning with Deterministic μ-Calculus Specifications. in Proceedings
+  of the American Control Conference (ACC), pp. 735-74.
   DOI: 10.1109/ACC.2012.6315419
 
 3. S. Karaman and E. Frazzoli (2011). Sampling-based Algorithms for Optimal
