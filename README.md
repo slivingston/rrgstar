@@ -4,8 +4,10 @@ Rapidly-exploring random graphs library
 References
 ----------
 
-We provide here implementations of RRG [1] and the optimal extension [2]. The
-latter makes use of important results from [3].
+We provide here implementations of RRG [1] and the optimal extension [2] for
+motion planning subject to deterministic μ-Calculus constraints. The latter
+paper makes use of important results from [3]. The implementation includes
+corrections to and missing details from [2].
 
 1. S. Karaman and E. Frazzoli (2009). Sampling-based Motion Planning with
   Deterministic $mu$-Calculus Specifications. in Proceedings of the 48th IEEE
