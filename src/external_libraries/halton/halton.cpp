@@ -8,7 +8,7 @@
 
 using namespace std;
 
-# include "halton.h"
+# include "halton.hpp"
 
 //
 //  These variables are accessible to the user via calls to routines.
@@ -264,7 +264,7 @@ int get_seed ( )
 {
 # define I4_MAX 2147483647
   time_t clock;
-  // int i; // -- this line was removed by Sertac Karaman (reason: variable is not used)
+  int i;
   int ihour;
   int imin;
   int isec;
@@ -544,7 +544,7 @@ bool halham_step_check ( int step )
 //    Output, bool HALHAM_STEP_CHECK, is true if STEP is legal.
 //
 {
-    //int i;  // -- this line was removed by Sertac Karaman (reason: variable is not used)
+  int i;
   bool value;
 
   if ( step < 0 )
@@ -1430,7 +1430,7 @@ void halton_step_set ( int step )
 //    STEP must be 1 or greater.
 //
 {
-    // int i; //  -- this line was removed by Sertac Karaman (reason: variable is not used)
+  int i;
 
   if ( !halham_step_check ( step ) )
   {
@@ -2264,8 +2264,8 @@ double r8_epsilon ( )
 //
 //  Discussion:
 //
-//    The roundoff unit is a number R which is a power of 2 with the property
-//    that, to the precision of the computer's arithmetic,
+//    The roundoff unit is a number R which is a power of 2 with the
+//    property that, to the precision of the computer's arithmetic,
 //      1 < 1 + R
 //    but
 //      1 = ( 1 + R / 2 )
@@ -2276,7 +2276,7 @@ double r8_epsilon ( )
 //
 //  Modified:
 //
-//    01 July 2004
+//    01 September 2012
 //
 //  Author:
 //
@@ -2284,19 +2284,12 @@ double r8_epsilon ( )
 //
 //  Parameters:
 //
-//    Output, double R8_EPSILON, the round-off unit.
+//    Output, double R8_EPSILON, the R8 round-off unit.
 //
 {
-  double r;
+  const double value = 2.220446049250313E-016;
 
-  r = 1.0;
-
-  while ( 1.0 < ( double ) ( 1.0 + r )  )
-  {
-    r = r / 2.0;
-  }
-
-  return ( 2.0 * r );
+  return value;
 }
 //****************************************************************************80
 
