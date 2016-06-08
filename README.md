@@ -92,10 +92,14 @@ Scott C. Livingston (Caltech),
 Sertac Karaman and Emilio Frazzoli (MIT)
 
 
-License
--------
+Licenses
+--------
 
 This is free software released under the terms of [the MIT License]
 (http://opensource.org/licenses/MIT).  There is no warranty; not even for
 merchantability or fitness for a particular purpose.  Consult LICENSE for
 copying conditions.
+
+Copies of several third-party free, open-source softwares are included under the
+directory src/external_libraries/.  References to original locations and
+licenses can be found there.
