@@ -93,7 +93,7 @@ Scott C. Livingston (Caltech),
 and Sertac Karaman and Emilio Frazzoli (MIT), who wrote the code on which the
 present work is based and as available from <https://svn.csail.mit.edu/smp>,
 which has last changed date of 2011-08-02 05:25:23 -0400. The rrgstar repository
-begins by importing from there.
+began by importing from there.
 
 
 Licenses
