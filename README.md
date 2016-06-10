@@ -75,11 +75,11 @@ elsewhere) but is shipped with rrglib for convenience.
 Visualizations, interfaces
 --------------------------
 
-Note that visualization is not intended to be the main purpose of this repository, so
-Mayavi, Matplotlib, etc. as used in tools/rrgplot.py are regarded as optional
-dependencies.  Similarly, building the various interfaces may require external
-resources to be available, like ROS.  However, those dependencies are only
-necessary if you want to build that particular interface.
+Note that visualization is not intended to be the main purpose of this
+repository, so Mayavi, Matplotlib, etc. as used in tools/rrgplot.py are regarded
+as optional dependencies.  Similarly, building the various interfaces may
+require external resources to be available, like ROS.  However, those
+dependencies are only necessary if you want to build that particular interface.
 
 * [libbot](https://code.google.com/p/libbot/)
 * [LCM](https://lcm-proj.github.io/)
