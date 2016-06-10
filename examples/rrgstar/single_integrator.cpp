@@ -181,7 +181,7 @@ int main( int argc, char **argv )
 		planner.iteration();
 		if (planner.has_feasible()) {
 			if (last_min_cost >= 0
-				&& last_min_cost - planner.current_min_cost() < 0.01
+				&& last_min_cost - planner.current_min_cost() < 0.2
 				&& last_min_cost - planner.current_min_cost() > 0)
 				break;
 
