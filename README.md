@@ -81,8 +81,26 @@ as optional dependencies.  Similarly, building the various interfaces may
 require external resources to be available, like ROS.  However, those
 dependencies are only necessary if you want to build that particular interface.
 
-* [libbot](https://code.google.com/p/libbot/)
-* [LCM](https://lcm-proj.github.io/)
+The primary means for visualizing is `tools/rrgplot.py`. For 2D plotting it uses
+[Matplotlib](http://matplotlib.org), and for 3D plotting
+[Mayavi](http://docs.enthought.com/mayavi/mayavi/). The former is part of [the
+standard SciPy stack](http://www.scipy.org/about.html).
+
+
+Examples
+--------
+
+After completing the installation instructions above, you can run examples and
+plot the resulting trajectories. To use the RRG planner for Dubins car, from the
+build/ directory, try
+
+    bin/rrg_dubins_car > tmp.json
+    ../tools/rrgplot.py ../examples/2d3r.json tmp.json
+
+To use the RRG* planner for the same dynamics model (Dubins car),
+
+    bin/rrgstar_dubins_car > tmp.json
+    ../tools/rrgplot.py ../examples/2d3r.json tmp.json
 
 
 Authors
