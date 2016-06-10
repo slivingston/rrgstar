@@ -135,7 +135,7 @@ int main( int argc, char **argv )
 
 
 	// 3. RUN THE PLANNER
-	int num_it = 1000;
+	int num_it = 5000;
 	if (argc >= 2) {
 		num_it = strtol( argv[1], NULL, 10 );
 		if (num_it < 0) {
@@ -144,8 +144,18 @@ int main( int argc, char **argv )
 		}
 	}
 	int i;
-	for (i = 0; i < num_it; i++)
+	double last_min_cost = -1;
+	for (i = 0; i < num_it; i++) {
 		planner.iteration();
+		if (planner.has_feasible()) {
+			if (last_min_cost >= 0
+				&& last_min_cost - planner.current_min_cost() < 0.2
+				&& last_min_cost - planner.current_min_cost() > 0)
+				break;
+
+			last_min_cost = planner.current_min_cost();
+		}
+	}
 
 	std::cerr << "number of iterations is " << i << std::endl;
 
