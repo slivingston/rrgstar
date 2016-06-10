@@ -148,9 +148,12 @@ main ()
   collision_checker.add_region( R );
 
   // 2.e Initialize the model checker
-  /* NOTE that the formula is currently hard-coded in ParseTree::parseFormula()
-     as the parse tree provided in parseFormulaLoop4(), both defined in the file
-     inc_mu_mc/pt.cpp */
+    /* NOTE that the formula is currently generated using a reach-avoid template
+       of the form ([]<> p1 & []<> p2 & ... & []!p_m) and implemented in
+       ParseTree::genFormulaReachAvoid(), which is called from
+       ParseTree::parseFormula(), both defined in the file inc_mu_mc/pt.cpp.
+       The number of goal regions and obstacles can be chosen when instantiating
+       model_checker_t; default is 2 goals, 1 obstacle. */
 
 
   // 2.f Initialize the planner
