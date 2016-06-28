@@ -46,11 +46,11 @@ typedef model_checker_mu_calculus_pg_edge_data edge_data_t;
 
 // Create the typeparams structure
 typedef struct _typeparams {
-	typedef state_t state;
-	typedef input_t input;
-	typedef vertex_data_t vertex_data;
-	typedef edge_data_t edge_data;
-	typedef region_t region;
+    typedef state_t state;
+    typedef input_t input;
+    typedef vertex_data_t vertex_data;
+    typedef edge_data_t edge_data;
+    typedef region_t region;
 } typeparams;
 
 // Define the trajectory type
@@ -65,90 +65,85 @@ typedef model_checker_mu_calculus_pg<typeparams> model_checker_t;
 typedef cost_evaluator_time<typeparams> cost_evaluator_t;
 
 // Define all algorithm types
-typedef rrgstar<typeparams>  rrgstar_t;
-
-
-
+typedef rrgstar<typeparams> rrgstar_t;
 
 
 int main( int argc, char **argv )
 {
-	// 1. CREATE PLANNING OBJECTS
+    // 1. CREATE PLANNING OBJECTS
 
-	// 1.a Create the components
-	sampler_t sampler;
-	distance_evaluator_t distance_evaluator;
-	extender_t extender;
-	collision_checker_t collision_checker;
-	model_checker_t model_checker;
-	cost_evaluator_t cost_evaluator;
-	model_checker.add_labeler( &collision_checker );
-	model_checker.add_costeval( &cost_evaluator );
+    // 1.a Create the components
+    sampler_t sampler;
+    distance_evaluator_t distance_evaluator;
+    extender_t extender;
+    collision_checker_t collision_checker;
+    model_checker_t model_checker;
+    cost_evaluator_t cost_evaluator;
+    model_checker.add_labeler( &collision_checker );
+    model_checker.add_costeval( &cost_evaluator );
 
-	// 1.b Create the planner algorithm
-	rrgstar_t planner(sampler, distance_evaluator, extender,
-					  collision_checker, model_checker, cost_evaluator);
-	planner.parameters.set_phase (2);
+    // 1.b Create the planner algorithm
+    rrgstar_t planner(sampler, distance_evaluator, extender,
+                      collision_checker, model_checker, cost_evaluator);
+    planner.parameters.set_phase (2);
 
-	/* Set this parameter should be set at least to the side length of
-	   the (bounded) state space. E.g., if the state space is a box with
-	   side length L, then this parameter should be set to at least L
-	   for rapid and efficient convergence in trajectory space. */
-	planner.parameters.set_gamma (35.0);
-	planner.parameters.set_dimension (NUM_DIMENSIONS);
-	planner.parameters.set_max_radius (EXTENSION_LENGTH);
-
-
+    /* Set this parameter should be set at least to the side length of
+       the (bounded) state space. E.g., if the state space is a box with
+       side length L, then this parameter should be set to at least L
+       for rapid and efficient convergence in trajectory space. */
+    planner.parameters.set_gamma (35.0);
+    planner.parameters.set_dimension (NUM_DIMENSIONS);
+    planner.parameters.set_max_radius (EXTENSION_LENGTH);
 
 
-	// 2. INITALIZE PLANNING OBJECTS
+    // 2. INITALIZE PLANNING OBJECTS
 
-	// 2.a Initialize the sampler
-	region_t sampler_support;
-	for (int i = 0; i < NUM_DIMENSIONS; i++) {
-		sampler_support.center[i] = 0.0;
-		sampler_support.size[i] = 20.0;
-	}
-	sampler.set_support (sampler_support);
-
-
-	// 2.b Initialize the distance evaluator
-	//     Nothing to initialize. One could change the kdtree weights.
+    // 2.a Initialize the sampler
+    region_t sampler_support;
+    for (int i = 0; i < NUM_DIMENSIONS; i++) {
+        sampler_support.center[i] = 0.0;
+        sampler_support.size[i] = 20.0;
+    }
+    sampler.set_support (sampler_support);
 
 
-	// 2.c Initialize the extender
-	extender.set_max_length(EXTENSION_LENGTH);
+    // 2.b Initialize the distance evaluator
+    //     Nothing to initialize. One could change the kdtree weights.
 
 
-	// 2.d Initialize the collision checker
-	region_t R;
-	R.center[0] = R.center[1] = -3.5;
-	R.size[0] = R.size[1] = 1.0;
-	if (NUM_DIMENSIONS >= 3) {
-		R.center[2] = 5.0;
-		R.size[2] = 2.0;
-	}
-	collision_checker.add_region( R );
-
-	R.center[0] = 5.5;
-	R.center[1] = 1.5;
-	R.size[0] = R.size[1] = 1.0;
-	if (NUM_DIMENSIONS >= 3) {
-		R.center[2] = 5.0;
-		R.size[2] = 2.0;
-	}
-	collision_checker.add_region( R );
-
-	R.center[0] = R.center[1] = 2.05;
-	R.size[0] = R.size[1] = 3.9;
-	if (NUM_DIMENSIONS >= 3) {
-		R.center[2] = 5.0;
-		R.size[2] = 2.0;
-	}
-	collision_checker.add_region( R );
+    // 2.c Initialize the extender
+    extender.set_max_length(EXTENSION_LENGTH);
 
 
-	// 2.e Initialize the model checker
+    // 2.d Initialize the collision checker
+    region_t R;
+    R.center[0] = R.center[1] = -3.5;
+    R.size[0] = R.size[1] = 1.0;
+    if (NUM_DIMENSIONS >= 3) {
+        R.center[2] = 5.0;
+        R.size[2] = 2.0;
+    }
+    collision_checker.add_region( R );
+
+    R.center[0] = 5.5;
+    R.center[1] = 1.5;
+    R.size[0] = R.size[1] = 1.0;
+    if (NUM_DIMENSIONS >= 3) {
+        R.center[2] = 5.0;
+        R.size[2] = 2.0;
+    }
+    collision_checker.add_region( R );
+
+    R.center[0] = R.center[1] = 2.05;
+    R.size[0] = R.size[1] = 3.9;
+    if (NUM_DIMENSIONS >= 3) {
+        R.center[2] = 5.0;
+        R.size[2] = 2.0;
+    }
+    collision_checker.add_region( R );
+
+
+    // 2.e Initialize the model checker
     /* NOTE that the formula is currently generated using a reach-avoid template
        of the form ([]<> p1 & []<> p2 & ... & []!p_m) and implemented in
        ParseTree::genFormulaReachAvoid(), which is called from
@@ -157,50 +152,48 @@ int main( int argc, char **argv )
        model_checker_t; default is 2 goals, 1 obstacle. */
 
 
-	// 2.f Initialize the planner
-	state_t *state_initial = new state_t;
-	for (int i = 0; i < NUM_DIMENSIONS; i++) {
-		state_initial->state_vars[i] = 0.0;
+    // 2.f Initialize the planner
+    state_t *state_initial = new state_t;
+    for (int i = 0; i < NUM_DIMENSIONS; i++) {
+        state_initial->state_vars[i] = 0.0;
 
-	}
-	planner.initialize (state_initial);
-
-
+    }
+    planner.initialize (state_initial);
 
 
-	// 3. RUN THE PLANNER
-	int num_it = 1000;
-	if (argc >= 2) {
-		num_it = strtol( argv[1], NULL, 10 );
-		if (num_it < 0) {
-			std::cerr << "Number of iterations must be nonnegative." << std::endl;
-			return -1;
-		}
-	}
-	int i;
-	double last_min_cost = -1;
-	for (i = 0; i < num_it; i++) {
-		planner.iteration();
-		if (planner.has_feasible()) {
-			if (last_min_cost >= 0
-				&& last_min_cost - planner.current_min_cost() < 0.2
-				&& last_min_cost - planner.current_min_cost() > 0)
-				break;
+    // 3. RUN THE PLANNER
+    int num_it = 1000;
+    if (argc >= 2) {
+        num_it = strtol( argv[1], NULL, 10 );
+        if (num_it < 0) {
+            std::cerr << "Number of iterations must be nonnegative." << std::endl;
+            return -1;
+        }
+    }
+    int i;
+    double last_min_cost = -1;
+    for (i = 0; i < num_it; i++) {
+        planner.iteration();
+        if (planner.has_feasible()) {
+            if (last_min_cost >= 0
+                && last_min_cost - planner.current_min_cost() < 0.2
+                && last_min_cost - planner.current_min_cost() > 0)
+                break;
 
-			last_min_cost = planner.current_min_cost();
-		}
-	}
+            last_min_cost = planner.current_min_cost();
+        }
+    }
 
-	std::cerr << "number of iterations is " << i << std::endl;
-
-
-	// std::ofstream outf( "arena.dot" );
-	// planner.dumpArenaDOT( outf );
-	// outf.close();
+    std::cerr << "number of iterations is " << i << std::endl;
 
 
-	// 4. GET THE RESULTS
-	planner.dump_json();
+    // std::ofstream outf( "arena.dot" );
+    // planner.dumpArenaDOT( outf );
+    // outf.close();
 
-	return 0;
+
+    // 4. GET THE RESULTS
+    planner.dump_json();
+
+    return 0;
 }
