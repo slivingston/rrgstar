@@ -1,14 +1,15 @@
 /*! \file planners/base_incremental.h
   \brief Generic incremental sampling-based motion planner definition
 
-  The generic incremental sampling-based motion planner inherits from the 
-  generic sampling-based motion planner and provides the virtual iteration() 
+  The generic incremental sampling-based motion planner inherits from the
+  generic sampling-based motion planner and provides the virtual iteration()
   function, which is overloaded by the inheriting incremental sampling-based
-  algorithm.  
+  algorithm.
  */
 
 #ifndef _RRGLIB_PLANNER_INCREMENTAL_H_
 #define _RRGLIB_PLANNER_INCREMENTAL_H_
+
 
 #include <planners/base.h>
 
@@ -17,11 +18,11 @@ namespace rrglib {
 
     //! Generic incremental sampling-based motion planner
     /*!
-      The generic incremental sampling-based motion planner inherits from the 
-      generic sampling-based motion planner and provides the virtual iteration() 
+      The generic incremental sampling-based motion planner inherits from the
+      generic sampling-based motion planner and provides the virtual iteration()
       function, which is overloaded by the inheriting incremental sampling-based
-      algorithm.  
-      
+      algorithm.
+
       \ingroup planners_base
     */
     template< class typeparams >
@@ -45,19 +46,19 @@ namespace rrglib {
 
         //! A pointer to the root vertex of the incremental algorithm
         /*!
-          Any incremental algorithm is assumed to generate a graph of trajectories of a 
+          Any incremental algorithm is assumed to generate a graph of trajectories of a
           dynamical system such that each trajectory starts from a given initial condition.
           This variable is a pointer to the vertex that stores the initial state.
         */
         vertex_t *root_vertex;
-    
+
         planner_incremental ();
         ~planner_incremental ();
-        
+
         /**
-         * \brief A constructor that initializes all components. 
+         * \brief A constructor that initializes all components.
          *
-         * This is the recommended constructor that initializes all components all at once. 
+         * This is the recommended constructor that initializes all components all at once.
          *
          * @param sampler_in New sampler component.
          * @param distance_evaluator_in New distance evaluator component.
@@ -65,7 +66,7 @@ namespace rrglib {
          * @param collision_checker_in New collision checker component.
          * @param model_checker_in New model checker component.
          */
-        planner_incremental (sampler_t &sampler_in, distance_evaluator_t &distance_evaluator_in, extender_t &extender_in, 
+        planner_incremental (sampler_t &sampler_in, distance_evaluator_t &distance_evaluator_in, extender_t &extender_in,
                              collision_checker_t &collision_checker_in, model_checker_t &model_checker_in);
 
 
@@ -74,10 +75,10 @@ namespace rrglib {
          *
          * Deletes the current graph stored by the planner. If the initial_state_in argument
          * is non-NULL, creates a new vertex that with the state stored in the initial_state_in
-         * argument. 
+         * argument.
          *
          * @param initial_state_in The state that the root_vertex will include. If this argument
-         * is NULL, then no root vertex is created (But, the graph stored in the planner is 
+         * is NULL, then no root vertex is created (But, the graph stored in the planner is
          * deleted.
          *
          * @returns Returns 1 for success, and a non-positive number for failure.
@@ -88,7 +89,7 @@ namespace rrglib {
         /**
          * \brief Returns a pointer to the root vertex
          *
-         * An incremental planner might (optionally) have a root vertex, a pointer to which 
+         * An incremental planner might (optionally) have a root vertex, a pointer to which
          * can be obtained using this function.
          *
          * @returns Returns a pointer to the root vertex, and NULL if the root vertex is not set.
@@ -98,15 +99,15 @@ namespace rrglib {
         /**
          * \brief A virtual call to initiate one iteration of the algorithm.
          *
-         * Runs one iteration of the inheriting incremental sampling-based algorithm, which 
+         * Runs one iteration of the inheriting incremental sampling-based algorithm, which
          * overloads this function.
-         * 
+         *
          * @returns Returns 1 for success, and a non-positive number for failure.
          */
         virtual int iteration () = 0;
     };
 
-
 }
+
 
 #endif
