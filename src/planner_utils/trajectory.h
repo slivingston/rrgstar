@@ -6,6 +6,7 @@
 #ifndef _RRGLIB_TRAJECTORY_H_
 #define _RRGLIB_TRAJECTORY_H_
 
+
 #include<list>
 
 using namespace std;
@@ -13,12 +14,12 @@ using namespace std;
 
 namespace rrglib {
 
-    //! Trajectory definition as a states with interleaving inputs. 
+    //! Trajectory definition as a states with interleaving inputs.
     /*!
       The trajectory class, composed of a list of states and a list of inputs,
       is an implementation of the notion of a trajectory that connects two given
-      states in the graph. 
-      
+      states in the graph.
+
       \ingroup graphs
     */
     template< class typeparams >
@@ -28,7 +29,7 @@ namespace rrglib {
         typedef typename typeparams::input input_t;
 
     public:
-    
+
         //! A list of the states in the trajectory.
         list< state_t* > list_states;
 
@@ -47,8 +48,8 @@ namespace rrglib {
         //! Clears the trajectory.
         /*!
           This function clears both the state list and the input list in the trajectory.
-          But, it does NOT attempt to free the memory occupied by the said states and 
-          inputs. 
+          But, it does NOT attempt to free the memory occupied by the said states and
+          inputs.
         */
         int clear ();
 
@@ -56,14 +57,14 @@ namespace rrglib {
         /*!
           This function clears both the state list and the input list in the trajectory.
           It also frees the memory occupied by the said states and the inputs, by calling
-          the delete operator with each state and input present in the lists. 
+          the delete operator with each state and input present in the lists.
         */
         int clear_delete ();
-    
+
         // TODO: this may require some interface since it is given to user functions as a parameter.
     };
 
-
 }
+
 
 #endif
