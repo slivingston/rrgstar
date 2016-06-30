@@ -5,6 +5,7 @@
 #ifndef _RRGLIB_BRANCH_AND_BOUND_EUCLIDEAN_H_
 #define _RRGLIB_BRANCH_AND_BOUND_EUCLIDEAN_H_
 
+
 #include <utils/branch_and_bound_base.h>
 
 #include <planner_utils/vertex_edge.h>
@@ -80,5 +81,6 @@ namespace rrglib{
     };
 
 }
+
 
 #endif
