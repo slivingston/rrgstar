@@ -1,6 +1,6 @@
 /*! \file interfaces/base.h
   \brief The abstract interfacer
-  
+
   This file provides the necessary classes and function to interface
   certain robotics libraries, e.g., libbot, Microsoft Robotics, and the Robot
   Operating System (ROS), and their visualization tools.
@@ -17,11 +17,11 @@ namespace rrglib {
 
     //! The abstract class that specifies the structure of a interfacing component.
     /*!
-      The interfacing component provides a function to publish the graph that is 
-      stored in the planner. It also provides a function to visualize a certain 
+      The interfacing component provides a function to publish the graph that is
+      stored in the planner. It also provides a function to visualize a certain
       trajectory (for instance, this trajectory can be the optimal trajectory in
-      the graph). 
-  
+      the graph).
+
       \ingroup interfaces
     */
     template< class typeparams >
@@ -31,8 +31,8 @@ namespace rrglib {
         typedef planner<typeparams> planner_t;
 
     protected:
-    
-    
+
+
     public:
 
         /**
@@ -48,9 +48,9 @@ namespace rrglib {
         /**
          * \brief Publishes a given trajectory
          *
-         * This function will send out the messages (of the development environment) 
-         * containing the trajectory given as an argument. 
-         * 
+         * This function will send out the messages (of the development environment)
+         * containing the trajectory given as an argument.
+         *
          * @param trajectory The trajectory that will be published.
          *
          * @returns Returns 1 for success, and a non-positive value to indicate an error.
@@ -58,7 +58,7 @@ namespace rrglib {
         virtual int publish_trajectory (trajectory_t &trajectory) = 0;
     };
 
-
 }
+
 
 #endif
