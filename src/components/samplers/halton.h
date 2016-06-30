@@ -1,12 +1,13 @@
 /*! \file components/samplers/halton.h
   \brief The halton deterministic sampler
-  
+
   The sampler provides random samples of states that are uniformly distributed in
   a bounded region.
 */
 
 #ifndef _RRGLIB_SAMPLER_HALTON_H_
 #define _RRGLIB_SAMPLER_HALTON_H_
+
 
 #include <components/samplers/base.h>
 #include <common/region.h>
@@ -17,7 +18,7 @@ namespace rrglib {
     //! Implements the sampler components that relies on halton sampling.
     /*!
       A sampler component that implements halton sampling.
-      
+
       \ingroup samplers
     */
     template < class typeparams, int NUM_DIMENSIONS >
@@ -31,23 +32,23 @@ namespace rrglib {
         typedef edge<typeparams> edge_t;
 
         typedef region<NUM_DIMENSIONS> region_t;
-    
+
         region_t support;
-    
+
     public:
         sampler_halton ();
         ~sampler_halton ();
 
 
         int sm_update_insert_vertex (vertex_t *vertex_in);
-    
 
-        int sm_update_insert_edge (edge_t *edge_in);  
+
+        int sm_update_insert_edge (edge_t *edge_in);
 
 
         int sm_update_delete_vertex (vertex_t *vertex_in);
-    
-    
+
+
         int sm_update_delete_edge (edge_t *edge_in);
 
 
@@ -57,10 +58,10 @@ namespace rrglib {
          * \brief Sets the dimensions and position of the rectangular bounding box of
          *        the support.
          *
-         * Halton distribution only makes sense in a bounded support, which can be set 
+         * Halton distribution only makes sense in a bounded support, which can be set
          * using this function. This sampler function only draws samples from a rectangular
-         * box in the Euclidean space with dimensions NUM_DIMENSIONS, which is a template 
-         * parameter to the Halton sampler class. If the support variable is not set, i.e., 
+         * box in the Euclidean space with dimensions NUM_DIMENSIONS, which is a template
+         * parameter to the Halton sampler class. If the support variable is not set, i.e.,
          * this function is never called, then the support is initialized to the unit cube
          * centered at the origin by default.
          *
@@ -70,10 +71,9 @@ namespace rrglib {
          */
         int set_support (const region_t support_in);
 
-    
     };
 
-
 }
+
 
 #endif

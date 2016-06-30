@@ -1,11 +1,12 @@
 /*! \file components/distance_evaluators/kdtree.h
   \brief The abstract sampler
-  
+
   The sampler provides random or quasi-random sample states.
 */
 
 #ifndef _RRGLIB_DISTANCE_EVALUATOR_KDTREE_H_
 #define _RRGLIB_DISTANCE_EVALUATOR_KDTREE_H_
+
 
 #include <components/distance_evaluators/base.h>
 
@@ -20,16 +21,15 @@ namespace rrglib {
       Euclidean space in a kd-tree structure. It implements nearest neighbor
       computation and the computation of near states that reside in a ball of
       given radius. However, it does NOT implement the k-nearest states.
-      
+
       Note that the class has an initialization function which must be called
-      with an appropriate argument, before any other method of the class can 
+      with an appropriate argument, before any other method of the class can
       be called.
-      
+
       \ingroup distance_evaluators
     */
     template< class typeparams, int NUM_DIMENSIONS >
     class distance_evaluator_kdtree : public distance_evaluator_base<typeparams> {
-
 
 
         typedef typename typeparams::state state_t;
@@ -42,9 +42,9 @@ namespace rrglib {
 
         typedef struct kdtree kdtree_t;
         typedef struct kdres kdres_t;
-    
+
         kdtree_t *kdtree;
-    
+
         list<vertex_t*> *list_vertices;
         bool vertex_deleted;
 
@@ -54,18 +54,18 @@ namespace rrglib {
         distance_evaluator_kdtree ();
         ~distance_evaluator_kdtree ();
 
-    
+
         int de_update_insert_vertex (vertex_t *vertex_in);
-    
+
 
         int de_update_insert_edge (edge_t *edge_in);
 
 
         int de_update_delete_vertex (vertex_t *vertex_in);
-    
-    
+
+
         int de_update_delete_edge (edge_t *edge_in);
-    
+
 
         int find_nearest_vertex (state_t *state_in,
                                  void **data_out);
@@ -85,10 +85,10 @@ namespace rrglib {
          * The appropriate list of vertices can be initialized using this
          * function and the reconstruct_kdtree_from_vertex_list method of this
          * class can be called to rebuild the tree. The distance_kdtree class
-         * also reconstructs the tree whenever a vertex is deleted. For the 
+         * also reconstructs the tree whenever a vertex is deleted. For the
          * reconstruction to succeed, this method must be called a priori.
          *
-         * @param list_vertices_in A pointer to the list of vertices 
+         * @param list_vertices_in A pointer to the list of vertices
          *
          * @returns Returns 1 for success, and a non-positive value to indicate error.
          */
@@ -98,8 +98,8 @@ namespace rrglib {
         /**
          * \brief Reconstructs the tree from its vertex list.
          *
-         * This method clears all the points in the kdtree and then calls 
-         * the de_update_insert_vertex method of this class for each vertex in the 
+         * This method clears all the points in the kdtree and then calls
+         * the de_update_insert_vertex method of this class for each vertex in the
          * vertex list initialized using the set_list_vertices method of this class.
          *
          * @returns Returns 1 for success, and a non-positive value to indicate error.
@@ -110,7 +110,7 @@ namespace rrglib {
          * \brief Sets the weights in the kdtree.
          *
          * The kdtree structure stores the vertices of the kdtree in an Euclidean space,
-         * each axis of which is scaled with certain weights. This function can be used 
+         * each axis of which is scaled with certain weights. This function can be used
          * to set those weights. By default, all weights are set to one.
          *
          * @param weights_in Weight for each dimension.
@@ -121,7 +121,7 @@ namespace rrglib {
 
     };
 
-
 }
+
 
 #endif

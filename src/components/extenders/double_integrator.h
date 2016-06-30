@@ -36,7 +36,6 @@ namespace rrglib {
     };
 
 
-
     //! Implementation of the input data structure for the double integrator dynamics
     /*!
       This class implements the input data structure for the double integrator dynamics.
@@ -48,7 +47,6 @@ namespace rrglib {
     class input_double_integrator : public input_array_double<NUM_DIMENSIONS+1> {
 
     };
-
 
 
     //! Extender function with double integrator dynamics.
@@ -64,7 +62,6 @@ namespace rrglib {
     template < class typeparams, int NUM_DIMENSIONS >
     class extender_double_integrator : public extender_base<typeparams> {
 
-
         typedef typename typeparams::state state_t;
         typedef typename typeparams::input input_t;
         typedef typename typeparams::vertex_data vertex_data_t;
@@ -76,11 +73,9 @@ namespace rrglib {
         typedef trajectory< typeparams > trajectory_t;
 
 
-
         // // TODO: get back to appropriate velocity constraints.
         // double velocity_constraint_min[NUM_DIMENSIONS];
         // double velocity_constraint_max[NUM_DIMENSIONS];
-
 
 
         int extend_with_optimal_control (state_t *state_ini, state_t *state_fin,
@@ -112,7 +107,7 @@ namespace rrglib {
 
     };
 
-
 }
+
 
 #endif

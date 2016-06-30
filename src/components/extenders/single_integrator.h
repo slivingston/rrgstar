@@ -9,6 +9,7 @@
 #ifndef _RRGLIB_SYSTEM_SINGLE_INTEGRATOR_H_
 #define _RRGLIB_SYSTEM_SINGLE_INTEGRATOR_H_
 
+
 #include <components/extenders/state_array_double.h>
 #include <components/extenders/input_array_double.h>
 #include <components/extenders/base.h>
@@ -29,7 +30,6 @@ namespace rrglib {
     };
 
 
-
     //! Input data structure for the single integrator dynamics
     /*!
       This class implements the input data structure for the single integrator
@@ -40,11 +40,10 @@ namespace rrglib {
 
       \ingroup inputs
     */
-	template <int NUM_DIMENSIONS>
+    template <int NUM_DIMENSIONS>
     class input_single_integrator : public input_array_double<NUM_DIMENSIONS+1> {
 
     };
-
 
 
     //! Extender function with single integrator dynamics.
@@ -58,8 +57,6 @@ namespace rrglib {
     */
     template< class typeparams, int NUM_DIMENSIONS >
     class extender_single_integrator : public extender_base< typeparams > {
-
-
 
         typedef typename typeparams::state state_t;
         typedef typename typeparams::input input_t;
@@ -110,10 +107,9 @@ namespace rrglib {
          */
         int set_max_length (double max_length_in);
 
-
     };
 
-
 }
+
 
 #endif

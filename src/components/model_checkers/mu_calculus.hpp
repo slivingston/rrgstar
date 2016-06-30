@@ -9,13 +9,13 @@
 template< class typeparams >
 rrglib::model_checker_mu_calculus<typeparams>
 ::model_checker_mu_calculus( unsigned int number_of_goals,
-							 unsigned int number_of_obstacles )
-	: collision_checker(NULL)
+                             unsigned int number_of_obstacles )
+    : collision_checker(NULL)
 {
-	uid_counter = 0;
-	found_solution = false;
+    uid_counter = 0;
+    found_solution = false;
 
-	ms.pt.parseFormula( number_of_goals, number_of_obstacles );
+    ms.pt.parseFormula( number_of_goals, number_of_obstacles );
 }
 
 
@@ -30,7 +30,7 @@ template< class typeparams>
 void rrglib::model_checker_mu_calculus<typeparams>
 ::add_labeler( collision_checker_mu_calculus<typeparams> *collision_checker_in )
 {
-	collision_checker = collision_checker_in;
+    collision_checker = collision_checker_in;
 }
 
 
@@ -38,36 +38,36 @@ template< class typeparams >
 int rrglib::model_checker_mu_calculus<typeparams>
 ::mc_update_insert_vertex (vertex_t *vertex_in) {
 
-  // Create a new state
-  MS_state *ms_state_new = new MS_state;
+    // Create a new state
+    MS_state *ms_state_new = new MS_state;
 
-  // Assign a unique id
-  ms_state_new->identifier = uid_counter++;
+    // Assign a unique id
+    ms_state_new->identifier = uid_counter++;
 
-  state_t *state_curr = vertex_in->state;
+    state_t *state_curr = vertex_in->state;
 
-  if (!collision_checker) {
-	  std::cerr << "WARNING: No labelers have been added to the model checker." << std::endl;
-	  return 0;
-  }
+    if (!collision_checker) {
+        std::cerr << "WARNING: No labelers have been added to the model checker." << std::endl;
+        return 0;
+    }
 
-  // Add propositions to ms_state
+    // Add propositions to ms_state
 
-  // TODO: The current implementation assumes disjoint regions, so that at most
-  // one prop need be added to the state labeling. Relax this assumption.
-  int slabel = collision_checker->get_region_index( state_curr );
-  if (slabel)
-	  ms_state_new->addprop( slabel );
+    // TODO: The current implementation assumes disjoint regions, so that at most
+    // one prop need be added to the state labeling. Relax this assumption.
+    int slabel = collision_checker->get_region_index( state_curr );
+    if (slabel)
+        ms_state_new->addprop( slabel );
 
-  ms_state_new->data = (void *) vertex_in;
+    ms_state_new->data = (void *) vertex_in;
 
-  // Add state pointer into vertex data
-  vertex_in->data.state = ms_state_new;
+    // Add state pointer into vertex data
+    vertex_in->data.state = ms_state_new;
 
-  // Add the new state to the model checker
-  ms.addState (ms_state_new);
+    // Add the new state to the model checker
+    ms.addState (ms_state_new);
 
-  return 1;
+    return 1;
 };
 
 
@@ -75,14 +75,14 @@ template< class typeparams >
 int rrglib::model_checker_mu_calculus<typeparams>
 ::mc_update_insert_edge (edge_t *edge_in) {
 
-  vertex_t *vertex_src = edge_in->vertex_src;
+    vertex_t *vertex_src = edge_in->vertex_src;
 
-  vertex_t *vertex_dst = edge_in->vertex_dst;
+    vertex_t *vertex_dst = edge_in->vertex_dst;
 
-  if (ms.addTransition (vertex_src->data.state, vertex_dst->data.state))
-    found_solution = true;
+    if (ms.addTransition (vertex_src->data.state, vertex_dst->data.state))
+        found_solution = true;
 
-  return 1;
+    return 1;
 };
 
 
@@ -90,7 +90,7 @@ template< class typeparams >
 int rrglib::model_checker_mu_calculus<typeparams>
 ::mc_update_delete_vertex (vertex_t *vertex_in) {
 
-  return 1;
+    return 1;
 }
 
 
@@ -98,14 +98,14 @@ template< class typeparams >
 int rrglib::model_checker_mu_calculus<typeparams>
 ::mc_update_delete_edge (edge_t *edge_in) {
 
-  return 1;
+    return 1;
 }
 
 template< class typeparams >
 bool rrglib::model_checker_mu_calculus<typeparams>
 ::has_feasible() const
 {
-	return found_solution;
+    return found_solution;
 }
 
 template< class typeparams >
@@ -113,121 +113,121 @@ int rrglib::model_checker_mu_calculus<typeparams>
 ::get_solution (trajectory_t &trajectory_out)
 {
 
-	// TODO: also put in the inputs...
+    // TODO: also put in the inputs...
 
-	if (found_solution == false)
-		return 0;
+    if (found_solution == false)
+        return 0;
 
-	stateList ms_state_list = ms.getTrajectory();
+    stateList ms_state_list = ms.getTrajectory();
 
-	list<vertex_t*> list_vertices;
+    list<vertex_t*> list_vertices;
 
-	for (stateList::iterator it_ms_state = ms_state_list.begin();
-		 it_ms_state != ms_state_list.end(); it_ms_state++) {
+    for (stateList::iterator it_ms_state = ms_state_list.begin();
+         it_ms_state != ms_state_list.end(); it_ms_state++) {
 
-		vertex_t *vertex_curr = (vertex_t*) ((*it_ms_state)->data);
+        vertex_t *vertex_curr = (vertex_t*) ((*it_ms_state)->data);
 
-		list_vertices.push_back(vertex_curr);
+        list_vertices.push_back(vertex_curr);
 
-		// cout << "State : ";
-		// for (int i = 0; i < 2; i++)
-		//   cout << vertex_curr->state->state_vars[i] << " , ";
-		// cout << endl;
+        // cout << "State : ";
+        // for (int i = 0; i < 2; i++)
+        //   cout << vertex_curr->state->state_vars[i] << " , ";
+        // cout << endl;
 
-	}
-
-
-	if (list_vertices.size() == 0) {
-		// TODO: Should this be an error? Why would found_solution be true at
-		// this point yet ms.getTrajectory() returns an empty list of states?
-		return 0;
-	}
+    }
 
 
-	vertex_t *vertex_prev = list_vertices.front ();
-	list_vertices.pop_front ();
-
-	trajectory_out.list_states.push_back (vertex_prev->state);
-
-	// printf ("[%d]", vertex_prev);
-	// cout << "State : ";
-	// for (int i = 0; i < 2; i++)
-	//   cout << vertex_prev->state->state_vars[i] << " , ";
-	// cout << endl;
+    if (list_vertices.size() == 0) {
+        // TODO: Should this be an error? Why would found_solution be true at
+        // this point yet ms.getTrajectory() returns an empty list of states?
+        return 0;
+    }
 
 
-	for (typename list<vertex_t*>::iterator it_vertex = list_vertices.begin();
-		 it_vertex != list_vertices.end(); it_vertex++) {
+    vertex_t *vertex_prev = list_vertices.front ();
+    list_vertices.pop_front ();
 
-		vertex_t *vertex_curr = *it_vertex;
+    trajectory_out.list_states.push_back (vertex_prev->state);
 
-		if (vertex_curr == vertex_prev)
-			continue;
-
-		// printf ("[%d]", vertex_curr);
-		// cout << "State : ";
-		// for (int i = 0; i < 2; i++)
-		//   cout << vertex_curr->state->state_vars[i] << " , ";
-		// cout << endl;
+    // printf ("[%d]", vertex_prev);
+    // cout << "State : ";
+    // for (int i = 0; i < 2; i++)
+    //   cout << vertex_prev->state->state_vars[i] << " , ";
+    // cout << endl;
 
 
-		// find the edge between these two vertices
-		edge_t *edge_found = 0;
-		for (typename list<edge_t*>::iterator it_edge
-				 = vertex_curr->incoming_edges.begin();
-			 it_edge != vertex_curr->incoming_edges.end(); it_edge++) {
+    for (typename list<vertex_t*>::iterator it_vertex = list_vertices.begin();
+         it_vertex != list_vertices.end(); it_vertex++) {
 
-			edge_t *edge_curr = *it_edge;
+        vertex_t *vertex_curr = *it_vertex;
 
-			// cout << "  -  Examining : ";
-			// printf ("[%d]", edge_curr->vertex_src);
-			// cout << "State : ";
-			// for (int i = 0; i < 2; i++)
-			// 	cout << edge_curr->vertex_src->state->state_vars[i] << " , ";
-			// printf ("[%d]", edge_curr->vertex_dst);
-			// cout << "- State : ";
-			// for (int i = 0; i < 2; i++)
-			// 	cout << edge_curr->vertex_dst->state->state_vars[i] << " , ";
-			// cout << endl;
+        if (vertex_curr == vertex_prev)
+            continue;
 
-			// printf ("-- Checking : [%d]=[%d] and [%d]=[%d]\n", edge_curr->vertex_src, vertex_prev, edge_curr->vertex_dst, vertex_curr);
+        // printf ("[%d]", vertex_curr);
+        // cout << "State : ";
+        // for (int i = 0; i < 2; i++)
+        //   cout << vertex_curr->state->state_vars[i] << " , ";
+        // cout << endl;
 
 
-			// TODO: Is it not redundant to check this, given that here we are
-			// enumerating the list of incoming edges for vertex_curr ?
-			if ((edge_curr->vertex_src == vertex_prev)
-				&& (edge_curr->vertex_dst == vertex_curr)) {
-				edge_found = edge_curr;
-				break;
-			}
-		}
+        // find the edge between these two vertices
+        edge_t *edge_found = 0;
+        for (typename list<edge_t*>::iterator it_edge
+                 = vertex_curr->incoming_edges.begin();
+             it_edge != vertex_curr->incoming_edges.end(); it_edge++) {
 
-		if (edge_found == 0) {
-			cout << "No such edge" << endl;
-			return 0;
-		}
+            edge_t *edge_curr = *it_edge;
 
+            // cout << "  -  Examining : ";
+            // printf ("[%d]", edge_curr->vertex_src);
+            // cout << "State : ";
+            // for (int i = 0; i < 2; i++)
+            //     cout << edge_curr->vertex_src->state->state_vars[i] << " , ";
+            // printf ("[%d]", edge_curr->vertex_dst);
+            // cout << "- State : ";
+            // for (int i = 0; i < 2; i++)
+            //     cout << edge_curr->vertex_dst->state->state_vars[i] << " , ";
+            // cout << endl;
 
-		// Add all trajectory on this edge to the new trajectory
-		for (typename list<state_t*>::iterator it_state
-				 = edge_found->trajectory_edge->list_states.begin();
-			 it_state != edge_found->trajectory_edge->list_states.end();
-			 it_state++) {
-
-			state_t *state_curr = *it_state;
-
-			trajectory_out.list_states.push_back (state_curr);
-		}
+            // printf ("-- Checking : [%d]=[%d] and [%d]=[%d]\n", edge_curr->vertex_src, vertex_prev, edge_curr->vertex_dst, vertex_curr);
 
 
-		trajectory_out.list_states.push_back (vertex_curr->state);
+            // TODO: Is it not redundant to check this, given that here we are
+            // enumerating the list of incoming edges for vertex_curr ?
+            if ((edge_curr->vertex_src == vertex_prev)
+                && (edge_curr->vertex_dst == vertex_curr)) {
+                edge_found = edge_curr;
+                break;
+            }
+        }
 
-		vertex_prev = vertex_curr;
+        if (edge_found == 0) {
+            cout << "No such edge" << endl;
+            return 0;
+        }
 
-	}
+
+        // Add all trajectory on this edge to the new trajectory
+        for (typename list<state_t*>::iterator it_state
+                 = edge_found->trajectory_edge->list_states.begin();
+             it_state != edge_found->trajectory_edge->list_states.end();
+             it_state++) {
+
+            state_t *state_curr = *it_state;
+
+            trajectory_out.list_states.push_back (state_curr);
+        }
 
 
-	return 1;
+        trajectory_out.list_states.push_back (vertex_curr->state);
+
+        vertex_prev = vertex_curr;
+
+    }
+
+
+    return 1;
 }
 
 

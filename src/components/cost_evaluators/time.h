@@ -1,12 +1,13 @@
 /*! \file components/cost_evaluators/time.h
   \brief The cost evaluator based on the execution time
-  
+
   This file implements the cost_evaluator_time class that computes the
   cost of the trajectory based on the time it takes to execute it.
 */
 
 #ifndef _RRGLIB_COST_EVALUATOR_TIME_H_
 #define _RRGLIB_COST_EVALUATOR_TIME_H_
+
 
 #include <components/cost_evaluators/base.h>
 
@@ -17,7 +18,7 @@ namespace rrglib {
     /*!
       This class computes the cost of a trajectory according to the time
       it takes to execute that particular trajectory.
-      
+
       \ingroup cost_evaluators
     */
     template< class typeparams >
@@ -40,14 +41,14 @@ namespace rrglib {
         int ce_update_vertex_cost (vertex_t *vertex_in);
 
         int ce_update_edge_cost (edge_t *edge_in);
-    
+
         double evaluate_cost_trajectory (state_t *state_initial_in,
                                          trajectory_t *trajectory_in,
                                          state_t *state_final_in = 0);
-    
+
     };
 
-
 }
+
 
 #endif
