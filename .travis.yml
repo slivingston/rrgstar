@@ -1,0 +1,20 @@
+sudo: false
+
+addons:
+  apt:
+    packages:
+      - cmake-data
+      - cmake
+
+language: cpp
+compiler:
+  - clang
+  - gcc
+
+script:
+  - mkdir build && cd build
+  - cmake ..
+  - make
+
+notifications:
+  email: false
