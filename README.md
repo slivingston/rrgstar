@@ -47,6 +47,13 @@ which requires [Doxygen](http://www.doxygen.org/) to be installed. The generated
 files will be under the directory html/
 
 
+Testing
+-------
+
+We use Travis CI to build and test gr1c from the current source code in the
+repository. [![Build Status](https://travis-ci.org/slivingston/rrgstar.svg?branch=master)](https://travis-ci.org/slivingston/rrgstar)
+
+
 Using rrglib
 ------------
 
