@@ -124,8 +124,8 @@ began by importing from there.
 Licenses
 --------
 
-This is free software released under the terms of [the MIT License]
-(http://opensource.org/licenses/MIT).  There is no warranty; not even for
+This is free software released under the terms of [the MIT License](
+http://opensource.org/licenses/MIT).  There is no warranty; not even for
 merchantability or fitness for a particular purpose.  Consult LICENSE for
 copying conditions.
 
