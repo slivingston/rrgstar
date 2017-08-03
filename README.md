@@ -50,8 +50,10 @@ files will be under the directory html/
 Testing
 -------
 
-We use Travis CI to build and test from the current source code in the repository.
-[![Build Status](https://travis-ci.org/slivingston/rrgstar.svg?branch=master)](https://travis-ci.org/slivingston/rrgstar)
+Current results of continuous integration (CI) testing:
+[![build status on Travis CI](https://travis-ci.org/slivingston/rrgstar.svg?branch=master)](https://travis-ci.org/slivingston/rrgstar)
+[![build status on AppVeyor](https://ci.appveyor.com/api/projects/status/ox4bjfaadrk22m05?svg=true)](https://ci.appveyor.com/project/slivingston/rrgstar)
+Thanks to [Travis CI](http://travis-ci.org) and [AppVeyor](https://www.appveyor.com) for CI services.
 
 
 Using rrglib
