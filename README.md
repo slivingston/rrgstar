@@ -27,7 +27,7 @@ corrections to and missing details from [2].
 Compiling examples, documentation
 ---------------------------------
 
-The usual [CMake](http://www.cmake.org) idiom,
+The usual [CMake](https://cmake.org/) idiom,
 
     mkdir build
     cd build
@@ -53,7 +53,7 @@ Testing
 Current results of continuous integration (CI) testing:
 [![build status on Travis CI](https://travis-ci.org/slivingston/rrgstar.svg?branch=master)](https://travis-ci.org/slivingston/rrgstar)
 [![build status on AppVeyor](https://ci.appveyor.com/api/projects/status/ox4bjfaadrk22m05?svg=true)](https://ci.appveyor.com/project/slivingston/rrgstar)
-Thanks to [Travis CI](http://travis-ci.org) and [AppVeyor](https://www.appveyor.com) for CI services.
+Thanks to [Travis CI](https://travis-ci.org) and [AppVeyor](https://www.appveyor.com) for CI services.
 
 
 Using rrglib
@@ -93,7 +93,7 @@ dependencies are only necessary if you want to build that particular interface.
 The primary means for visualizing is `tools/rrgplot.py`. For 2D plotting it uses
 [Matplotlib](http://matplotlib.org), and for 3D plotting
 [Mayavi](http://docs.enthought.com/mayavi/mayavi/). The former is part of [the
-standard SciPy stack](http://www.scipy.org/about.html).
+standard SciPy stack](https://www.scipy.org/about.html).
 
 
 Examples
@@ -127,7 +127,7 @@ Licenses
 --------
 
 This is free software released under the terms of [the MIT License](
-http://opensource.org/licenses/MIT).  There is no warranty; not even for
+https://opensource.org/licenses/MIT).  There is no warranty; not even for
 merchantability or fitness for a particular purpose.  Consult LICENSE for
 copying conditions.
 
